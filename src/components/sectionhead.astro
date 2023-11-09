@@ -1,11 +1,11 @@
 ---
-import Badge from "@components/ui/badge.astro";
-const { align = "center" } = Astro.props;
+import Badge from '@components/ui/badge.astro'
+const { align = 'center' } = Astro.props
 ---
 
-<div class:list={["mt-16", align === "center" && "text-center"]}>
+<div class:list={['mt-16', align === 'center' && 'text-center']}>
   {
-    Astro.slots.has("badge") && (
+    Astro.slots.has('badge') && (
       <div class="mb-4">
         <Badge color="purple">
           <slot name="badge" />

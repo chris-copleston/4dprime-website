@@ -1,150 +1,150 @@
 ---
-import Container from "@components/container.astro";
-import Sectionhead from "@components/sectionhead.astro";
-import Link from "@components/ui/link.astro";
-import { Icon } from "astro-icon";
+import Container from '@components/container.astro'
+import Sectionhead from '@components/sectionhead.astro'
+import Link from '@components/ui/link.astro'
+import { Icon } from 'astro-icon'
 
 const features = [
-  "Custom Domains",
-  "Storage",
-  "Users",
-  "Email Support",
-  "API Access",
-  "SSO Integration",
-  "Data Export",
-  "File Uploads",
-  "Analytics",
-  "Custom Branding",
-  "24/7 Support",
-  "Priority Access",
-  "Custom Reporting",
-  "Team Collaboration",
-  "Integration with CRM",
-  "White Label",
-  "Data Security",
-  "Mobile App Access",
-  "User Permissions",
-  "Backup and Restore",
+  'Custom Domains',
+  'Storage',
+  'Users',
+  'Email Support',
+  'API Access',
+  'SSO Integration',
+  'Data Export',
+  'File Uploads',
+  'Analytics',
+  'Custom Branding',
+  '24/7 Support',
+  'Priority Access',
+  'Custom Reporting',
+  'Team Collaboration',
+  'Integration with CRM',
+  'White Label',
+  'Data Security',
+  'Mobile App Access',
+  'User Permissions',
+  'Backup and Restore',
   // Add more features as needed
-];
+]
 
 const plans = [
   {
-    name: "Free",
-    price: "$0",
-    color: "gray",
+    name: 'Free',
+    price: '$0',
+    color: 'gray',
     values: [
-      "Single Subdomain",
-      "1GB",
-      "10",
-      "Email Only",
-      "-",
-      "-",
-      "Limited",
-      "Basic",
-      "Limited",
-      "-",
-      "-",
-      "-",
-      "Basic",
-      "-",
-      "-",
-      "-",
-      "Basic",
-      "-",
-      "Limited",
-      "-",
+      'Single Subdomain',
+      '1GB',
+      '10',
+      'Email Only',
+      '-',
+      '-',
+      'Limited',
+      'Basic',
+      'Limited',
+      '-',
+      '-',
+      '-',
+      'Basic',
+      '-',
+      '-',
+      '-',
+      'Basic',
+      '-',
+      'Limited',
+      '-',
     ],
   },
   {
-    name: "Starter",
-    price: "$49/mo",
-    color: "indigo",
+    name: 'Starter',
+    price: '$49/mo',
+    color: 'indigo',
     values: [
-      "1 Custom Domain",
-      "10GB",
-      "100",
-      "Email and Chat",
-      "-",
-      "-",
-      "Unlimited",
-      "Basic",
-      "Limited",
-      "-",
-      "-",
-      "-",
-      "Basic",
-      "Limited",
-      "-",
-      "-",
-      "Basic",
-      "-",
-      "Limited",
-      "-",
+      '1 Custom Domain',
+      '10GB',
+      '100',
+      'Email and Chat',
+      '-',
+      '-',
+      'Unlimited',
+      'Basic',
+      'Limited',
+      '-',
+      '-',
+      '-',
+      'Basic',
+      'Limited',
+      '-',
+      '-',
+      'Basic',
+      '-',
+      'Limited',
+      '-',
     ],
   },
   {
-    name: "Business",
-    price: "$149/mo",
+    name: 'Business',
+    price: '$149/mo',
     popular: true,
-    color: "orange",
+    color: 'orange',
     values: [
-      "5 Custom Domains",
-      "50GB",
-      "500",
-      "Email, Chat, and Phone",
+      '5 Custom Domains',
+      '50GB',
+      '500',
+      'Email, Chat, and Phone',
       true,
-      "-",
-      "Unlimited",
-      "Advanced",
-      "Limited",
+      '-',
+      'Unlimited',
+      'Advanced',
+      'Limited',
       true,
       true,
-      "-",
-      "Advanced",
+      '-',
+      'Advanced',
       true,
-      "-",
-      "-",
-      "Advanced",
+      '-',
+      '-',
+      'Advanced',
       true,
-      "Unlimited",
+      'Unlimited',
       true,
     ],
   },
   {
-    name: "Enterprise",
-    price: "Custom",
-    color: "purple",
+    name: 'Enterprise',
+    price: 'Custom',
+    color: 'purple',
     values: [
-      "100 Custom Domains",
-      "200GB",
-      "Unlimited",
-      "24/7 Support",
+      '100 Custom Domains',
+      '200GB',
+      'Unlimited',
+      '24/7 Support',
       true,
       true,
-      "Unlimited",
-      "Advanced",
-      "Unlimited",
-      true,
-      true,
-      true,
-      "Advanced",
+      'Unlimited',
+      'Advanced',
+      'Unlimited',
       true,
       true,
       true,
-      "Advanced",
+      'Advanced',
       true,
-      "Unlimited",
+      true,
+      true,
+      'Advanced',
+      true,
+      'Unlimited',
       true,
     ],
   },
-];
+]
 
 const colors = {
-  indigo: "text-indigo-600",
-  orange: "text-orange-700",
-  purple: "text-purple-600",
-};
+  indigo: 'text-indigo-600',
+  orange: 'text-orange-700',
+  purple: 'text-purple-600',
+}
 ---
 
 <Container>
@@ -168,7 +168,7 @@ const colors = {
           {
             plans.map((plan) => (
               <div class="px-5">
-                <h3 class:list={[colors[plan.color] || "text-neutral-800"]}>
+                <h3 class:list={[colors[plan.color] || 'text-neutral-800']}>
                   {plan.name}
                 </h3>
                 <div class="text-xl mt-1 lg:text-2xl font-bold text-black">
@@ -180,7 +180,7 @@ const colors = {
                     href="#"
                     block
                     size="sm"
-                    style={plan.popular ? "primary" : "outline"}>
+                    style={plan.popular ? 'primary' : 'outline'}>
                     Get Started
                   </Link>
                 </div>
@@ -206,7 +206,7 @@ const colors = {
             <div class="grid gap-0">
               {plan.values.map((value) => (
                 <div class="border-b border-slate-200 odd:bg-slate-50 text-sm py-3 px-5">
-                  {typeof value === "boolean" ? (
+                  {typeof value === 'boolean' ? (
                     <Icon name="ph:check-circle-fill" class="w-5 h-5" />
                   ) : (
                     value

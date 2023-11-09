@@ -1,8 +1,8 @@
 ---
 layout: ../layouts/MdLayout.astro
-title: "Terms & Conditions"
-author: "Matthew Phillips"
-date: "09 Aug 2023"
+title: 'Terms & Conditions'
+author: 'Matthew Phillips'
+date: '09 Aug 2023'
 ---
 
 Welcome to Astroship! We're excited to have you as a user of our Software-as-a-Service (SaaS) platform. Before you get started, please take a moment to read through our Terms and Conditions outlined below.

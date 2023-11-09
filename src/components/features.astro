@@ -1,46 +1,46 @@
 ---
 // @ts-ignore
-import Badge from "@components/ui/badge.astro";
-import { Icon } from "astro-icon";
+import Badge from '@components/ui/badge.astro'
+import { Icon } from 'astro-icon'
 
 const features = [
   {
-    title: "Bring Your Own Framework",
+    title: 'Bring Your Own Framework',
     description:
       "Build your site using React, Svelte, Vue, Preact, web components, or just plain ol' HTML + JavaScript.",
-    icon: "fluent:document-javascript-24-regular",
+    icon: 'fluent:document-javascript-24-regular',
   },
   {
-    title: "100% Static HTML, No JS",
+    title: '100% Static HTML, No JS',
     description:
-      "Astro renders your entire page to static HTML, removing all JavaScript from your final build by default.",
-    icon: "fluent:trophy-24-regular",
+      'Astro renders your entire page to static HTML, removing all JavaScript from your final build by default.',
+    icon: 'fluent:trophy-24-regular',
   },
   {
-    title: "On-Demand Components",
+    title: 'On-Demand Components',
     description:
-      "Need some JS? Astro can automatically hydrate interactive components when they become visible on the page.  ",
-    icon: "fluent:box-24-regular",
+      'Need some JS? Astro can automatically hydrate interactive components when they become visible on the page.  ',
+    icon: 'fluent:box-24-regular',
   },
   {
-    title: "Broad Integration",
+    title: 'Broad Integration',
     description:
-      "Astro supports TypeScript, Scoped CSS, CSS Modules, Sass, Tailwind, Markdown, MDX, and any other npm packages.",
-    icon: "fluent:box-multiple-24-regular",
+      'Astro supports TypeScript, Scoped CSS, CSS Modules, Sass, Tailwind, Markdown, MDX, and any other npm packages.',
+    icon: 'fluent:box-multiple-24-regular',
   },
   {
-    title: "SEO Enabled",
+    title: 'SEO Enabled',
     description:
-      "Automatic sitemaps, RSS feeds, pagination and collections take the pain out of SEO and syndication. It just works!",
-    icon: "fluent:book-search-24-regular",
+      'Automatic sitemaps, RSS feeds, pagination and collections take the pain out of SEO and syndication. It just works!',
+    icon: 'fluent:book-search-24-regular',
   },
   {
-    title: "Community",
+    title: 'Community',
     description:
-      "Astro is an open source project powered by hundreds of contributors making thousands of individual contributions.",
-    icon: "fluent:people-community-24-regular",
+      'Astro is an open source project powered by hundreds of contributors making thousands of individual contributions.',
+    icon: 'fluent:people-community-24-regular',
   },
-];
+]
 ---
 
 <!-- <div class="mt-16">
@@ -71,7 +71,7 @@ const features = [
           <Icon class="text-indigo-500" name={item.icon} size="24" />
         </div>
         <div>
-          <h3 class="font-semibold text-lg">{item.title}</h3>{" "}
+          <h3 class="font-semibold text-lg">{item.title}</h3>{' '}
           <p class="text-slate-500 mt-2 leading-relaxed">{item.description}</p>
         </div>
       </div>

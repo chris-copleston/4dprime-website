@@ -1,15 +1,15 @@
 ---
 draft: false
-title: "The Role of Artifical Intelligence in SaaS: A Game Changer"
-snippet: "Explore how artificial intelligence is revolutionizing the SaaS industry."
+title: 'The Role of Artifical Intelligence in SaaS: A Game Changer'
+snippet: 'Explore how artificial intelligence is revolutionizing the SaaS industry.'
 image:
   {
-    src: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?fit=crop&w=600&h=335",
-    alt: "alt text",
+    src: 'https://images.unsplash.com/photo-1593508512255-86ab42a8e620?fit=crop&w=600&h=335',
+    alt: 'alt text',
   }
-publishDate: "2023-08-06 13:55"
-category: "AI & VR"
-author: "Michael Chen"
+publishDate: '2023-08-06 13:55'
+category: 'AI & VR'
+author: 'Michael Chen'
 tags: [AI, SaaS]
 ---
 

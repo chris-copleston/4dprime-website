@@ -1,23 +1,23 @@
 ---
-import Badge from "@components/ui/badge.astro";
-const { color = "DEFAULT", size = "md", class: className } = Astro.props;
+import Badge from '@components/ui/badge.astro'
+const { color = 'DEFAULT', size = 'md', class: className } = Astro.props
 
 const colors = {
-  DEFAULT: "bg-gray-50",
-  indigo: "bg-indigo-50",
-  purple: "bg-purple-50",
-};
+  DEFAULT: 'bg-gray-50',
+  indigo: 'bg-indigo-50',
+  purple: 'bg-purple-50',
+}
 ---
 
 <div
   class:list={[
-    "rounded-2xl p-8 bg-gray-50 transition-all ring-1 ring-gray-200/50 shadow hover:shadow-lg",
+    'rounded-2xl p-8 bg-gray-50 transition-all ring-1 ring-gray-200/50 shadow hover:shadow-lg',
     className,
   ]}>
   <div
     class:list={[
-      "overflow-hidden flex items-start justify-center h-auto relative",
-      size === "sm" ? "lg:h-60" : "lg:h-80",
+      'overflow-hidden flex items-start justify-center h-auto relative',
+      size === 'sm' ? 'lg:h-60' : 'lg:h-80',
     ]}>
     <div
       class="absolute inset-0 bg-gradient-to-t from-gray-50 via-transparent z-10">
@@ -26,7 +26,7 @@ const colors = {
   </div>
   <div class="mt-2">
     {
-      Astro.slots.has("badge") && (
+      Astro.slots.has('badge') && (
         <Badge color={color}>
           <slot name="badge" />
         </Badge>

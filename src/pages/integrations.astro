@@ -1,7 +1,7 @@
 ---
-import Layout from "@layouts/Layout.astro";
-import Container from "@components/container.astro";
-import Sectionhead from "@components/sectionhead.astro";
+import Layout from '@layouts/Layout.astro'
+import Container from '@components/container.astro'
+import Sectionhead from '@components/sectionhead.astro'
 import {
   Slack,
   Zapier,
@@ -9,55 +9,55 @@ import {
   Shopify,
   Messenger,
   Discord,
-} from "@components/ui/icons";
+} from '@components/ui/icons'
 
 const integrations = [
   {
-    name: "Slack",
+    name: 'Slack',
     description:
-      "Get notified in your Slack channels when a new order is placed.",
+      'Get notified in your Slack channels when a new order is placed.',
     Icon: Slack,
-    link: "#",
+    link: '#',
   },
 
   {
-    name: "Zapier",
+    name: 'Zapier',
     description:
-      "Connect over 200+ tools with our easy to use Zapier integrations.",
+      'Connect over 200+ tools with our easy to use Zapier integrations.',
     Icon: Zapier,
-    link: "#",
+    link: '#',
   },
 
   {
-    name: "Intercom",
+    name: 'Intercom',
     description:
-      "Send order updates and emails to your customers via Intercom.",
+      'Send order updates and emails to your customers via Intercom.',
     Icon: Intercom,
-    link: "#",
+    link: '#',
   },
 
   {
-    name: "Shopify",
+    name: 'Shopify',
     description:
-      "Create orders and customers in Shopify when a new order is placed.",
+      'Create orders and customers in Shopify when a new order is placed.',
     Icon: Shopify,
-    link: "#",
+    link: '#',
   },
 
   {
-    name: "Messenger",
-    description: "Notify your Facebook Messenger when a new order is placed.",
+    name: 'Messenger',
+    description: 'Notify your Facebook Messenger when a new order is placed.',
     Icon: Messenger,
-    link: "#",
+    link: '#',
   },
 
   {
-    name: "Discord",
-    description: "Notify your Discord server when a new order is placed.",
+    name: 'Discord',
+    description: 'Notify your Discord server when a new order is placed.',
     Icon: Discord,
-    link: "#",
+    link: '#',
   },
-];
+]
 ---
 
 <Layout title="Integrations">

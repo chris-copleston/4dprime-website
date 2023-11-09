@@ -1,87 +1,84 @@
 ---
-import Container from "@components/container.astro";
-import { Icon } from "astro-icon";
+import Container from '@components/container.astro'
+import { Icon } from 'astro-icon'
 
-const { margin } = Astro.props;
+const { margin } = Astro.props
 
 const footermenu = {
   company: [
     {
-      title: "About",
-      path: "/about",
+      title: 'About',
+      path: '/about',
     },
     {
-      title: "Careers",
-      path: "#",
+      title: 'Careers',
+      path: '#',
     },
     {
-      title: "Blog",
-      path: "/blog",
+      title: 'Blog',
+      path: '/blog',
     },
     {
-      title: "Contact",
-      path: "/contact",
+      title: 'Contact',
+      path: '/contact',
     },
   ],
   product: [
     {
-      title: "For Startups",
-      path: "#",
+      title: 'For Startups',
+      path: '#',
     },
     {
-      title: "Features",
-      path: "#",
+      title: 'Features',
+      path: '#',
     },
     {
-      title: "Pricing",
-      path: "/pricing",
+      title: 'Pricing',
+      path: '/pricing',
     },
     {
-      title: "Integrations",
-      path: "#",
+      title: 'Integrations',
+      path: '#',
     },
   ],
   resources: [
     {
-      title: "Help Center",
-      path: "#",
+      title: 'Help Center',
+      path: '#',
     },
     {
-      title: "Guides",
-      path: "#",
+      title: 'Guides',
+      path: '#',
     },
     {
-      title: "Documentation",
-      path: "#",
+      title: 'Documentation',
+      path: '#',
     },
     {
-      title: "Uptime Status",
-      path: "#",
+      title: 'Uptime Status',
+      path: '#',
     },
   ],
-};
+}
 ---
 
 <footer
   class:list={[
-    "py-14 bg-slate-100 border-t border-slate-100",
-    margin && "mt-10",
+    'py-14 bg-slate-100 border-t border-slate-100',
+    margin && 'mt-10',
   ]}>
   <Container>
     <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
       <div class="sm:col-span-2 md:col-span-3 lg:col-span-2">
-        <a href="/" class="text-lg flex items-center"
-          ><span class="font-bold text-indigo-600">Astro</span><span
-            class="text-slate-600">ship</span
-          >
-          <span
-            class="uppercase mt-0.5 leading-none text-[10px] ml-1 font-bold bg-gray-200 text-slate-700 px-2 py-1 rounded-md"
-            >PRO</span
-          >
+        <a
+          href="/"
+          class="text-lg flex items-center transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 focus-visible:outline-none focus-visible:shadow-outline-indigo rounded-full px-2 -ml-2"
+          ><img src="/logo.svg" alt="logo" class="logo" />
         </a>
         <p class="mt-4 text-sm text-slate-700 max-w-xs">
-          Astroship Pro is a premium astro website template made for saas &
-          startups. Built with Astro and Tailwind CSS.
+          4DPrime is a trading name of Soft Idiom Limited.<br />
+           VAT Reg No. GB786609380.<br />
+           Registered in England No. 04283151.
         </p>
         <div class="flex gap-3 mt-4 items-center">
           <a
@@ -118,7 +115,7 @@ const footermenu = {
           {
             footermenu.company.map((item) => (
               <a
-                href={item.path || "#"}
+                href={item.path || '#'}
                 class="py-2 text-sm text-slate-600 hover:text-indigo-600">
                 {item.title}
               </a>
@@ -132,7 +129,7 @@ const footermenu = {
           {
             footermenu.product.map((item) => (
               <a
-                href={item.path || "#"}
+                href={item.path || '#'}
                 class="py-2 text-sm text-slate-600 hover:text-indigo-600">
                 {item.title}
               </a>
@@ -146,7 +143,7 @@ const footermenu = {
           {
             footermenu.resources.map((item) => (
               <a
-                href={item.path || "#"}
+                href={item.path || '#'}
                 class="py-2 text-sm text-slate-600 hover:text-indigo-600">
                 {item.title}
               </a>
@@ -160,7 +157,8 @@ const footermenu = {
   <div class="mt-14 pt-8 px-5 border-t border-slate-200">
     <Container>
       <p class="text-center text-sm text-slate-600 [text-wrap:balance]">
-        Copyright © {new Date().getFullYear()} Astroship. All rights reserved.
+        Copyright © 2001-{new Date().getFullYear()} 4DPrime. All rights
+        reserved.
       </p>
       <p class="text-center text-xs text-slate-600 mt-2">
         <a href="/terms" class="hover:text-indigo-500"> Terms</a> ・ <a
@@ -172,3 +170,10 @@ const footermenu = {
     </Container>
   </div>
 </footer>
+
+<style>
+  .logo {
+    width: 150px;
+    height: 36.48px;
+  }
+</style>

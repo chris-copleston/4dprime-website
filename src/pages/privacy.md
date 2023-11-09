@@ -1,8 +1,8 @@
 ---
 layout: ../layouts/MdLayout.astro
-title: "Privacy Policy"
-author: "Matthew Phillips"
-date: "09 Aug 2023"
+title: 'Privacy Policy'
+author: 'Matthew Phillips'
+date: '09 Aug 2023'
 ---
 
 At Astroship, we value your privacy and are committed to protecting your personal information. This Privacy Policy outlines how we collect, use, and safeguard your data when you use our Software-as-a-Service (SaaS) platform.

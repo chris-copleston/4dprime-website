@@ -1,15 +1,15 @@
 ---
 draft: false
-title: "The Power of Data Analytics in SaaS"
-snippet: "Discover how data analytics can transform your SaaS business and drive growth."
+title: 'The Power of Data Analytics in SaaS'
+snippet: 'Discover how data analytics can transform your SaaS business and drive growth.'
 image:
   {
-    src: "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?fit=crop&w=600&h=335",
-    alt: "alt text",
+    src: 'https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?fit=crop&w=600&h=335',
+    alt: 'alt text',
   }
-publishDate: "2022-11-08 11:39"
-category: "Analytics"
-author: "John Smith"
+publishDate: '2022-11-08 11:39'
+category: 'Analytics'
+author: 'John Smith'
 tags: [data, analytics, SaaS]
 ---
 

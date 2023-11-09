@@ -1,15 +1,15 @@
 ---
 draft: false
-title: "Growth Strategies for Scaling Your Business"
-snippet: "Ornare cum cursus laoreet sagittis nunc fusce posuere per euismod dis vehicula a, semper fames lacus maecenas dictumst pulvinar neque enim non potenti. Torquent hac sociosqu eleifend potenti."
+title: 'Growth Strategies for Scaling Your Business'
+snippet: 'Ornare cum cursus laoreet sagittis nunc fusce posuere per euismod dis vehicula a, semper fames lacus maecenas dictumst pulvinar neque enim non potenti. Torquent hac sociosqu eleifend potenti.'
 image:
   {
-    src: "https://images.unsplash.com/photo-1554260570-e9689a3418b8?fit=crop&w=600&h=335",
-    alt: "frontend master",
+    src: 'https://images.unsplash.com/photo-1554260570-e9689a3418b8?fit=crop&w=600&h=335',
+    alt: 'frontend master',
   }
-publishDate: "2022-11-07 15:39"
-category: "Tutorials"
-author: "Connor Lopez"
+publishDate: '2022-11-07 15:39'
+category: 'Tutorials'
+author: 'Connor Lopez'
 tags: [astro, tailwindcss, frontend]
 ---
 

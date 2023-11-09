@@ -1,15 +1,15 @@
 ---
 draft: false
-title: "The SaaS Subscription Model: Pros and Cons"
-snippet: "Examine the advantages and disadvantages of the subscription-based SaaS model."
+title: 'The SaaS Subscription Model: Pros and Cons'
+snippet: 'Examine the advantages and disadvantages of the subscription-based SaaS model.'
 image:
   {
-    src: "https://images.unsplash.com/photo-1520038410233-7141be7e6f97?fit=crop&w=600&h=335",
-    alt: "alt text",
+    src: 'https://images.unsplash.com/photo-1520038410233-7141be7e6f97?fit=crop&w=600&h=335',
+    alt: 'alt text',
   }
-publishDate: "2022-09-27 11:20"
-category: "Business Models"
-author: "Jennifer Brown"
+publishDate: '2022-09-27 11:20'
+category: 'Business Models'
+author: 'Jennifer Brown'
 tags: [subscription model, SaaS]
 ---
 

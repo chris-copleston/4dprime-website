@@ -1,13 +1,17 @@
 ---
-import { Image, Picture } from "astro:assets";
-import heroImage from "../assets/hero-screenshot.png";
-import Link from "@components/ui/link.astro";
-import Container from "@components/container.astro";
+import { Image, Picture } from 'astro:assets'
+import heroSoftwareImage from '../assets/hero-screenshot.png'
+import heroMobileImage from '../assets/hero-mobile.png'
+import heroWebImage from '../assets/hero-web.png'
+import Link from '@components/ui/link.astro'
+import Container from '@components/container.astro'
 ---
 
 <div class="overflow-x-clip">
   <Container>
-    <main class="grid lg:grid-cols-5 place-items-center relative">
+    <main
+      class="grid lg:grid-cols-5 place-items-center relative"
+      transition:persist>
       <div
         class="absolute w-96 h-96 blur-2xl -z-10 bg-gradient-radial from-indigo-200 right-0 top-0">
       </div>
@@ -17,41 +21,69 @@ import Container from "@components/container.astro";
 
       <div class="max-w-sm md:max-w-max lg:col-span-2">
         <h1
-          class="text-3xl lg:text-4xl xl:text-6xl font-bold lg:tracking-tight xl:tracking-tighter [text-wrap:balance] text-center lg:text-start">
-          Create websites with Astroship™
+          class="text-4xl lg:text-4xl xl:text-5xl font-bold lg:tracking-tight xl:tracking-tighter [text-wrap:balance] text-center lg:text-start">
+          🚀 Rocket your ideas, with wow-factor
+          <a id="link-mobile" class="active">mobile apps</a>,
+          <a id="link-web">websites</a> &
+          <a id="link-software">bespoke software</a>.
         </h1>
         <p
           class="text-lg mt-4 max-w-lg text-slate-600 [text-wrap:balance] text-center lg:text-start">
-          Pro version of popular Astroship starter template made for startups.
-          Built with Astro and Tailwind CSS.
+          First impressions are everything. Talk to us, we're digital experts
+          since before Facebook.
         </p>
         <div
           class="mt-6 flex flex-col sm:flex-row sm:justify-center lg:justify-start gap-3">
           <Link
-            href="https://web3templates.com/templates/astroship-pro-astro-saas-website-template"
-            target="_blank"
+            href="/contact"
             class="flex gap-1 items-center justify-center"
             rel="noopener">
-            Buy Template — $39
+            Let's chat
           </Link>
           <Link
             size="lg"
             style="outline"
             rel="noopener"
-            href="https://github.com/surjithctly/astroship"
+            href='#"'
             class="flex gap-1 items-center justify-center"
             target="_blank">
-            Free Version
+            Learn more
           </Link>
         </div>
       </div>
       <div class="py-3 lg:col-span-3 lg:-mr-44">
         <Picture
-          src={heroImage}
-          alt="Astronaut in the air"
-          formats={["avif", "webp"]}
+          id="hero-mobile"
+          class="animate-zoom-in"
+          src={heroMobileImage}
+          alt="Amazing mobile apps"
+          formats={['avif', 'webp']}
           sizes="(max-width: 1024px) 100vw, 50vw"
-          widths={[240, 540, 720, heroImage.width]}
+          widths={[240, 540, 720, heroMobileImage.width]}
+          loading="eager"
+          fetchpriority="high"
+        />
+
+        <Picture
+          id="hero-web"
+          class="animate-zoom-in hidden"
+          src={heroWebImage}
+          alt="Amazing websites"
+          formats={['avif', 'webp']}
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          widths={[240, 540, 720, heroWebImage.width]}
+          loading="eager"
+          fetchpriority="high"
+        />
+
+        <Picture
+          id="hero-software"
+          class="animate-zoom-in hidden"
+          src={heroSoftwareImage}
+          alt="Amazing software"
+          formats={['avif', 'webp']}
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          widths={[240, 540, 720, heroSoftwareImage.width]}
           loading="eager"
           fetchpriority="high"
         />
@@ -59,3 +91,104 @@ import Container from "@components/container.astro";
     </main>
   </Container>
 </div>
+
+<script>
+  let linkMobile: Element | null,
+    linkWeb: Element | null,
+    linkSoftware: Element | null,
+    heroMobile: Element | null,
+    heroWeb: Element | null,
+    heroSoftware: Element | null,
+    interval: NodeJS.Timeout | null
+
+  const initHero = () => {
+    linkMobile = document.getElementById('link-mobile')
+    linkWeb = document.getElementById('link-web')
+    linkSoftware = document.getElementById('link-software')
+
+    heroMobile = document.getElementById('hero-mobile')
+    heroWeb = document.getElementById('hero-web')
+    heroSoftware = document.getElementById('hero-software')
+
+    linkMobile?.addEventListener('focus', () => showHero('hero-mobile'))
+    linkWeb?.addEventListener('focus', () => showHero('hero-web'))
+    linkSoftware?.addEventListener('focus', () => showHero('hero-software'))
+    linkMobile?.addEventListener('click', () => showHero('hero-mobile'))
+    linkWeb?.addEventListener('click', () => showHero('hero-web'))
+    linkSoftware?.addEventListener('click', () => showHero('hero-software'))
+
+    // rotate each hero every 5 seconds by calling showHero
+    const heroIds = ['hero-web', 'hero-software', 'hero-mobile']
+    let heroIndex = 0
+    interval = setInterval(() => {
+      //if url is not  / then stop the timer
+      if (window.location.pathname !== '/') {
+        interval && clearInterval(interval)
+        return
+      }
+
+      showHero(heroIds[heroIndex])
+      heroIndex++
+      if (heroIndex >= heroIds.length) {
+        heroIndex = 0
+      }
+    }, 5000)
+  }
+
+  const showHero = (id: string) => {
+    console.log('showHero', id)
+
+    switch (id) {
+      case 'hero-web':
+        // window.location.hash = 'websites'
+        heroWeb?.classList.remove('hidden')
+        linkWeb?.classList.add('active')
+        heroMobile?.classList.add('hidden')
+        linkMobile?.classList.remove('active')
+        heroSoftware?.classList.add('hidden')
+        linkSoftware?.classList.remove('active')
+        break
+      case 'hero-software':
+        // window.location.hash = 'software'
+        heroSoftware?.classList.remove('hidden')
+        linkSoftware?.classList.add('active')
+        heroMobile?.classList.add('hidden')
+        linkMobile?.classList.remove('active')
+        heroWeb?.classList.add('hidden')
+        linkWeb?.classList.remove('active')
+        break
+      default:
+        // window.location.hash = 'mobile-apps'
+        heroMobile?.classList.remove('hidden')
+        linkMobile?.classList.add('active')
+        heroWeb?.classList.add('hidden')
+        linkWeb?.classList.remove('active')
+        heroSoftware?.classList.add('hidden')
+        linkSoftware?.classList.remove('active')
+        break
+    }
+  }
+
+  initHero()
+  document.addEventListener('astro:after-swap', () => {
+    interval && clearInterval(interval)
+    initHero()
+  })
+</script>
+
+<style>
+  h1 {
+    line-height: 1.1;
+  }
+  h1 a {
+    text-decoration: underline;
+    text-decoration-color: rgb(255, 163, 52);
+  }
+  h1 a.active {
+    background: url(/pen-brush.svg);
+    outline: none;
+  }
+  h1 a:focus {
+    outline: none;
+  }
+</style>

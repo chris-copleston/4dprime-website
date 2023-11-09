@@ -1,15 +1,15 @@
 ---
 draft: false
-title: "The Future of Cloud Computing in SaaS"
-snippet: "Dive into the evolving landscape of cloud computing and its impact on SaaS."
+title: 'The Future of Cloud Computing in SaaS'
+snippet: 'Dive into the evolving landscape of cloud computing and its impact on SaaS.'
 image:
   {
-    src: "https://images.unsplash.com/photo-1580894908361-967195033215?fit=crop&w=600&h=335",
-    alt: "alt text",
+    src: 'https://images.unsplash.com/photo-1580894908361-967195033215?fit=crop&w=600&h=335',
+    alt: 'alt text',
   }
-publishDate: "2022-11-22 14:20"
-category: "Technology"
-author: "David Lee"
+publishDate: '2022-11-22 14:20'
+category: 'Technology'
+author: 'David Lee'
 tags: [cloud, computing, SaaS]
 ---
 

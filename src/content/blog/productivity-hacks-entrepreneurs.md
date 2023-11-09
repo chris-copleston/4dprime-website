@@ -1,15 +1,15 @@
 ---
 draft: false
-title: "Productivity Hacks for SaaS Entrepreneurs"
-snippet: "Boost your productivity and efficiency with these SaaS-specific tips."
+title: 'Productivity Hacks for SaaS Entrepreneurs'
+snippet: 'Boost your productivity and efficiency with these SaaS-specific tips.'
 image:
   {
-    src: "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?fit=crop&w=600&h=335",
-    alt: "alt text",
+    src: 'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?fit=crop&w=600&h=335',
+    alt: 'alt text',
   }
-publishDate: "2022-12-20 12:10"
-category: "Productivity"
-author: "Mark Wilson"
+publishDate: '2022-12-20 12:10'
+category: 'Productivity'
+author: 'Mark Wilson'
 tags: [productivity, SaaS]
 ---
 

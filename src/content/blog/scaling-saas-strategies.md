@@ -1,15 +1,15 @@
 ---
 draft: false
-title: "Scaling Your SaaS: Strategies for Success"
-snippet: "Explore effective strategies for scaling your SaaS startup to reach new heights."
+title: 'Scaling Your SaaS: Strategies for Success'
+snippet: 'Explore effective strategies for scaling your SaaS startup to reach new heights.'
 image:
   {
-    src: "https://images.unsplash.com/photo-1556761175-4b46a572b786?fit=crop&w=600&h=335",
-    alt: "alt text",
+    src: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?fit=crop&w=600&h=335',
+    alt: 'alt text',
   }
-publishDate: "2023-01-15 09:15"
-category: "Growth"
-author: "Sarah Johnson"
+publishDate: '2023-01-15 09:15'
+category: 'Growth'
+author: 'Sarah Johnson'
 tags: [scaling, growth, SaaS]
 ---
 

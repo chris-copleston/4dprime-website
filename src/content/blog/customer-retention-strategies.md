@@ -1,15 +1,15 @@
 ---
 draft: false
-title: "Customer Retention Strategies for SaaS Success"
-snippet: "Learn proven techniques to improve customer retention in your SaaS business."
+title: 'Customer Retention Strategies for SaaS Success'
+snippet: 'Learn proven techniques to improve customer retention in your SaaS business.'
 image:
   {
-    src: "https://images.unsplash.com/photo-1620434167798-c39eb8b65a79?fit=crop&w=600&h=335",
-    alt: "alt text",
+    src: 'https://images.unsplash.com/photo-1620434167798-c39eb8b65a79?fit=crop&w=600&h=335',
+    alt: 'alt text',
   }
-publishDate: "2023-05-29 10:45"
-category: "Customer Success"
-author: "Emily Adams"
+publishDate: '2023-05-29 10:45'
+category: 'Customer Success'
+author: 'Emily Adams'
 tags: [customer retention, SaaS]
 ---
 

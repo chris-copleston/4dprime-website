@@ -1,15 +1,15 @@
 ---
 draft: false
-title: "SaaS Security Best Practices for Businesses"
-snippet: "Ensure the safety of your SaaS platform with these essential security practices."
+title: 'SaaS Security Best Practices for Businesses'
+snippet: 'Ensure the safety of your SaaS platform with these essential security practices.'
 image:
   {
-    src: "https://images.unsplash.com/photo-1485230405346-71acb9518d9c?fit=crop&w=600&h=335",
-    alt: "alt text",
+    src: 'https://images.unsplash.com/photo-1485230405346-71acb9518d9c?fit=crop&w=600&h=335',
+    alt: 'alt text',
   }
-publishDate: "2022-12-13 15:30"
-category: "Security"
-author: "Lisa Miller"
+publishDate: '2022-12-13 15:30'
+category: 'Security'
+author: 'Lisa Miller'
 tags: [security, SaaS]
 ---
 

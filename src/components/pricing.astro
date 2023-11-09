@@ -1,24 +1,24 @@
 ---
 // @ts-ignore
-import { Icon } from "astro-icon";
-import Link from "@components/ui/link.astro";
+import { Icon } from 'astro-icon'
+import Link from '@components/ui/link.astro'
 
-const { plan } = Astro.props;
+const { plan } = Astro.props
 
 const colors = {
-  indigo: "text-indigo-600",
-  orange: "text-orange-700",
-  purple: "text-purple-600",
-};
+  indigo: 'text-indigo-600',
+  orange: 'text-orange-700',
+  purple: 'text-purple-600',
+}
 ---
 
 <div>
   <div
     class:list={[
-      "flex flex-col w-full order-first lg:order-none border py-5 px-6 relative rounded-lg",
+      'flex flex-col w-full order-first lg:order-none border py-5 px-6 relative rounded-lg',
       plan.popular
-        ? "  border-orange-500 shadow-lg shadow-orange-50"
-        : " border-neutral-200 shadow-sm",
+        ? '  border-orange-500 shadow-lg shadow-orange-50'
+        : ' border-neutral-200 shadow-sm',
     ]}>
     {
       plan.popular && (
@@ -29,7 +29,7 @@ const colors = {
     }
 
     <div class="">
-      <h3 class:list={[colors[plan.color] || "text-neutral-800"]}>
+      <h3 class:list={[colors[plan.color] || 'text-neutral-800']}>
         {plan.name}
       </h3><p class="mt-2 text-black">
         {
@@ -58,10 +58,10 @@ const colors = {
       }
     </ul><div class="flex mt-8">
       <Link
-        href={plan.button.link || "#"}
+        href={plan.button.link || '#'}
         block
-        style={plan.popular ? "primary" : "outline"}>
-        {plan.button.text || "Get Started"}
+        style={plan.popular ? 'primary' : 'outline'}>
+        {plan.button.text || 'Get Started'}
       </Link>
     </div>
   </div>

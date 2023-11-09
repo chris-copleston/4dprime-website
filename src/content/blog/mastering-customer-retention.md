@@ -1,15 +1,15 @@
 ---
 draft: false
-title: "Mastering Customer Retention Techniques"
-snippet: "Ornare cum cursus laoreet sagittis nunc fusce posuere per euismod dis vehicula a, semper fames lacus maecenas dictumst pulvinar neque enim non potenti. Torquent hac sociosqu eleifend potenti."
+title: 'Mastering Customer Retention Techniques'
+snippet: 'Ornare cum cursus laoreet sagittis nunc fusce posuere per euismod dis vehicula a, semper fames lacus maecenas dictumst pulvinar neque enim non potenti. Torquent hac sociosqu eleifend potenti.'
 image:
   {
-    src: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?fit=crop&w=600&h=335",
-    alt: "alt text",
+    src: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?fit=crop&w=600&h=335',
+    alt: 'alt text',
   }
-publishDate: "2022-11-08 11:39"
-category: "Tutorials"
-author: "Janette Lynch"
+publishDate: '2022-11-08 11:39'
+category: 'Tutorials'
+author: 'Janette Lynch'
 tags: [webdev, tailwindcss, frontend]
 ---
 
