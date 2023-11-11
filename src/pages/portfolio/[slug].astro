@@ -38,7 +38,7 @@ const { Content } = await entry.render()
       <Picture
         formats={['avif', 'webp']}
         src={entry.data.cover}
-        alt={entry.data.coverAlt}
+        alt={entry.data.title}
         width="1280"
         height="800"
         class="h-full w-full object-contain rounded-xl mt-6"
@@ -49,6 +49,21 @@ const { Content } = await entry.render()
     <div
       class="mx-auto prose mt-6 max-w-3xl prose-headings:mb-2 prose-headings:mt-8">
       <Content />
+      <!-- if there are services, list them -->
+      {
+        entry.data.services && (
+          <>
+            <hr />
+            <h2 class="text-2xl font-bold mt-8 mb-4">Services Provided</h2>
+          </>
+        )
+      }
+      {
+        entry.data.services?.map((service) => (
+          <li class="my-0 py-0">{service}</li>
+        ))
+      }
+      <p><a href="#top">[Top]</a></p>
     </div>
     <div class="text-center mt-12">
       <a

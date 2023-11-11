@@ -25,11 +25,11 @@ const portfolioCollection = defineCollection({
     title: z.string(),
     snippet: z.string(),
     cover: image(),
-    coverAlt: z.string(),
     publishDate: z.string().transform(str => new Date(str)),
     author: z.string().default('4DPrime'),
     category: z.string(),
     tags: z.array(z.string()),
+    services: z.array(z.string()).optional(),
   }),
 });
 
