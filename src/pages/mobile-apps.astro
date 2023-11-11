@@ -1,0 +1,162 @@
+---
+import { getCollection } from 'astro:content'
+import { Picture } from 'astro:assets'
+import Layout from '@layouts/Layout.astro'
+import Container from '@components/container.astro'
+import Sectionhead from '@components/sectionhead.astro'
+import Link from '@components/ui/link.astro'
+import EmployeeImg from '../assets/employee.jpg'
+import Logos from '@components/logos.astro'
+import { Icon } from 'astro-icon'
+import Cta from '@components/cta.astro'
+import { YouTube } from 'astro-lazy-youtube-embed'
+import heroMobileImage from '../assets/hero-mobile.png'
+
+// Filter team entries with 'draft: false' & date before current date
+const publishedTeamMembers = await getCollection('team', ({ data }) => {
+  return !data.draft && data.publishDate < new Date()
+})
+---
+
+<Layout title="Mobile Apps" footerMargin={false}>
+  <Container>
+    <Sectionhead>
+      <Fragment slot="badge">Mobile Apps</Fragment>
+      <Fragment slot="title">Your Idea Realised</Fragment>
+      <Fragment slot="desc">
+        Let us realise your idea. From conception to success, our creative,
+        development, marketing and support teams will breathe life into your
+        vision.
+      </Fragment>
+    </Sectionhead>
+
+    <div class="grid md:grid-cols-2 py-10">
+      <div class="grid place-items-center px-4 md:px-4 xs:px-0">
+        <YouTube
+          class="rounded-2xl mx-8"
+          embedParams={{ rel: 0, controls: 1, autoplay: 1 }}
+          thumbnailRes="maxres"
+          title="4DPrime - Your App Idea Realised"
+          videoId="-Q2JCpuNIL0"
+        />
+      </div>
+
+      <div class="grid place-items-center">
+        <div class="max-w-lg">
+          <h3 class="text-2xl font-medium mt-4 [text-wrap:balance]">
+            What Makes our Apps Different?
+          </h3>
+          <p class="mt-4 text-slate-600 [text-wrap:balance]">
+            What sets us apart is a complete in-house, end-to-end service. From
+            creative design, branding, development, marketing and support, we
+            have the expertise to rocket your project.
+          </p>
+
+          <ul class="grid mt-6 text-left gap-y-4">
+            <div class="flex items-center gap-3 text-neutral-800">
+              <Icon name="ph:check-circle-fill" class="w-5 h-5" />
+
+              <li class="text-sm">
+                Build once, publish everywhere, no per-platform costs
+              </li>
+            </div>
+          </ul>
+
+          <li class="flex items-center gap-3 text-neutral-800">
+            <Icon name="ph:check-circle-fill" class="w-5 h-5" />
+
+            <span class="text-sm"
+              >Robust and scalable app server development</span
+            >
+          </li>
+
+          <li class="flex items-center gap-3 text-neutral-800">
+            <Icon name="ph:check-circle-fill" class="w-5 h-5" />
+
+            <span class="text-sm">Friendly support and advice</span>
+          </li>
+        </div>
+        <div class="flex items-center gap-4 mt-6">
+          <Link
+            href="/contact"
+            size="sm"
+            class="inline-flex items-center group gap-px">
+            <span>Chat with an app expert</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-4 h-4 mt-px group-hover:translate-x-1 transition-transform">
+              <path
+                fill-rule="evenodd"
+                d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </Link>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 py-10">
+      <div class="grid place-items-center pb-10 md:pb-0 md:order-2">
+        <Picture
+          src={heroMobileImage}
+          alt="Feature Image"
+          formats={['avif', 'webp']}
+          width="340"
+          loading="lazy"
+        />
+      </div>
+
+      <div class="grid place-items-center">
+        <div class="max-w-lg">
+          <h3 class="text-2xl font-medium mt-4 [text-wrap:balance]">
+            The 4DPrime Difference
+          </h3>
+          <p class="mt-4 text-slate-600 [text-wrap:balance]">
+            Unlike many app developers, we build a single app, that runs on iOS
+            and Android phones and tablets. This means less code to maintain,
+            faster development and <u>much lower costs</u>.
+          </p>
+          <p class="mt-4 text-slate-600 [text-wrap:balance]">
+            We can take care of publishing to each mobile vendors' app stores
+            for you, or we can help you self publish.
+          </p>
+          <h4 class="text-1xl font-medium mt-4 [text-wrap:balance]">
+            Mobile Server Development
+          </h4>
+          <p class="mt-4 text-slate-600 [text-wrap:balance]">
+            Many apps need remote backend and database management to control
+            in-app user accounts or provide streaming, downloads or database
+            updates.
+          </p>
+          <p class="mt-4 text-slate-600 [text-wrap:balance]">
+            Unlike many app agencies, we have decades of experience in secure
+            server and database development so we can take care of everything,
+            even hosting.
+          </p>
+
+          <div class="flex items-center gap-4 mt-6">
+            <Link
+              href="/contact"
+              size="sm"
+              class="inline-flex items-center group gap-px">
+              <span>Let's dicsuss your project</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                class="w-4 h-4 mt-px group-hover:translate-x-1 transition-transform">
+                <path
+                  fill-rule="evenodd"
+                  d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Container>
+</Layout>
+<Cta />
