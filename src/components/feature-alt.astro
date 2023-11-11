@@ -1,7 +1,5 @@
 ---
-import Badge from '@components/ui/badge.astro'
 import { Picture } from 'astro:assets'
-import FeatureImg1 from '../assets/features/6.png'
 import FeatureImg2 from '../assets/features/2.png'
 import { Icon } from 'astro-icon'
 import Link from '@components/ui/link.astro'
@@ -16,13 +14,13 @@ const { nomargin } = Astro.props
     !nomargin && 'mt-24',
   ]}>
   <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight mt-4 text-center">
-    Why Choose Us?
+    Why <span class="text-indigo-800">Choose Us?</span>
   </h2>
-  <p class="text-lg mt-4 text-slate-600 text-center [text-wrap:pretty]">
+  <p class="text-lg mt-5 text-slate-600 text-center [text-wrap:pretty]">
     We deliver cutting-edge mobile apps, websites, and bespoke software
     solutions tailored to meet your unique business needs. With our expertise
-    and passion for technology, we empower businesses like yours to thrive in
-    the digital age.
+    and passion for technology, we empower businesses <u>like yours</u> to
+    thrive in the digital age.
   </p>
 </div>
 
@@ -43,7 +41,7 @@ const { nomargin } = Astro.props
         Boost Your Business
       </h3>
       <p class="mt-4 text-slate-600 [text-wrap:balance]">
-        Our close-nit team of talented developers, designers, and engineers are
+        Our innovative team of talented developers, designers, and engineers are
         masters of their craft, with decades of experience in creating
         exceptional digital solutions.
       </p>
@@ -98,35 +96,39 @@ const { nomargin } = Astro.props
 
   <div class="grid place-items-center">
     <div class="max-w-lg">
-      <Badge color="purple" class="-ml-px">AI-Powered Insights</Badge>
       <h3 class="text-2xl font-medium mt-4 [text-wrap:balance]">
-        Supercharge Your Marketing Strategy with Advanced Analytics
+        The 4DPrime Difference
       </h3>
       <p class="mt-4 text-slate-600 [text-wrap:balance]">
-        Harness the potential of AI-driven marketing analytics to optimize your
-        campaigns, understand your audience better, and achieve unprecedented
-        growth.
+        We stay highly skilled in the latest design, technologies and frameworks
+        to give your business the edge.
       </p>
       <ul class="grid mt-6 text-left gap-y-4">
         <li class="flex items-center gap-3 text-neutral-800">
           <Icon name="ph:check-circle-fill" class="w-5 h-5" />
 
-          <span class="text-sm">Smart Audience Segmentation</span>
+          <span class="text-sm"
+            >Mobile and tablet apps run on Android and iOS, keeping costs lower</span
+          >
         </li>
         <li class="flex items-center gap-3 text-neutral-800">
           <Icon name="ph:check-circle-fill" class="w-5 h-5" />
 
-          <span class="text-sm">Predictive Campaign Performance</span>
+          <span class="text-sm"
+            >Websites are <i>blazingly</i> fast and accessible</span
+          >
         </li>
         <li class="flex items-center gap-3 text-neutral-800">
           <Icon name="ph:check-circle-fill" class="w-5 h-5" />
 
-          <span class="text-sm">Real-time Data Visualization</span>
+          <span class="text-sm"
+            >Bespoke software solutions are secure and scaleable</span
+          >
         </li>
       </ul>
       <div class="flex items-center gap-4 mt-6">
         <Link href="#" size="sm" class="inline-flex items-center group gap-px">
-          <span>Start 14-day trial</span>
+          <span>Let's dicsuss your project</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -138,11 +140,6 @@ const { nomargin } = Astro.props
               clip-rule="evenodd"></path>
           </svg>
         </Link>
-        <a
-          href="#"
-          class="text-sm px-2 transition py-1 text-slate-600 hover:text-indigo-600 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 focus-visible:outline-none focus-visible:shadow-outline-indigo rounded-full"
-          >Contact Sales</a
-        >
       </div>
     </div>
   </div>

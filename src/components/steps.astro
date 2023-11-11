@@ -1,0 +1,79 @@
+---
+// @ts-ignore
+import Badge from '@components/ui/badge.astro'
+import { Icon } from 'astro-icon'
+
+const features = [
+  {
+    title: 'Understanding Your Needs',
+    description:
+      'We start with a complimentary consultation to understand your unique requirements and goals. We then brainstorm and work with you to come up with the best solution.',
+    step: '1',
+  },
+  {
+    title: 'Scope and Quotation',
+    description:
+      'We provide a detailed scope of work and quotation for your approval. We then work with you to refine the scope and phases of the project.',
+    step: '2',
+  },
+  {
+    title: 'Project Plan',
+    description:
+      'We then agree a project plan and schedule. We will keep you updated on progress and milestones throughout the project.',
+    step: '3',
+  },
+  {
+    title: 'Creative Design',
+    description:
+      'Our creative team will work with you to create a design that is unique to your business and brand. We will then refine the design until you are 100% happy.',
+    step: '4',
+  },
+  {
+    title: 'Development',
+    description:
+      'We will develop your project using the latest technologies and best practices. We will keep you updated on progress and milestones throughout the project.',
+    step: '5',
+  },
+  {
+    title: 'Test, Deploy and Support',
+    description:
+      'Then we will test your project to ensure it is working as expected and deploy it to the live environment. We will then provide mantenance and support to keep your project running smoothly.',
+    step: '6',
+  },
+]
+---
+
+<!-- <div class="mt-16">
+  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
+    We have got more awesome <span class="text-indigo-600">features</span>
+  </h2>
+  <p class="text-lg mt-4 text-slate-600">
+    Use this section to highlight not so important features of your product.
+  </p>
+</div> -->
+<div class="mt-24 max-w-3xl mx-auto flex flex-col items-center justify-center">
+  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight mt-4 text-center">
+    We've got you <span class="text-indigo-800">covered</span>
+  </h2>
+  <p class="text-lg mt-4 text-slate-600 text-center [text-wrap:pretty]">
+    We will guide you through the steps to realising your vision. As your
+    digital partner, we will keep everything running smoothly and continue to
+    support you as your needs grow.
+  </p>
+</div>
+
+<div class="grid sm:grid-cols-2 md:grid-cols-3 mt-16 gap-8 md:gap-16">
+  {
+    features.map((item) => (
+      <div class="flex flex-col gap-4 items-start group hover:bg-slate-50 hover:border-slate-100 border border-transparent rounded-lg transition-all md:-m-5 p-5">
+        <div class="mt-1 bg-indigo-800 border shadow shadow-indigo-100/50 border-indigo-100 transition-colors rounded-full grid place-items-center  p-1 w-10 h-10 shrink-0">
+          <span class="text-white text-2xl font-bold">{item.step}</span>
+        </div>
+        <div>
+          <h3 class="font-semibold text-lg">{item.title}</h3>{' '}
+          <p class="text-slate-500 mt-2 leading-relaxed">{item.description}</p>
+        </div>
+      </div>
+    ))
+  }
+</div>

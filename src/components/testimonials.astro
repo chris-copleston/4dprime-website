@@ -2,43 +2,64 @@
 import Card from '@components/card.astro'
 import Container from '@components/container.astro'
 import Review from '@components/review.astro'
+import GarethHector from '../assets/people/gareth-hector.jpg'
+import GlenMejias from '../assets/people/glen-mejias.jpg'
+import PhilMason from '../assets/people/phil-mason.jpg'
+import SimonMehlman from '../assets/people/simon-mehlman.jpg'
+import JamieSimmonds from '../assets/people/jamie-simmonds.jpg'
+import PhillipCampbell from '../assets/people/phillip-campbell.jpg'
+import AdamThomas from '../assets/people/adam-thomas.jpg'
+import NancyJardine from '../assets/people/nancy-jardine.jpg'
 
 const testimonials = [
   {
-    name: 'John Doe',
-    title: 'CEO at TechCorp',
-    image: 'https://source.unsplash.com/fHXpgMd_XhE',
-    text: "Astroship has transformed the way we manage our projects. Its well-designed interface and powerful features make it a must-have tool for any startup. We've seen a great increase in our productivity and collaboration.",
+    name: 'Gareth Hector',
+    title: 'Partner at MaxHector Photography',
+    image: GarethHector,
+    text: '4DPrime brought us a fresh view not just on how web sites can be built and maintained but also a view on our business and what we were trying to achieve.<br><br>We think we have a site that we have not seen ever before. Unique sells.',
   },
   {
-    name: 'Jane Smith',
-    title: 'Marketing Manager at InnovateTech',
-    image: 'https://source.unsplash.com/jzz_3jWMzHA',
-    text: 'As a marketing professional, I love using Astroship to streamline our marketing campaigns. The automation features and data analytics help us make data-driven decisions and optimize our business strategies. ',
+    name: 'Glen Mejias',
+    title: 'Director at Chilford Hall',
+    image: GlenMejias,
+    text: 'We needed a complete website overhaul, and 4DPrime executed the brief well, providing us with a well-designed and more contemporary site.<br><br>Highly knowledgeable and professional at all times, I would not hesitate in recommending 4DPrime to others!',
   },
   {
-    name: 'Mike Johnson',
-    title: 'CTO at CloudNine',
-    image: 'https://source.unsplash.com/MZf0mI14RI0',
-    text: 'Astroship has revolutionized the way we handle customer support. The ticketing system and knowledge base have significantly reduced response times, leading to happier customers. Thanks to this incredible tool.',
+    name: 'Phil Mason',
+    title: 'Creative Director at Hype Studios',
+    image: PhilMason,
+    text: 'We approached 4DPrime to assist us with the development of an iPad app project.<br><br>From the outset Chris and his team were extremely easy to deal with and delivered a great solution within a very tight budget.',
   },
   {
-    name: 'Emily Brown',
-    title: 'HR Manager at ConnectCo',
-    image: 'https://source.unsplash.com/2EdIX-O2lkI',
-    text: "Astroship has simplified our employee management processes. From onboarding to performance evaluations, everything is now seamlessly organized in one place. It's made my job much more manageable and enjoyable!",
+    name: 'Simon Mehlman',
+    title: 'Group Marketing Manager at Ascribe',
+    image: SimonMehlman,
+    text: '4DPrime is one of those rare companies that manages to treat customers with both professionalism and a personalised, caring service.<br><br>I have been consistently impressed by their creativity, their helpfulness and the guidance of their technical support teams throughout the construction and launch of our new corporate website.',
   },
   {
-    name: 'David Lee',
-    title: 'Sales Director at Linkify',
-    image: 'https://source.unsplash.com/QEgHL8NN7nM',
-    text: "Our sales team swears by Astroship's CRM capabilities. The lead tracking and pipeline management tools have resulted in a significant boost in sales. It's a versatile platform that has truly optimized our sales processes.",
+    name: 'Adam Thomas',
+    title: 'Director at Gascony Experience',
+    image: AdamThomas,
+    text: "Through 4DPrime's expertise and clarity of thinking we now have a powerful and flexible on line tourism website.<br><br>It was a pleasure working with a great team who were always available to help and advise.",
   },
   {
-    name: 'Sarah Martinez',
-    title: 'Finance Controller at MoneyMakers',
-    image: 'https://source.unsplash.com/6qf1uljGpU4',
-    text: "Astroship has been a lifesaver for our finance department. Its robust accounting features and automated invoicing have saved us countless hours of manual work. It's the perfect financial companion for any business!",
+    name: 'Jamie Simmonds',
+    title: 'CEO at TheTin',
+    image: JamieSimmonds,
+    text: 'Working with the guys at 4DPrime has been really productive and beneficial to our business.<br><br>They were brought in at short notice, on an extremely technical and specialist project and hit all the deadlines and worked tirelessly to ensure the deliverables were met I would not hesitate in using them again.',
+  },
+  {
+    name: 'Nancy Jardine',
+    title:
+      'Administrator at National Aerospace Technology Exploitation Programme (NATEP)',
+    image: NancyJardine,
+    text: 'As a (relatively new user) I cannot recommend  4dPrime highly enough for their patience when training and for their extremely prompt action to resolve any issues raised with them.',
+  },
+  {
+    name: 'Phillip Campbell',
+    title: 'Senior Analyst at Alpha Business Analysis ',
+    image: PhillipCampbell,
+    text: 'Rough estimates suggest that I have saved about £6,000 with 4DPrime against using another web design company to produce the same results.',
   },
 ]
 ---
@@ -46,10 +67,10 @@ const testimonials = [
 <Container>
   <div class="mt-24">
     <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight text-center">
-      Client <span class="text-indigo-600">Testimonials</span>
+      Client <span class="text-indigo-800">Testimonials</span>
     </h2>
     <p class="text-lg mt-4 text-slate-600 text-center">
-      Astroship is trusted by the world's leading companies and brands.
+      4DPrime is trusted by leading companies and brands all over the world.
     </p>
   </div>
 </Container>
@@ -68,7 +89,7 @@ const testimonials = [
     </div>
     <!--  ↓↓ Shadow DOM to make the animation smooth (clone) ↓↓ -->
     <div
-      class="md:motion-safe:animate-marquee hidden md:motion-reduce:hidden md:flex min-w-full shrink-0 items-center gap-10">
+      class="hidden md:flex md:motion-safe:animate-marquee w-auto py-5 overflow-x-auto flex-nowrap min-w-full shrink-0 items-stretch gap-10 snap-x snap-mandatory px-5">
       {testimonials.map((item) => <Review {...item} />)}
     </div>
   </div>

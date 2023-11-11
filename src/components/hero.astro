@@ -99,7 +99,8 @@ import Container from '@components/container.astro'
     heroMobile: Element | null,
     heroWeb: Element | null,
     heroSoftware: Element | null,
-    interval: NodeJS.Timeout | null
+    interval: NodeJS.Timeout | null,
+    paused: boolean = false
 
   const initHero = () => {
     linkMobile = document.getElementById('link-mobile')
@@ -117,6 +118,18 @@ import Container from '@components/container.astro'
     linkWeb?.addEventListener('click', () => showHero('hero-web'))
     linkSoftware?.addEventListener('click', () => showHero('hero-software'))
 
+    // pause the hero rotation when the user clicks, presses a key or scrolls
+    const events = ['click', 'keydown', 'scroll']
+    events.forEach((event) => {
+      document.addEventListener(event, () => {
+        if (paused) return
+        paused = true
+        setTimeout(() => {
+          paused = false
+        }, 8000)
+      })
+    })
+
     // rotate each hero every 5 seconds by calling showHero
     const heroIds = ['hero-web', 'hero-software', 'hero-mobile']
     let heroIndex = 0
@@ -124,6 +137,9 @@ import Container from '@components/container.astro'
       //if url is not  / then stop the timer
       if (window.location.pathname !== '/') {
         interval && clearInterval(interval)
+        return
+      }
+      if (paused) {
         return
       }
 
@@ -136,8 +152,6 @@ import Container from '@components/container.astro'
   }
 
   const showHero = (id: string) => {
-    console.log('showHero', id)
-
     switch (id) {
       case 'hero-web':
         // window.location.hash = 'websites'
@@ -183,6 +197,7 @@ import Container from '@components/container.astro'
   h1 a {
     text-decoration: underline;
     text-decoration-color: rgb(255, 163, 52);
+    cursor: pointer;
   }
   h1 a.active {
     background: url(/pen-brush.svg);
