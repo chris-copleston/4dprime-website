@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content'
+import { Picture } from 'astro:assets'
+import Layout from '@layouts/Layout.astro'
+import Container from '@components/container.astro'
+import Sectionhead from '@components/sectionhead.astro'
+import Link from '@components/ui/link.astro'
+import LighthouseImage from '../assets/lighthouse.jpg'
+import Logos from '@components/logos.astro'
+import { Icon } from 'astro-icon'
+import Cta from '@components/cta.astro'
+import { YouTube } from 'astro-lazy-youtube-embed'
+import heroDevelopment from '../assets/hero-screenshot.png'
+
+// Filter team entries with 'draft: false' & date before current date
+const publishedTeamMembers = await getCollection('team', ({ data }) => {
+  return !data.draft && data.publishDate < new Date()
+})
+---
+
+<Layout title='Websites"' footerMargin={false}>
+  <Container>
+    <Sectionhead>
+      <Fragment slot="badge">Bespoke Development</Fragment>
+      <Fragment slot="title">Your Development Partner</Fragment>
+      <Fragment slot="desc">
+        Decades of experience in building Web, Intranet, SaaS, Backend,
+        Integrations, Databases, APIs and Server Solutions.
+      </Fragment>
+    </Sectionhead>
+
+    <div class="grid md:grid-cols-2 py-10">
+      <div class="grid place-items-center pb-10 md:pb-0 md:order-2">
+        <Picture
+          src={heroDevelopment}
+          alt="Feature Image"
+          formats={['avif', 'webp']}
+          width="640"
+          loading="lazy"
+        />
+      </div>
+
+      <div class="grid place-items-center">
+        <div class="max-w-lg">
+          <h3 class="text-2xl font-medium mt-4 [text-wrap:balance]">
+            The 4DPrime Difference
+          </h3>
+          <p class="mt-4 text-slate-600 [text-wrap:balance]">
+            At 4DPrime we have been building bespoke software solutions since
+            2001. We have worked with a wide range of clients from small
+            startups to large corporations.
+          </p>
+
+          <h4 class="text-1xl font-medium mt-4 [text-wrap:balance]">Secure</h4>
+          <p class="mt-4 text-slate-600 [text-wrap:balance]">
+            With projects for the NHS, Mistry of Defence and education, our
+            security credentials are second to none. We have a proven track
+            record of delivering secure solutions.
+          </p>
+          <h4 class="text-1xl font-medium mt-4 [text-wrap:balance]">
+            Scalable
+          </h4>
+          <p class="mt-4 text-slate-600 [text-wrap:balance]">
+            We have built solutions that have scaled to millions of users. We
+            have the experience to build solutions that can grow with your
+            business.
+          </p>
+          <h4 class="text-1xl font-medium mt-4 [text-wrap:balance]">
+            Run your Business, not your Systems
+          </h4>
+          <p class="mt-4 text-slate-600 [text-wrap:balance]">
+            We can manage your solution for you, from hosting to patching and
+            backups. A 4DPrime bespoke system can reduce your IT costs, access
+            your systems remotely, increase the security and robustness and make
+            your systems fit your business instead of your business fitting your
+            systems.
+          </p>
+
+          <div class="flex items-center gap-4 mt-6">
+            <Link
+              href="/contact"
+              size="sm"
+              class="inline-flex items-center group gap-px">
+              <span>Let's dicsuss your needs</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                class="w-4 h-4 mt-px group-hover:translate-x-1 transition-transform">
+                <path
+                  fill-rule="evenodd"
+                  d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Container>
+</Layout>
+<Cta />

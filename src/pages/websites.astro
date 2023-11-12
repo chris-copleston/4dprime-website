@@ -1,0 +1,103 @@
+---
+import { getCollection } from 'astro:content'
+import { Picture } from 'astro:assets'
+import Layout from '@layouts/Layout.astro'
+import Container from '@components/container.astro'
+import Sectionhead from '@components/sectionhead.astro'
+import Link from '@components/ui/link.astro'
+import LighthouseImage from '../assets/lighthouse.jpg'
+import Logos from '@components/logos.astro'
+import { Icon } from 'astro-icon'
+import Cta from '@components/cta.astro'
+import { YouTube } from 'astro-lazy-youtube-embed'
+import heroWebImage from '../assets/hero-web.png'
+
+// Filter team entries with 'draft: false' & date before current date
+const publishedTeamMembers = await getCollection('team', ({ data }) => {
+  return !data.draft && data.publishDate < new Date()
+})
+---
+
+<Layout title='Websites"' footerMargin={false}>
+  <Container>
+    <Sectionhead>
+      <Fragment slot="badge">Websites</Fragment>
+      <Fragment slot="title">Web Presence Excellence&trade;</Fragment>
+      <Fragment slot="desc">
+        Trusted by Startups, SMEs, Governments and Enterprises worldwide.
+      </Fragment>
+    </Sectionhead>
+
+    <div class="grid md:grid-cols-2 py-10">
+      <div class="grid place-items-center pb-10 md:pb-0 md:order-2">
+        <Picture
+          src={heroWebImage}
+          alt="Feature Image"
+          formats={['avif', 'webp']}
+          width="340"
+          loading="lazy"
+        />
+        <Picture
+          src={LighthouseImage}
+          alt="Fast and compliant"
+          formats={['avif', 'webp']}
+          width="340"
+          loading="lazy"
+        />
+      </div>
+
+      <div class="grid place-items-center">
+        <div class="max-w-lg">
+          <h3 class="text-2xl font-medium mt-4 [text-wrap:balance]">
+            The 4DPrime Difference
+          </h3>
+          <p class="mt-4 text-slate-600 [text-wrap:balance]">
+            We build custom websites with powerful content management,
+            e-commerce and membership features as well as multilingual and multi
+            currency options for a truly global web presence.
+          </p>
+          <p class="mt-4 text-slate-600 [text-wrap:balance]">
+            100% besoke design and development means you can expect a fully
+            integrated web presence with infinate scope and growth.
+          </p>
+          <h4 class="text-1xl font-medium mt-4 [text-wrap:balance]">
+            Blazingly Fast
+          </h4>
+          <p class="mt-4 text-slate-600 [text-wrap:balance]">
+            Using the latest technologies, we build websites that display at
+            amazing speeds. Load time is everything in reducing bounce rates
+            seatch rankings.
+          </p>
+          <h4 class="text-1xl font-medium mt-4 [text-wrap:balance]">
+            Fully Accessible
+          </h4>
+          <p class="mt-4 text-slate-600 [text-wrap:balance]">
+            We ensure you do not exclude any potential audience by complying
+            100% with accessibility standards. We also make sure your website is
+            fully responsive and displays perfectly on all devices.
+          </p>
+
+          <div class="flex items-center gap-4 mt-6">
+            <Link
+              href="/contact"
+              size="sm"
+              class="inline-flex items-center group gap-px">
+              <span>Let's dicsuss your website</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                class="w-4 h-4 mt-px group-hover:translate-x-1 transition-transform">
+                <path
+                  fill-rule="evenodd"
+                  d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Container>
+</Layout>
+<Cta />
