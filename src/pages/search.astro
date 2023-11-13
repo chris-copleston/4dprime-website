@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content'
+import { Picture } from 'astro:assets'
+import Layout from '@layouts/Layout.astro'
+import Container from '@components/container.astro'
+import Sectionhead from '@components/sectionhead.astro'
+import Link from '@components/ui/link.astro'
+import EmployeeImg from '../assets/employee.jpg'
+import Logos from '@components/logos.astro'
+import { Icon } from 'astro-icon'
+import Cta from '@components/cta.astro'
+
+// Filter team entries with 'draft: false' & date before current date
+const publishedTeamMembers = await getCollection('team', ({ data }) => {
+  return !data.draft && data.publishDate < new Date()
+})
+---
+
+<Layout title="About" footerMargin={false}>
+  <Container>
+    <Sectionhead>
+      <Fragment slot="badge">Search</Fragment>
+      <Fragment slot="title">Let's find it for you</Fragment>
+      <Fragment slot="desc"></Fragment>
+    </Sectionhead>
+
+    <div class="border-y py-6 border-slate-100">
+      <div id="search"></div>
+      <script>
+        document.addEventListener('astro:page-load', (event) => {
+          // @ts-ignore
+          new PagefindUI({ element: '#search', showSubResults: true })
+          const searchInput = document.querySelector(
+            '#search input',
+          ) as HTMLInputElement | null
+          if (searchInput) {
+            searchInput.focus()
+          }
+          if (searchInput) {
+            searchInput.focus()
+          }
+        })
+      </script>
+    </div>
+  </Container>
+  <Cta />
+</Layout>
+
+<style>
+  blockquote {
+    position: relative;
+    padding: 0.5rem;
+    font-size: 1.25rem;
+  }
+  blockquote:before,
+  blockquote:after {
+    position: absolute;
+    color: #f1efe6;
+    font-size: 6rem;
+    width: 4rem;
+    height: 4rem;
+  }
+  blockquote:before {
+    content: '“';
+    left: -2rem;
+    top: -2rem;
+  }
+  blockquote:after {
+    content: '”';
+    right: -1rem;
+    bottom: 1rem;
+  }
+  cite {
+    display: block;
+    line-height: 3;
+    text-align: left;
+  }
+</style>
