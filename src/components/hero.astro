@@ -1,5 +1,5 @@
 ---
-import { Image, Picture } from 'astro:assets'
+import { Picture } from 'astro:assets'
 import heroSoftwareImage from '../assets/hero-screenshot.png'
 import heroMobileImage from '../assets/hero-mobile.png'
 import heroWebImage from '../assets/hero-web.png'
@@ -161,6 +161,9 @@ import Container from '@components/container.astro'
     let learnMoreLink = document.getElementById('learn-more-link')
     switch (id) {
       case 'hero-web':
+        if (!isElementVisible(heroMobile)) {
+          return
+        }
         learnMoreLink?.setAttribute('href', '/websites')
         heroWeb?.classList.remove('hidden')
         linkWeb?.classList.add('active')
@@ -170,6 +173,9 @@ import Container from '@components/container.astro'
         linkSoftware?.classList.remove('active')
         break
       case 'hero-software':
+        if (!isElementVisible(heroWeb)) {
+          return
+        }
         learnMoreLink?.setAttribute('href', '/development')
         heroSoftware?.classList.remove('hidden')
         linkSoftware?.classList.add('active')
@@ -179,6 +185,9 @@ import Container from '@components/container.astro'
         linkWeb?.classList.remove('active')
         break
       default:
+        if (!isElementVisible(heroSoftware)) {
+          return
+        }
         learnMoreLink?.setAttribute('href', '/mobile-apps')
         heroMobile?.classList.remove('hidden')
         linkMobile?.classList.add('active')
@@ -195,6 +204,32 @@ import Container from '@components/container.astro'
     interval && clearInterval(interval)
     initHero()
   })
+
+  const isElementVisible = (el) => {
+    const rect = el.getBoundingClientRect()
+    const vWidth = window.innerWidth || doc.documentElement.clientWidth
+    const vHeight = window.innerHeight || doc.documentElement.clientHeight
+    const efp = function (x, y) {
+      return document.elementFromPoint(x, y)
+    }
+
+    // Return false if it's not in the viewport
+    if (
+      rect.right < 0 ||
+      rect.bottom < 0 ||
+      rect.left > vWidth ||
+      rect.top > vHeight
+    )
+      return false
+
+    // Return true if any of its four corners are visible
+    return (
+      el.contains(efp(rect.left, rect.top)) ||
+      el.contains(efp(rect.right, rect.top)) ||
+      el.contains(efp(rect.right, rect.bottom)) ||
+      el.contains(efp(rect.left, rect.bottom))
+    )
+  }
 </script>
 
 <style>
