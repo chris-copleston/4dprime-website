@@ -29,8 +29,8 @@ import Container from '@components/container.astro'
         </h1>
         <p
           class="text-lg mt-4 max-w-lg text-slate-600 [text-wrap:balance] text-center lg:text-start">
-          First impressions are everything. Talk to us, the digital experts
-          since 2001.
+          First impressions are everything. Talk to us, we've been doing this
+          since before Facebook&reg;.
         </p>
         <div
           class="mt-6 flex flex-col sm:flex-row sm:justify-center lg:justify-start gap-3">
@@ -52,41 +52,47 @@ import Container from '@components/container.astro'
         </div>
       </div>
       <div class="py-3 lg:col-span-3 lg:-mr-44">
-        <Picture
-          id="hero-mobile"
-          class="animate-zoom-in"
-          src={heroMobileImage}
-          alt="Amazing mobile apps"
-          formats={['avif', 'webp']}
-          sizes="(max-width: 1024px) 100vw, 50vw"
-          widths={[240, 540, 720, heroMobileImage.width]}
-          loading="eager"
-          fetchpriority="high"
-        />
+        <a href="/mobile-apps">
+          <Picture
+            id="hero-mobile"
+            class="animate-zoom-in"
+            src={heroMobileImage}
+            alt="Amazing mobile apps"
+            formats={['avif', 'webp']}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            widths={[240, 540, 720, heroMobileImage.width]}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </a>
 
-        <Picture
-          id="hero-web"
-          class="animate-zoom-in hidden"
-          src={heroWebImage}
-          alt="Amazing websites"
-          formats={['avif', 'webp']}
-          sizes="(max-width: 1024px) 100vw, 50vw"
-          widths={[240, 540, 720, heroWebImage.width]}
-          loading="eager"
-          fetchpriority="high"
-        />
+        <a href="/websites">
+          <Picture
+            id="hero-web"
+            class="animate-zoom-in hidden"
+            src={heroWebImage}
+            alt="Amazing websites"
+            formats={['avif', 'webp']}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            widths={[240, 540, 720, heroWebImage.width]}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </a>
 
-        <Picture
-          id="hero-software"
-          class="animate-zoom-in hidden"
-          src={heroSoftwareImage}
-          alt="Amazing software"
-          formats={['avif', 'webp']}
-          sizes="(max-width: 1024px) 100vw, 50vw"
-          widths={[240, 540, 720, heroSoftwareImage.width]}
-          loading="eager"
-          fetchpriority="high"
-        />
+        <a href="/development">
+          <Picture
+            id="hero-software"
+            class="animate-zoom-in hidden"
+            src={heroSoftwareImage}
+            alt="Amazing software"
+            formats={['avif', 'webp']}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            widths={[240, 540, 720, heroSoftwareImage.width]}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </a>
       </div>
     </main>
   </Container>
