@@ -29,8 +29,8 @@ import Container from '@components/container.astro'
         </h1>
         <p
           class="text-lg mt-4 max-w-lg text-slate-600 [text-wrap:balance] text-center lg:text-start">
-          First impressions are everything. Talk to us, we're digital experts
-          since before Facebook.
+          First impressions are everything. Talk to us, the digital experts
+          since 2001.
         </p>
         <div
           class="mt-6 flex flex-col sm:flex-row sm:justify-center lg:justify-start gap-3">
@@ -41,12 +41,12 @@ import Container from '@components/container.astro'
             Let's chat
           </Link>
           <Link
+            id="learn-more-link"
             size="lg"
             style="outline"
             rel="noopener"
-            href='#"'
-            class="flex gap-1 items-center justify-center"
-            target="_blank">
+            href="/mobile-apps"
+            class="flex gap-1 items-center justify-center">
             Learn more
           </Link>
         </div>
@@ -152,9 +152,10 @@ import Container from '@components/container.astro'
   }
 
   const showHero = (id: string) => {
+    let learnMoreLink = document.getElementById('learn-more-link')
     switch (id) {
       case 'hero-web':
-        // window.location.hash = 'websites'
+        learnMoreLink?.setAttribute('href', '/websites')
         heroWeb?.classList.remove('hidden')
         linkWeb?.classList.add('active')
         heroMobile?.classList.add('hidden')
@@ -163,7 +164,7 @@ import Container from '@components/container.astro'
         linkSoftware?.classList.remove('active')
         break
       case 'hero-software':
-        // window.location.hash = 'software'
+        learnMoreLink?.setAttribute('href', '/development')
         heroSoftware?.classList.remove('hidden')
         linkSoftware?.classList.add('active')
         heroMobile?.classList.add('hidden')
@@ -172,7 +173,7 @@ import Container from '@components/container.astro'
         linkWeb?.classList.remove('active')
         break
       default:
-        // window.location.hash = 'mobile-apps'
+        learnMoreLink?.setAttribute('href', '/mobile-apps')
         heroMobile?.classList.remove('hidden')
         linkMobile?.classList.add('active')
         heroWeb?.classList.add('hidden')

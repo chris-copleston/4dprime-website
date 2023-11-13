@@ -1,21 +1,11 @@
 ---
-import { getCollection } from 'astro:content'
 import { Picture } from 'astro:assets'
 import Layout from '@layouts/Layout.astro'
 import Container from '@components/container.astro'
 import Sectionhead from '@components/sectionhead.astro'
 import Link from '@components/ui/link.astro'
-import LighthouseImage from '../assets/lighthouse.jpg'
-import Logos from '@components/logos.astro'
-import { Icon } from 'astro-icon'
 import Cta from '@components/cta.astro'
-import { YouTube } from 'astro-lazy-youtube-embed'
 import heroDevelopment from '../assets/hero-screenshot.png'
-
-// Filter team entries with 'draft: false' & date before current date
-const publishedTeamMembers = await getCollection('team', ({ data }) => {
-  return !data.draft && data.publishDate < new Date()
-})
 ---
 
 <Layout title='Websites"' footerMargin={false}>
