@@ -2,9 +2,9 @@
 import { Image } from 'astro:assets'
 import logoNHS from '../assets/brands/nhs.svg'
 import logoHiscox from '../assets/brands/hiscox.svg'
-import logoMoD from '../assets/brands/mod.png'
-import logoMAA from '../assets/brands/maa.png'
-import logoICA from '../assets/brands/ica.png'
+import logoMoD from '../assets/brands/mod.svg'
+import logoMAA from '../assets/brands/maa.svg'
+import logoICA from '../assets/brands/ica.svg'
 ---
 
 <div>
@@ -12,21 +12,25 @@ import logoICA from '../assets/brands/ica.png'
     Trusted by Startups, SMEs, Governments and Enterprises worldwide.
   </h2>
   <div
-    class="flex gap-x-8 gap-y-4 md:gap-10 lg:gap-20 items-center justify-center mt-6 flex-wrap">
+    class="flex gap-x-8 gap-y-8 md:gap-10 lg:gap-20 items-center justify-center mt-6 flex-wrap">
     <div class="text-gray-500 my-2 h-7 md:h-9">
-      <Image class="brand-logo" src={logoNHS} alt="NHS logo" />
+      <Image class="brand-logo" src={logoNHS} alt="NHS logo" height={40} />
     </div>
 
     <div class="text-gray-500 my-2 h-7 md:h-9">
-      <Image class="brand-logo" src={logoHiscox} alt="Hiscox Insurance logo" />
+      <Image
+        class="brand-logo"
+        src={logoHiscox}
+        alt="Hiscox Insurance logo"
+        height={40}
+      />
     </div>
     <div class="text-gray-500 my-2 h-7 md:h-9">
       <Image
         class="brand-logo"
         src={logoMoD}
         alt="Ministry of Defence logo"
-        width={200}
-        height={64}
+        height={40}
       />
     </div>
     <div class="text-gray-500 my-2 h-7 md:h-9">
@@ -34,7 +38,7 @@ import logoICA from '../assets/brands/ica.png'
         class="brand-logo"
         src={logoMAA}
         alt="Midlands Aerospace Alliance logo"
-        width={200}
+        height={40}
       />
     </div>
     <div class="text-gray-500 my-2 h-7 md:h-9">
@@ -42,14 +46,14 @@ import logoICA from '../assets/brands/ica.png'
         class="brand-logo"
         src={logoICA}
         alt="The Institute of Canadian Agencies logo"
-        width={200}
+        height={40}
       />
     </div>
   </div>
 </div>
 
 <style>
-  .brand-logo {
+  .Xbrand-logo {
     max-height: 100%;
     max-width: 100px;
   }

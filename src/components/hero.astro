@@ -47,12 +47,21 @@ import Container from '@components/container.astro'
             rel="noopener"
             href="/mobile-apps"
             class="flex gap-1 items-center justify-center">
-            Learn more
+            Mobile Apps <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-4 h-4 mt-px group-hover:translate-x-1 transition-transform">
+              <path
+                fill-rule="evenodd"
+                d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                clip-rule="evenodd"></path>
+            </svg>
           </Link>
         </div>
       </div>
       <div class="py-3 lg:col-span-3 lg:-mr-44">
-        <a href="/mobile-apps">
+        <a href="/mobile-apps" aria-label="Mobile Apps">
           <Picture
             id="hero-mobile"
             class="animate-zoom-in"
@@ -66,7 +75,7 @@ import Container from '@components/container.astro'
           />
         </a>
 
-        <a href="/websites">
+        <a href="/websites" aria-label="Websites">
           <Picture
             id="hero-web"
             class="animate-zoom-in hidden"
@@ -80,7 +89,7 @@ import Container from '@components/container.astro'
           />
         </a>
 
-        <a href="/development">
+        <a href="/development" aria-label="Bespoke Development">
           <Picture
             id="hero-software"
             class="animate-zoom-in hidden"
@@ -158,6 +167,16 @@ import Container from '@components/container.astro'
   }
 
   const showHero = (id: string) => {
+    let arrow = `<svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        class="w-4 h-4 mt-px group-hover:translate-x-1 transition-transform">
+        <path
+          fill-rule="evenodd"
+          d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+          clip-rule="evenodd"></path>
+      </svg>`
     let learnMoreLink = document.getElementById('learn-more-link')
     switch (id) {
       case 'hero-web':
@@ -165,6 +184,9 @@ import Container from '@components/container.astro'
           return
         }
         learnMoreLink?.setAttribute('href', '/websites')
+        learnMoreLink
+          ? (learnMoreLink.innerHTML = 'Websites ' + arrow)
+          : 'Learn more...'
         heroWeb?.classList.remove('hidden')
         linkWeb?.classList.add('active')
         heroMobile?.classList.add('hidden')
@@ -177,6 +199,9 @@ import Container from '@components/container.astro'
           return
         }
         learnMoreLink?.setAttribute('href', '/development')
+        learnMoreLink
+          ? (learnMoreLink.innerHTML = 'Bespoke Software ' + arrow)
+          : 'Learn more...'
         heroSoftware?.classList.remove('hidden')
         linkSoftware?.classList.add('active')
         heroMobile?.classList.add('hidden')
@@ -189,6 +214,9 @@ import Container from '@components/container.astro'
           return
         }
         learnMoreLink?.setAttribute('href', '/mobile-apps')
+        learnMoreLink
+          ? (learnMoreLink.innerHTML = 'Mobile Apps ' + arrow)
+          : 'Learn more...'
         heroMobile?.classList.remove('hidden')
         linkMobile?.classList.add('active')
         heroWeb?.classList.add('hidden')
