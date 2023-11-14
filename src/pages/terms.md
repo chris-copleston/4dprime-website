@@ -23,7 +23,7 @@ All services provided by 4DPrime may be used for lawful purposes only. Transmiss
 
 4DPrime does not allow adult content on its servers. Nor do we allow links to adult content hosted elsewhere. This is also true for sites that promote any illegal activity or content that may be damaging to our servers or any other server on the Internet. Links to such materials are also prohibited. 4DPrime will be the sole arbiter as to what constitutes a violation of this provision.
 
-Educational adult websites, dating sites, and adult e-commerce stores are allowed. If you are in any doubt we strongly recommend checking with 4DPrime support before hosting such information. 4DPrime will be the sole arbiter as to what constitutes a violation of this provision.
+Educational adult websites, dating sites and adult e-commerce stores are allowed. If you are in any doubt we strongly recommend checking with 4DPrime support before hosting such information. 4DPrime will be the sole arbiter as to what constitutes a violation of this provision.
 
 Distribution or Transmission of Obscene or Indecent Speech or Materials:
 
@@ -73,9 +73,9 @@ If you are a VAT registered business in another EU member state then you must su
 
 4DPrime is not liable for expiry or loss of your domain name.
 
-We strongly recommend keeping an eye on your renewal dates. On the date a domain expires it will be deactivated by the registry, and no longer display your website. Once a domain is deactivated upon expiry you will typically have somewhere between 5 and 30 days to contact us to renew the domain name at our regular renewal rates before it drops into "redemption period" where the cost to renew then increases substantially. Note that some registries (such as .EU) place an expired domain into redemption immediately.
+We strongly recommend keeping an eye on your renewal dates. On the date a domain expires it will be deactivated by the registry and no longer display your website. Once a domain is deactivated upon expiry you will typically have somewhere between 5 and 30 days to contact us to renew the domain name at our regular renewal rates before it drops into "redemption period" where the cost to renew then increases substantially. Note that some registries (such as .EU) place an expired domain into redemption immediately.
 
-Redemption Period - Once a domain is in the "redemption period" the cost to renew it increases. This is a cost charged by the registry and passed on to you by us. Redemption periods last between 30 and 60 days, and then the domain is released to the public so anyone can re-register your domain and you will lose it.
+Redemption Period - Once a domain is in the "redemption period" the cost to renew it increases. This is a cost charged by the registry and passed on to you by us. Redemption periods last between 30 and 60 days and then the domain is released to the public so anyone can re-register your domain and you will lose it.
 
 ### Domain Transfers
 
@@ -135,7 +135,7 @@ Customer agrees that it shall defend, indemnify, save and hold 4DPrime (or it's 
 
 ### Disclaimer
 
-4DPrime will not be responsible for any damages your business may suffer. 4DPrime makes no warranties of any kind, expressed or implied for services we provide. 4DPrime disclaims any warranty or merchantability or fitness for a particular purpose. This includes loss of data resulting from delays, non-deliveries, wrong delivery, and any and all service interruptions caused by 4DPrime and its employees. 4DPrime makes no "uptime" guarantees. The Client agrees that 4DPrime shall not be liable for any damages as a result of loss of hosting services or hosted data. The Client further acknowledges that 4DPrime's liability for its own negligence is zero, and 4DPrime may not be held responsible. Liability or Damages in any event may not exceed an amount equivalent to charges payable by Client for services during the period damages occurred. In no event shall 4DPrime be liable for any special or consequential damages, loss of revenue or injury.
+4DPrime will not be responsible for any damages your business may suffer. 4DPrime makes no warranties of any kind, expressed or implied for services we provide. 4DPrime disclaims any warranty or merchantability or fitness for a particular purpose. This includes loss of data resulting from delays, non-deliveries, wrong delivery and any and all service interruptions caused by 4DPrime and its employees. 4DPrime makes no "uptime" guarantees. The Client agrees that 4DPrime shall not be liable for any damages as a result of loss of hosting services or hosted data. The Client further acknowledges that 4DPrime's liability for its own negligence is zero and 4DPrime may not be held responsible. Liability or Damages in any event may not exceed an amount equivalent to charges payable by Client for services during the period damages occurred. In no event shall 4DPrime be liable for any special or consequential damages, loss of revenue or injury.
 
 4DPrime can accept no responsibility for any loss of data or consequences arising from this. 4DPrime always advises clients to back up their site data regularly for their own protection. 4DPrime does not guarantee its own backups of customer data and is not liable for any loss of data, loss of backups or inability to restore service after implementing its disaster recovery plan.
 
