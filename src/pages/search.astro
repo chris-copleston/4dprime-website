@@ -27,7 +27,7 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
   <Cta />
 </Layout>
 
-<script>
+<script is:inline>
   document.addEventListener('astro:page-load', (event) => {
     console.log('Page loaded!', document.getElementById('search'))
 
