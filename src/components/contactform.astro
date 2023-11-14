@@ -1,5 +1,5 @@
 ---
-import Button from "./ui/button.astro";
+import Button from './ui/button.astro'
 ---
 
 <!-- // This is a working contact form //
@@ -11,7 +11,11 @@ import Button from "./ui/button.astro";
   id="form"
   class="needs-validation"
   novalidate>
-  <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
+  <input
+    type="hidden"
+    name="access_key"
+    value="0e622fb4-29b4-4a25-958a-d387bedb00cf"
+  />
   <!-- Create your free access key from https://web3forms.com/ -->
   <input type="checkbox" class="hidden" style="display:none" name="botcheck" />
   <div class="mb-5">
@@ -42,6 +46,24 @@ import Button from "./ui/button.astro";
       Please provide a valid email address.
     </div>
   </div>
+  <div class="mb-5">
+    <select
+      required
+      class="w-full px-4 py-3 border placeholder:text-slate-400 rounded-md outline-none focus:ring-4 border-slate-300 focus:border-slate-600 ring-slate-100"
+      name="subject">
+      <option value="" disabled selected hidden>Choose a subject</option>
+      <option value="Mobile Apps">Mobile Apps</option>
+      <option value="Websites">Websites</option>
+      <option value="Development">Bespoke Development</option>
+      <option value="Support">Support</option>
+      <option value="Feedback">Feedback</option>
+      <option value="Other">Other</option>
+    </select>
+    <div class="empty-feedback invalid-feedback text-red-400 text-sm mt-1">
+      Please provide a subject.
+    </div>
+  </div>
+
   <div class="mb-3">
     <textarea
       name="message"
@@ -80,56 +102,56 @@ import Button from "./ui/button.astro";
 <script is:inline>
   // Make it work with astro page transitions
   document.addEventListener(
-    "astro:page-load",
+    'astro:page-load',
     () => {
-      const form = document.getElementById("form");
-      const result = document.getElementById("result");
+      const form = document.getElementById('form')
+      const result = document.getElementById('result')
 
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        form.classList.add("was-validated");
+      form.addEventListener('submit', function (e) {
+        e.preventDefault()
+        form.classList.add('was-validated')
         if (!form.checkValidity()) {
-          form.querySelectorAll(":invalid")[0].focus();
-          return;
+          form.querySelectorAll(':invalid')[0].focus()
+          return
         }
-        const formData = new FormData(form);
-        const object = Object.fromEntries(formData);
-        const json = JSON.stringify(object);
+        const formData = new FormData(form)
+        const object = Object.fromEntries(formData)
+        const json = JSON.stringify(object)
 
-        result.innerHTML = "Sending...";
+        result.innerHTML = 'Sending...'
 
-        fetch("https://api.web3forms.com/submit", {
-          method: "POST",
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
           },
           body: json,
         })
           .then(async (response) => {
-            let json = await response.json();
+            let json = await response.json()
             if (response.status == 200) {
-              result.classList.add("text-green-500");
-              result.innerHTML = json.message;
+              result.classList.add('text-green-500')
+              result.innerHTML = json.message
             } else {
-              console.log(response);
-              result.classList.add("text-red-500");
-              result.innerHTML = json.message;
+              console.log(response)
+              result.classList.add('text-red-500')
+              result.innerHTML = json.message
             }
           })
           .catch((error) => {
-            console.log(error);
-            result.innerHTML = "Something went wrong!";
+            console.log(error)
+            result.innerHTML = 'Something went wrong!'
           })
           .then(function () {
-            form.reset();
-            form.classList.remove("was-validated");
+            form.reset()
+            form.classList.remove('was-validated')
             setTimeout(() => {
-              result.style.display = "none";
-            }, 5000);
-          });
-      });
+              result.style.display = 'none'
+            }, 5000)
+          })
+      })
     },
     { once: true },
-  );
+  )
 </script>
