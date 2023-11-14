@@ -35,9 +35,7 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
     const finder = new PagefindUI({ element: '#search', showSubResults: true })
     console.log('finder', finder)
 
-    const searchInput = document.querySelector(
-      '#search input',
-    ) as HTMLInputElement | null
+    const searchInput = document.querySelector('#search input')
     if (searchInput) {
       searchInput.focus()
     }
