@@ -30,10 +30,6 @@ const { Content } = await entry.render()
       </h1>
       <div
         class="flex gap-2 mt-3 items-center justify-center text-sm flex-wrap md:flex-nowrap">
-        <span class="text-slate-400">
-          {entry.data.author}
-        </span>
-        <span class="text-slate-400">•</span>
         <time
           class="text-slate-400"
           datetime={entry.data.publishDate.toISOString()}>
@@ -53,7 +49,7 @@ const { Content } = await entry.render()
     <div class="mx-auto max-w-4xl">
       <Picture
         formats={['avif', 'webp']}
-        src={entry.data.image.src}
+        src={entry.data.cover}
         alt="Feature image"
         width="1280"
         height="800"
