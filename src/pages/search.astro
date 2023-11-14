@@ -22,28 +22,26 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
       <Fragment slot="title">Let's find it for you</Fragment>
       <Fragment slot="desc"></Fragment>
     </Sectionhead>
-
-    <div class="border-y py-6 border-slate-100">
-      <div id="search"></div>
-      <script>
-        document.addEventListener('astro:page-load', (event) => {
-          // @ts-ignore
-          new PagefindUI({ element: '#search', showSubResults: true })
-          const searchInput = document.querySelector(
-            '#search input',
-          ) as HTMLInputElement | null
-          if (searchInput) {
-            searchInput.focus()
-          }
-          if (searchInput) {
-            searchInput.focus()
-          }
-        })
-      </script>
-    </div>
+    <div id="search"></div>
   </Container>
   <Cta />
 </Layout>
+
+<script>
+  document.addEventListener('astro:page-load', (event) => {
+    // @ts-ignore
+    new PagefindUI({ element: '#search', showSubResults: true })
+    const searchInput = document.querySelector(
+      '#search input',
+    ) as HTMLInputElement | null
+    if (searchInput) {
+      searchInput.focus()
+    }
+    if (searchInput) {
+      searchInput.focus()
+    }
+  })
+</script>
 
 <style>
   blockquote {
