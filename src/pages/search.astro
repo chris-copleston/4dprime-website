@@ -29,17 +29,19 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
 
 <script>
   document.addEventListener('astro:page-load', (event) => {
-    // @ts-ignore
-    new PagefindUI({ element: '#search', showSubResults: true })
-    const searchInput = document.querySelector(
-      '#search input',
-    ) as HTMLInputElement | null
-    if (searchInput) {
-      searchInput.focus()
-    }
-    if (searchInput) {
-      searchInput.focus()
-    }
+    setTimeout(() => {
+      // @ts-ignore
+      new PagefindUI({ element: '#search', showSubResults: true })
+      const searchInput = document.querySelector(
+        '#search input',
+      ) as HTMLInputElement | null
+      if (searchInput) {
+        searchInput.focus()
+      }
+      if (searchInput) {
+        searchInput.focus()
+      }
+    }, 2000)
   })
 </script>
 
