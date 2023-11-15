@@ -5,8 +5,8 @@ snippet: 'Explore how artificial intelligence is revolutionizing the SaaS indust
 cover: './assets/app-concept.jpg'
 publishDate: '2023-08-06 13:55'
 category: 'Experience'
-author: 'Michael Chen'
-tags: [experience]
+author: 'Chris'
+tags: [experience, mobile apps, websites, bespoke development]
 ---
 
 ## 22 Years of Excellence in App Development

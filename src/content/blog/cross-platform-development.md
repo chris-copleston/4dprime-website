@@ -5,8 +5,8 @@ snippet: 'As technology continues to advance, the advantages of "code once, run 
 cover: './assets/coding.jpg'
 publishDate: '2022-11-22 14:20'
 category: 'Technology'
-author: 'David Lee'
-tags: [cloud, computing, SaaS]
+author: 'Chris'
+tags: [mobile apps, cross platform]
 ---
 
 **In the ever-evolving landscape of mobile app development, the battle between writing platform-specific code and adopting a cross-platform approach has been a longstanding debate. As technology continues to advance, the advantages of "code once, run anywhere" have become increasingly evident, reshaping the way mobile apps are conceptualized, developed and deployed.**
