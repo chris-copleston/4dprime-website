@@ -96,16 +96,20 @@ const menuitems = [
               ))
             }
           </ul>
+          <div class="lg:hidden flex items-center mt-3 gap-4">
+            <Link href="/search" style="muted" block size="md">Search</Link>
+            <Link href="/contact" size="md" block>Let's chat</Link>
+          </div>
         </MenuItems>
       </Astronav>
       <div>
         <div class="hidden lg:flex items-center gap-4">
-          <!-- <a
+          <a
             href="/search"
             aria-label="Website search"
             class="text-lg px-2 py-1 transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 focus-visible:outline-none focus-visible:shadow-outline-indigo rounded-full"
             ><img src="/search.svg" alt="Search" width={18} height={18} /></a
-          > -->
+          >
           <Link
             href="/contact"
             size="sm"

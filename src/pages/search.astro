@@ -23,7 +23,7 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
 </Layout>
 
 <script>
-  document.addEventListener('astro:page-load', (event) => {
+  const initSearch = () => {
     if (!document.querySelector('#search')) return
     // @ts-ignore
     new PagefindUI({ element: '#search', showSubResults: true })
@@ -36,7 +36,9 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
     if (searchInput) {
       searchInput.focus()
     }
-  })
+  }
+
+  initSearch()
 </script>
 
 <style>
