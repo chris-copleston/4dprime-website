@@ -1,5 +1,4 @@
 ---
-import { getCollection } from 'astro:content'
 import { Picture } from 'astro:assets'
 import Layout from '@layouts/Layout.astro'
 import Container from '@components/container.astro'
@@ -7,8 +6,9 @@ import Sectionhead from '@components/sectionhead.astro'
 import Link from '@components/ui/link.astro'
 import { Icon } from 'astro-icon'
 import Cta from '@components/cta.astro'
-import { YouTube } from 'astro-lazy-youtube-embed'
+import YouTube from '@components/youtube.astro'
 import heroMobileImage from '../assets/hero-mobile.png'
+import mobileYoutubeCover from '../assets/mobile-youtube-cover.jpg'
 ---
 
 <Layout title="Mobile Apps" footerMargin={false}>
@@ -29,6 +29,7 @@ import heroMobileImage from '../assets/hero-mobile.png'
           class="rounded-2xl mx-8"
           embedParams={{ rel: 0, controls: 1, autoplay: 1 }}
           thumbnailRes="maxres"
+          thumbnailSrc={mobileYoutubeCover.src}
           title="4DPrime - Your App Idea Realised"
           videoId="-Q2JCpuNIL0"
         />

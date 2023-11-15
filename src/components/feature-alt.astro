@@ -3,7 +3,8 @@ import { Picture } from 'astro:assets'
 import FeatureImg2 from '../assets/features/2.png'
 import { Icon } from 'astro-icon'
 import Link from '@components/ui/link.astro'
-import { YouTube } from 'astro-lazy-youtube-embed'
+import YouTube from '@components/youtube.astro'
+import homeYoutubeCover from '../assets/home-youtube-cover.jpg'
 
 const { nomargin } = Astro.props
 ---
@@ -30,6 +31,7 @@ const { nomargin } = Astro.props
       class="rounded-2xl mx-8"
       embedParams={{ rel: 0, controls: 1, autoplay: 1 }}
       thumbnailRes="maxres"
+      thumbnailSrc={homeYoutubeCover.src}
       title="4DPrime - The Future of Digital Marketing"
       videoId="E92AL5sb_u8"
     />
