@@ -39,6 +39,9 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
   }
 
   initSearch()
+  document.addEventListener('astro:after-swap', () => {
+    initSearch()
+  })
 </script>
 
 <style>
