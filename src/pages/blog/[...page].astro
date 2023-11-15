@@ -5,6 +5,7 @@ import Layout from '@layouts/Layout.astro'
 import Container from '@components/container.astro'
 import Sectionhead from '@components/sectionhead.astro'
 import Pagination from '@components/pagination.astro'
+import Cta from '@components/cta.astro'
 
 // Sort content entries by publication date
 
@@ -26,7 +27,7 @@ export async function getStaticPaths({ paginate }) {
 const { page } = Astro.props
 ---
 
-<Layout title="Blog">
+<Layout title="Blog" footerMargin={false}>
   <Container>
     <Sectionhead>
       <Fragment slot="title">Our Blog</Fragment>
@@ -77,4 +78,5 @@ const { page } = Astro.props
       <Pagination url={page.url} />
     </main>
   </Container>
+  <Cta />
 </Layout>

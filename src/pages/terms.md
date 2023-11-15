@@ -101,16 +101,6 @@ Any attempts to undermine, slander, libel, threaten, or cause harm to a 4DPrime 
 
 4DPrime also will not, except for reasons stated below, disclose to third parties the contents of any electronic mail, electronic communications, or other electronic data that 4DPrime stores or transmits for its customers. The circumstances under which 4DPrime will disclose such electronic customer communications or data are when: _ it is necessary in order to provide service to the customer _ it is necessary to protect the legitimate interests of 4DPrime and its customers _ it is required to cooperate with dispute policies, court orders, warrants, or other legal processes that 4DPrime determines in its sole discretion to be valid and enforceable _ it is necessary to provide to a law enforcement agency when the contents appear to pertain to the commission of a crime.
 
-### Privacy Policy
-
-It is the policy of 4DPrime to not disclose any personal information or account data to third parties without prior consent of the individual unless instructed to do so by a court of law or other legal warrant/document.
-
-4DPrime will in the normal course of its business collect personal information from clients and prospective clients, for the purposes of billing, customer service, provision of information, as well as other legitimate business reasons. This information may be stored in a number of ways including electronic and paper formats.
-
-We may also store information about you using cookies which we can later access when you visit our websites at a later date. If you want to delete any cookies that are already on your computer, please refer to your system administrator who will be able to help you locate and remove these cookies. If you want to stop cookies being stored on your computer in future, please refer to your browser manufacturer's instructions by clicking "Help" in your browser menu. Please note that taking either of these measures may prevent you accessing features offered from our sites.
-
-As with most websites, when you visit one of our sites, we will log your IP address and time of access which may be used later for research or fault investigation processes.
-
 ## Complaints Procedure
 
 4DPrime always strives to provide the highest standards of customer service. However, in the unlikely event of you having a complaint we will always do everything possible to ensure it is dealt with quickly and fairly.
