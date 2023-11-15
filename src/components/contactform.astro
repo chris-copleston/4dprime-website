@@ -16,12 +16,17 @@ import Button from './ui/button.astro'
     name="access_key"
     value="0e622fb4-29b4-4a25-958a-d387bedb00cf"
   />
+  <input
+    type="hidden"
+    name="subject"
+    value="4dprime.com: New Contact Form Submission"
+  />
   <!-- Create your free access key from https://web3forms.com/ -->
   <input type="checkbox" class="hidden" style="display:none" name="botcheck" />
   <div class="mb-5">
     <input
       type="text"
-      placeholder="Full Name"
+      placeholder="Full Name *"
       required
       class="w-full px-4 py-3 border placeholder:text-slate-400 rounded-md outline-none focus:ring-4 border-slate-300 focus:border-slate-600 ring-slate-100"
       name="name"
@@ -34,7 +39,7 @@ import Button from './ui/button.astro'
     <label for="email_address" class="sr-only">Email Address</label><input
       id="email_address"
       type="email"
-      placeholder="Email Address"
+      placeholder="Email Address *"
       name="email"
       required
       class="w-full px-4 py-3 border placeholder:text-slate-400 rounded-md outline-none focus:ring-4 border-slate-300 focus:border-slate-600 ring-slate-100"
@@ -46,12 +51,21 @@ import Button from './ui/button.astro'
       Please provide a valid email address.
     </div>
   </div>
+
+  <div class="mb-5">
+    <input
+      type="tel"
+      placeholder="Phone Number (optional)"
+      class="w-full px-4 py-3 border placeholder:text-slate-400 rounded-md outline-none focus:ring-4 border-slate-300 focus:border-slate-600 ring-slate-100"
+      name="phone"
+    />
+  </div>
   <div class="mb-5">
     <select
       required
       class="w-full px-4 py-3 border placeholder:text-slate-400 rounded-md outline-none focus:ring-4 border-slate-300 focus:border-slate-600 ring-slate-100"
-      name="subject">
-      <option value="" disabled selected hidden>Choose a subject</option>
+      name="topic">
+      <option value="" disabled selected hidden>Choose a topic *</option>
       <option value="Mobile Apps">Mobile Apps</option>
       <option value="Websites">Websites</option>
       <option value="Development">Bespoke Development</option>
@@ -60,7 +74,7 @@ import Button from './ui/button.astro'
       <option value="Other">Other</option>
     </select>
     <div class="empty-feedback invalid-feedback text-red-400 text-sm mt-1">
-      Please provide a subject.
+      Please provide a topic.
     </div>
   </div>
 
@@ -68,7 +82,7 @@ import Button from './ui/button.astro'
     <textarea
       name="message"
       required
-      placeholder="Your Message"
+      placeholder="Your Message *"
       class="w-full px-4 py-3 border placeholder:text-slate-400 rounded-md outline-none h-36 focus:ring-4 border-slate-300 focus:border-slate-600 ring-slate-100"
     ></textarea>
     <div class="empty-feedback invalid-feedback text-red-400 text-sm mt-1">
