@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets'
+import type { HTMLAttributes } from 'astro/types'
+export interface Props extends HTMLAttributes<'ul'> {
+  title: string
+  image: ImageMetadata
+  bubbleClass?: string
+}
+const { title, image, bubbleClass = '', ...attrs } = Astro.props
+---
+
+<!-- Chat Bubble -->
+<ul {...attrs}>
+  <!-- Chat Bubble -->
+  <li class="max-w-lg flex gap-x-2 sm:gap-x-4 me-11">
+    <Image
+      class="rounded-full w-12 h-12 object-cover bg-slate-100"
+      src={image}
+      alt={title}
+      width="48"
+      height="48"
+      loading="lazy"
+    />
+
+    <!-- Card -->
+    <div
+      class={`border border-gray-200 rounded-2xl p-4 space-y-3 dark:bg-slate-900 dark:border-gray-700 ${bubbleClass}`}>
+      <slot />
+    </div>
+    <!-- End Card -->
+  </li>
+  <small class="block ml-16 mt-2">{title}</small>
+  <!-- End Chat Bubble -->
+</ul>
+<!-- End Chat Bubble -->

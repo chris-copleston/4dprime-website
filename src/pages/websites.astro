@@ -8,6 +8,8 @@ import Link from '@components/ui/link.astro'
 import LighthouseImage from '../assets/lighthouse.jpg'
 import Cta from '@components/cta.astro'
 import heroWebImage from '../assets/hero-web.png'
+import Quote from '@components/quote.astro'
+import ScottKnox from '../assets/people/scott-knox-headshot.jpg'
 
 // Filter team entries with 'draft: false' & date before current date
 const publishedTeamMembers = await getCollection('team', ({ data }) => {
@@ -73,6 +75,17 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
             100% with accessibility standards. We also make sure your website is
             fully responsive and displays perfectly on all devices.
           </p>
+          <Quote
+            class="mt-8 block"
+            bubbleClass="bg-yellow-50 text-slate-600"
+            title="Scott Knox, President & CEO at Institute of Canadian Agencies"
+            image={ScottKnox}>
+            I have worked with 4DPrime for over 15 years and both sides of the
+            Atlantic. Their bespoke and business-like approach means getting to
+            results and delivery quickly.<br /><br />They respond and create
+            with a sense of purpose and urgency. The 4DPrime team certainly set
+            the pace for ideas and client service standards.
+          </Quote>
 
           <div class="flex items-center gap-4 mt-6">
             <Link

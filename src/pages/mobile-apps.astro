@@ -9,6 +9,8 @@ import Cta from '@components/cta.astro'
 import YouTube from '@components/youtube.astro'
 import heroMobileImage from '../assets/hero-mobile.png'
 import mobileYoutubeCover from '../assets/mobile-youtube-cover.jpg'
+import Quote from '@components/quote.astro'
+import PhilMason from '../assets/people/phil-mason-headshot.jpg'
 ---
 
 <Layout title="Mobile Apps" footerMargin={false}>
@@ -97,7 +99,7 @@ import mobileYoutubeCover from '../assets/mobile-youtube-cover.jpg'
           src={heroMobileImage}
           alt="Feature Image"
           formats={['avif', 'webp']}
-          width="340"
+          width="614"
           loading="lazy"
         />
       </div>
@@ -129,6 +131,17 @@ import mobileYoutubeCover from '../assets/mobile-youtube-cover.jpg'
             server and database development so we can take care of everything,
             even hosting.
           </p>
+
+          <Quote
+            class="mt-8 block"
+            bubbleClass="bg-yellow-50 text-slate-600"
+            title="Phil Mason, Creative Director at Hype Studios"
+            image={PhilMason}>
+            We approached 4DPrime to assist us with the development of an iPad
+            app project.<br /><br />From the outset Chris and his team were
+            extremely easy to deal with and delivered a great solution within a
+            very tight budget.
+          </Quote>
 
           <div class="flex items-center gap-4 mt-6">
             <Link
