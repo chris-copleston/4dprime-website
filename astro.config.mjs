@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap'
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://beta.4dprime.com',
+  site: 'https://4dprime.com',
   image: {
     service: sharpImageService(),
     domains: ['source.unsplash.com', 'images.unsplash.com'],
