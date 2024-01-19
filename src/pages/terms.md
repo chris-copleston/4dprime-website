@@ -49,7 +49,7 @@ Requests for cancellation must be submitted via a written notice (email or lette
 
 #### Standard Notice Period
 
-4DPrime requires a two calendar months notice period for cancellation of your account, unless contractually specified otherwise. Cancellation must be received at least one calendar month before your next invoice due date. 4DPrime will then stop all recurring invoicing and you will not be charged again. Any invoices due within the notice period, or overdue invoices on your account must be paid in full prior to cancellation.
+4DPrime requires a two calendar months notice period for cancellation of your account, unless contractually specified otherwise. After the notice period, 4DPrime will then stop all recurring invoicing and you will not be charged again. Any invoices due within the notice period, or overdue invoices on your account must be paid in full prior to cancellation.
 
 ### Refunds and Disputes
 
