@@ -13,7 +13,7 @@ Use of 4DPrime Services constitutes acceptance and agreement to our TOS (Terms o
 
 The TOS may be changed from time to time at the discretion of 4DPrime. The client understands that changes to the TOS by 4DPrime shall not be grounds for non-payment.
 
-4DPrime agrees to provide the client with services for a monthly or annual fee. Clients are allowed to use 4DPrime services for personal and/or business/commercial websites, applications or content.
+4DPrime agrees to provide the client with services for a monthly or annual fee. Clients are allowed to use 4DPrime services for personal and/or business/commercial websites, email, storage, applications or content.
 
 ### Content
 
@@ -49,7 +49,7 @@ Requests for cancellation must be submitted via a written notice (email or lette
 
 #### Standard Notice Period
 
-4DPrime requires a one calendar month notice period for cancellation of your account. Cancellation must be received at least one calendar month before your next invoice due date. 4DPrime will then stop all recurring invoicing and you will not be charged again. Any invoices due within the notice period, or overdue invoices on your account must be paid in full prior to cancellation.
+4DPrime requires a two calendar months notice period for cancellation of your account, unless contractually specified otherwise. Cancellation must be received at least one calendar month before your next invoice due date. 4DPrime will then stop all recurring invoicing and you will not be charged again. Any invoices due within the notice period, or overdue invoices on your account must be paid in full prior to cancellation.
 
 ### Refunds and Disputes
 
