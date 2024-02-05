@@ -15,6 +15,7 @@ import Layout from '@layouts/Layout.astro'
     <Sectionhead>
       <Fragment slot="badge">Testimonials</Fragment>
       <Fragment slot="title">Client Testimonials</Fragment>
+
       <Fragment slot="desc">
         There's a reason why so many customers have trusted us for decades. We
         work with you to make your project a success. But don't take our word
@@ -24,6 +25,9 @@ import Layout from '@layouts/Layout.astro'
   </Container>
   <Container>
     <TestimonialsComponent layout="grid" />
+  </Container>
+  <Container class="mt-10">
+    <Logos />
   </Container>
   <Cta />
 </Layout>
