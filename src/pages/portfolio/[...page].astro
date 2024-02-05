@@ -30,9 +30,14 @@ const { page } = Astro.props
 <Layout title="Portfolio" footerMargin={false}>
   <Container>
     <Sectionhead>
-      <Fragment slot="title">Our Work</Fragment>
+      <Fragment slot="badge">Portfolio</Fragment>
+
+      <Fragment slot="title">Samples of Our Work</Fragment>
       <Fragment slot="desc">
-        Here's a few projects we would like to share with you.
+        Here's a few projects we would like to share with you. Also find out <a
+          class="text-blue-400"
+          href="/testimonials">what our clients have to say about us</a
+        >.
       </Fragment>
     </Sectionhead>
     <main class="mt-16">

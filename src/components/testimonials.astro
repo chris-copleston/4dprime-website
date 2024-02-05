@@ -1,4 +1,6 @@
 ---
+const { layout = 'marquee' } = Astro.props // 'grid', 'marquee'
+
 import Card from '@components/card.astro'
 import Container from '@components/container.astro'
 import Review from '@components/review.astro'
@@ -71,18 +73,45 @@ const testimonials = [
 ]
 ---
 
-<Container>
-  <div class="mt-24">
-    <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight text-center">
-      Client <span class="text-indigo-800">Testimonials</span>
-    </h2>
-    <p class="text-lg mt-4 text-slate-600 text-center">
-      4DPrime is trusted by leading companies and brands all over the world.
-    </p>
-  </div>
-</Container>
+{ layout == 'grid' ? (
+  <Container>
+  <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 mt-10" style="justify-items: center;" >
+    <div
+      class="absolute w-96 h-96 blur-2xl -z-10 bg-gradient-radial from-indigo-100 right-1/3 top-100">
+    </div>
+    <div
+      class="absolute w-96 h-96 blur-2xl -z-10 bg-gradient-radial from-purple-100 right-1/3 translate-x-2/3 top-10">
+    </div>
 
-<div class="mt-10 relative overflow-x-clip">
+    {testimonials.map((item) => <Review {...item} />)}
+  </div>
+  </Container>
+) : null}
+
+{ layout == 'marquee' ? (
+  <div class="mt-10 relative overflow-x-clip">
+    <div
+      class="absolute w-96 h-96 blur-2xl -z-10 bg-gradient-radial from-indigo-100 right-1/3 -top-10">
+    </div>
+    <div
+      class="absolute w-96 h-96 blur-2xl -z-10 bg-gradient-radial from-purple-100 right-1/3 translate-x-2/3 top-10">
+    </div>
+    <div
+      class="relative md:flex gap-10 overflow-hidden py-5 group"
+      data-pagefind-ignore>
+      <div
+        class="md:motion-safe:animate-marquee w-auto py-5 overflow-x-auto flex flex-nowrap min-w-full shrink-0 items-stretch gap-10 snap-x snap-mandatory px-5">
+        {testimonials.map((item) => <Review {...item} />)}
+      </div>
+      <!--  ↓↓ Shadow DOM to make the animation smooth (clone) ↓↓ -->
+      <div
+        class="hidden md:flex md:motion-safe:animate-marquee w-auto py-5 overflow-x-auto flex-nowrap min-w-full shrink-0 items-stretch gap-10 snap-x snap-mandatory px-5">
+        {testimonials.map((item) => <Review {...item} />)}
+      </div>
+    </div>
+  </div>
+) : null}
+<!-- <div class="mt-10 relative overflow-x-clip">
   <div
     class="absolute w-96 h-96 blur-2xl -z-10 bg-gradient-radial from-indigo-100 right-1/3 -top-10">
   </div>
@@ -96,10 +125,9 @@ const testimonials = [
       class="md:motion-safe:animate-marquee w-auto py-5 overflow-x-auto flex flex-nowrap min-w-full shrink-0 items-stretch gap-10 snap-x snap-mandatory px-5">
       {testimonials.map((item) => <Review {...item} />)}
     </div>
-    <!--  ↓↓ Shadow DOM to make the animation smooth (clone) ↓↓ -->
     <div
       class="hidden md:flex md:motion-safe:animate-marquee w-auto py-5 overflow-x-auto flex-nowrap min-w-full shrink-0 items-stretch gap-10 snap-x snap-mandatory px-5">
       {testimonials.map((item) => <Review {...item} />)}
     </div>
   </div>
-</div>
+</div> -->

@@ -1,0 +1,29 @@
+---
+import Sectionhead from '@components/sectionhead.astro'
+import Container from '@components/container.astro'
+import Cta from '@components/cta.astro'
+import FeatureAlt from '@components/feature-alt.astro'
+import Steps from '@components/steps.astro'
+import Hero from '@components/hero.astro'
+import Logos from '@components/logos.astro'
+import TestimonialsComponent from '@components/testimonials.astro'
+import Layout from '@layouts/Layout.astro'
+---
+
+<Layout footerMargin={false}>
+  <Container>
+    <Sectionhead>
+      <Fragment slot="badge">Client Testimonials</Fragment>
+      <Fragment slot="title">Client Testimonials</Fragment>
+      <Fragment slot="desc">
+        There's a reason why so many customers have trusted us for decades. We
+        work with you to make your project a success. But don't take our word
+        for it, see what our customers have to say.
+      </Fragment>
+    </Sectionhead>
+  </Container>
+  <Container>
+    <TestimonialsComponent layout="grid" />
+  </Container>
+  <Cta />
+</Layout>
