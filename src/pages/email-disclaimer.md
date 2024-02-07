@@ -35,4 +35,4 @@ Please do not print emails unless it is necessary. Every unprinted email helps t
 
 ## Employees liability
 
-The views and opinions included in this email belong to their author and do not necessarily mirror the views and opinions of the Company. Our employees are obliged not to make any defamatory clauses, infringe, or authorize infringement of any legal right. Therefore, the company will not take any liability for such statements included in emails. In case of any damages or other liabilities arising, employees are fully responsible for the content of their emails.
+The views and opinions included in emails belong to their author and do not necessarily mirror the views and opinions of the Company. Our employees are obliged not to make any defamatory clauses, infringe, or authorize infringement of any legal right. Therefore, the company will not take any liability for such statements included in emails. In case of any damages or other liabilities arising, employees are fully responsible for the content of their emails.
