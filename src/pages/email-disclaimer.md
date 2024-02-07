@@ -5,15 +5,15 @@ author: 'Chris Copleston'
 date: '09 Aug 2022'
 ---
 
-<div class='bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4' role='alert'>
+<div class='bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-4' role='alert'>
     4DPrime is a trading name of Soft Idiom Limited,
     a company incorporated in England and Wales registered
-    number 04283151 whose registered office is at
-    Greenhoe Lodge,
-    65 Greenhoe Place
-    Swaffham,
-    Norfolk,
-    PE37 7EX
+    number 04283151 whose registered office is at<br><br>
+    Greenhoe Lodge,<br>
+    65 Greenhoe Place, <br>
+    Swaffham,<br>
+    Norfolk,<br>
+    PE37 7EX<br>
     (the Company).
 </div>
 
