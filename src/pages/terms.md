@@ -129,6 +129,6 @@ Customer agrees that it shall defend, indemnify, save and hold 4DPrime (or it's 
 
 4DPrime can accept no responsibility for any loss of data or consequences arising from this. 4DPrime always advises clients to back up their site data regularly for their own protection. 4DPrime does not guarantee its own backups of customer data and is not liable for any loss of data, loss of backups or inability to restore service after implementing its disaster recovery plan.
 
-All communications (emails, verbal or written) are between 4DPrime and the client. These communications are private and are therefore not to be shared with any other parties.
+All communications (emails, verbal or written) are between 4DPrime and the client. These communications are private and are therefore not to be shared with any other parties. [Full email disclaimer](/email-disclaimer)
 
 Finally, 4DPrime wishes to emphasize that in accepting services, customers indemnify 4DPrime for the violation of any law or 4DPrime policy that results in loss to 4DPrime or the bringing of any claim against 4DPrime. This means that if 4DPrime is sued because of activities of the customer that violate any law, or this policy, the customer will pay any damages awarded against 4DPrime, plus costs and reasonable legal fees.
