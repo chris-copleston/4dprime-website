@@ -60,6 +60,11 @@ const makeTitle = title
       img {
         content-visibility: auto;
       }
+      /* Remove arrows from list-style - fix for tailwindcss */
+      details > summary.list-none::-webkit-details-marker,
+      details > summary.list-none::marker {
+        display: none;
+      }
     </style>
     <ViewTransitions />
   </head>
