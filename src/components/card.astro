@@ -1,5 +1,12 @@
 ---
 import Badge from "@components/ui/badge.astro";
+
+interface Props {
+  color?: Color;
+  size?: string;
+  class?: string;
+}
+
 const { color = "DEFAULT", size = "md", class: className } = Astro.props;
 
 const colors = {
@@ -7,6 +14,7 @@ const colors = {
   indigo: "bg-indigo-50",
   purple: "bg-purple-50",
 };
+type Color = keyof typeof colors;
 ---
 
 <div
