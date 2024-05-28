@@ -8,7 +8,7 @@ import icon from "astro-icon";
 export default defineConfig({
   site: "https://astroship-pro.web3templates.com",
   image: {
-    domains: ["source.unsplash.com", "images.unsplash.com"],
+    domains: ["unsplash.com", "images.unsplash.com"],
   },
   integrations: [tailwind(), mdx(), icon(), sitemap()],
 });
