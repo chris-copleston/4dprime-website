@@ -1,5 +1,15 @@
 ---
 import { Dropdown as NavDropdown, DropdownItems } from "astro-navbar";
+
+interface Props {
+  title: string;
+  lastItem: boolean;
+  children: {
+    title: string;
+    path: string;
+  }[];
+}
+
 const { title, lastItem, children } = Astro.props;
 ---
 

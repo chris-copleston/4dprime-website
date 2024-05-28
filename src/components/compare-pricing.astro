@@ -1,10 +1,9 @@
 ---
 import Container from "@components/container.astro";
-import Sectionhead from "@components/sectionhead.astro";
 import Link from "@components/ui/link.astro";
 import { Icon } from "astro-icon/components";
 
-const features = [
+const features: string[] = [
   "Custom Domains",
   "Storage",
   "Users",
@@ -28,11 +27,17 @@ const features = [
   // Add more features as needed
 ];
 
-const plans = [
+const plans: {
+  name: string;
+  price: string;
+  popular?: boolean;
+  color: Color;
+  values: (string | boolean)[];
+}[] = [
   {
     name: "Free",
     price: "$0",
-    color: "gray",
+    color: "DEFAULT",
     values: [
       "Single Subdomain",
       "1GB",
@@ -141,10 +146,12 @@ const plans = [
 ];
 
 const colors = {
+  DEFAULT: "text-neutral-800",
   indigo: "text-indigo-600",
   orange: "text-orange-700",
   purple: "text-purple-600",
 };
+type Color = keyof typeof colors;
 ---
 
 <Container>
@@ -168,9 +175,7 @@ const colors = {
           {
             plans.map((plan) => (
               <div class="px-5">
-                <h3 class:list={[colors[plan.color] || "text-neutral-800"]}>
-                  {plan.name}
-                </h3>
+                <h3 class:list={[colors[plan.color]]}>{plan.name}</h3>
                 <div class="text-xl mt-1 lg:text-2xl font-bold text-black">
                   {plan.price}
                 </div>
