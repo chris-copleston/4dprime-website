@@ -10,9 +10,9 @@ const { title, image, bubbleClass = '', ...attrs } = Astro.props
 ---
 
 <!-- Chat Bubble -->
-<ul {...attrs}>
+<div {...attrs}>
   <!-- Chat Bubble -->
-  <li class="max-w-lg flex gap-x-2 sm:gap-x-4 me-11">
+  <div class="max-w-lg flex gap-x-2 sm:gap-x-4 me-11">
     <Image
       class="rounded-full w-12 h-12 object-cover bg-slate-100"
       src={image}
@@ -28,8 +28,8 @@ const { title, image, bubbleClass = '', ...attrs } = Astro.props
       <slot />
     </div>
     <!-- End Card -->
-  </li>
+  </div>
   <small class="block ml-16 mt-2">{title}</small>
   <!-- End Chat Bubble -->
-</ul>
+</div>
 <!-- End Chat Bubble -->
