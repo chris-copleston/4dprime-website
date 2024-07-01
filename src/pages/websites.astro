@@ -8,6 +8,7 @@ import Link from '@components/ui/link.astro'
 import LighthouseImage from '../assets/performance.jpg'
 import Cta from '@components/cta.astro'
 import heroWebImage from '../assets/hero-web.png'
+import AIBotImage from '../assets/ai-bot.jpg'
 import Quote from '@components/quote.astro'
 import ScottKnox from '../assets/people/scott-knox-headshot.jpg'
 
@@ -33,11 +34,17 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
           src={heroWebImage}
           alt="Feature Image"
           formats={['avif', 'webp']}
-          width="340"
+          width="800"
           loading="lazy"
         />
         <h3 class="text-2xl font-medium mt-12">100% Google Rated</h3>
-        <p>For Performance, Accessibility, Best Practices and SEO</p>
+        <p>
+          <strong>For Performance, Accessibility, Best Practices and SEO</strong
+          >. Our expert team ensures your website loads lightning-fast, boosting
+          conversions and user satisfaction. We combine best practices with
+          cutting-edge technology to deliver a seamless user experience that
+          search engines love.
+        </p>
         <Picture
           src={LighthouseImage}
           alt="Fast and compliant"
@@ -78,8 +85,25 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
             100% with accessibility standards. We also make sure your website is
             fully responsive and displays perfectly on all devices.
           </p>
+          <h4 class="text-1xl font-medium mt-4 [text-wrap:balance]">
+            AI Chat Bots
+          </h4>
+          <p class="mt-4 text-slate-600 [text-wrap:balance]">
+            Our advanced AI solutions are trained to understand your unique
+            business needs and deliver personalized support to your customers
+            and prospects - 24/7. Let us help you free up time and revolutionise
+            the way you interact with your customers.
+          </p>
+          <Picture
+            src={AIBotImage}
+            alt="AI Bots"
+            formats={['avif', 'webp']}
+            width="340"
+            loading="lazy"
+            class="mt-8 ml-16 rounded-lg shadow-lg border border-gray-200"
+          />
           <Quote
-            class="mt-8 block"
+            class="mt-12 block"
             bubbleClass="bg-yellow-50 text-slate-600"
             title="Scott Knox, President & CEO at Institute of Canadian Agencies"
             image={ScottKnox}>
