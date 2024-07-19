@@ -22,3 +22,4 @@ pnpm-debug.log*
 .vercel
 public/pagefind
 /public/pagefind/pagefind-entry.json
+.aider*
