@@ -5,26 +5,27 @@ import Container from '@components/container.astro'
 import Sectionhead from '@components/sectionhead.astro'
 import Link from '@components/ui/link.astro'
 import Cta from '@components/cta.astro'
-import heroDevelopment from '../assets/hero-development.png'
+import heroAI from '../assets/hero-ai.svg'
 import Quote from '@components/quote.astro'
-import JamieSimmonds from '../assets/people/jamie-simmonds-headshot.jpg'
+import SimonMehlman from '../assets/people/simon-mehlman-headshot.jpg'
 ---
 
-<Layout title='Websites"' footerMargin={false}>
+<Layout title="AI Development" footerMargin={false}>
   <Container>
     <Sectionhead>
-      <Fragment slot="badge">Bespoke Development</Fragment>
-      <Fragment slot="title">Your Development Partner</Fragment>
+      <Fragment slot="badge">AI Solutions</Fragment>
+      <Fragment slot="title">Your AI Development Partner</Fragment>
       <Fragment slot="desc">
-        Decades of experience in building Web, Intranet, SaaS, Backend,
-        Integrations, Databases, APIs and Server Solutions.
+        Unlock the power of Artificial Intelligence with our custom development
+        solutions. From chatbots to natural language processing, we can help you
+        integrate AI into your business.
       </Fragment>
     </Sectionhead>
 
     <div class="grid md:grid-cols-2 py-10">
       <div class="grid place-items-start pb-10 md:pb-0 md:order-2">
         <Picture
-          src={heroDevelopment}
+          src={heroAI}
           alt="Feature Image"
           formats={['avif', 'webp']}
           width="640"
@@ -35,49 +36,62 @@ import JamieSimmonds from '../assets/people/jamie-simmonds-headshot.jpg'
       <div class="grid place-items-center">
         <div class="max-w-lg">
           <h3 class="text-2xl font-medium mt-4 [text-wrap:balance]">
-            The 4DPrime Difference
+            AI Development with 4DPrime
           </h3>
           <p class="mt-4 text-slate-600 [text-wrap:balance]">
-            At 4DPrime we have been building bespoke software solutions since
-            2001. We have worked with a wide range of clients from small
-            startups to large corporations.
+            <strong
+              >AI can boost prodictivity by 10-100 times and rocket profits and
+              customer satisfaction</strong
+            >. Our team of experts can help you build custom AI solutions that
+            fit your business needs. From chatbots to natural language
+            processing, we can integrate AI into your existing systems and boost
+            your business.
           </p>
 
-          <h4 class="text-1xl font-medium mt-4 [text-wrap:balance]">Secure</h4>
-          <p class="mt-4 text-slate-600 [text-wrap:balance]">
-            With projects for the NHS, Ministry of Defence and education, our
-            security credentials are second to none. We have a proven track
-            record of delivering secure solutions.
-          </p>
           <h4 class="text-1xl font-medium mt-4 [text-wrap:balance]">
-            Scalable
+            Custom Agents
           </h4>
           <p class="mt-4 text-slate-600 [text-wrap:balance]">
-            We have built solutions that have scaled to millions of users. We
-            have the experience to build solutions that can grow with your
-            business.
+            <p>
+              We develop AI Agents that will revolutionise your business by
+              automating repetitive tasks and analyzing data to make informed
+              decisions. These intelligent agents can enhance efficiency,
+              improve customer satisfaction, and drive business growth by
+              leveraging machine learning algorithms and natural language
+              processing capabilities.
+            </p>
           </p>
+
           <h4 class="text-1xl font-medium mt-4 [text-wrap:balance]">
-            Run your Business, not your Systems
+            AI Chatbots
           </h4>
           <p class="mt-4 text-slate-600 [text-wrap:balance]">
-            We can manage your solution for you, from hosting to patching and
-            backups. A 4DPrime bespoke system can reduce your IT costs, access
-            your systems remotely, increase the security and robustness and make
-            your systems fit your business instead of your business fitting your
-            systems.
+            Our AI chatbots can be integrated into your existing systems to
+            provide 24/7 support. With custom contexts and machine learning
+            algorithms, our chatbots can learn and improve over time.
+          </p>
+
+          <h4 class="text-1xl font-medium mt-4 [text-wrap:balance]">
+            Advanced Analytics
+          </h4>
+          <p class="mt-4 text-slate-600 [text-wrap:balance]">
+            Our team of experts can help you build custom analytics solutions
+            that provide valuable insights into your business. From data
+            visualization to predictive modeling, we can help you make informed
+            decisions.
           </p>
 
           <Quote
             class="mt-8 block"
             bubbleClass="bg-yellow-50 text-slate-600"
-            title="Jamie Simmonds, CEO at TheTin"
-            image={JamieSimmonds}>
-            Working with the guys at 4DPrime has been really productive and
-            beneficial to our business.<br /><br />They were brought in at short
-            notice, on an extremely technical and specialist project and hit all
-            the deadlines and worked tirelessly to ensure the deliverables were
-            met I would not hesitate in using them again.
+            title="Simon Mehlman, Group Marketing Manager at Ascribe"
+            image={SimonMehlman}>
+            4DPrime is one of those rare companies that manages to treat
+            customers with both professionalism and a personalised, caring
+            service.<br /><br />I have been consistently impressed by their
+            creativity, their helpfulness and the guidance of their technical
+            support teams throughout the construction and launch of our new
+            corporate web presence.
           </Quote>
 
           <div class="flex items-center gap-4 mt-6">
