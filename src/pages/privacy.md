@@ -9,7 +9,9 @@ date: '09 Aug 2022'
 
 **We value your privacy**. That's why this website **does not** use cookies, local or session storage or any other means to track you, either within this website or on the internet.
 
-We do embed YouTube videos that may use cookies and local or session storage, if you choose to play them.
+We do embed YouTube videos that may use cookies and local or session storage, if you choose to play them. For more information, see the https://youtube.com website.
+
+If you book an appointment to chat with us, we use https://calendly.com so you can easily schedule a time we are available. Calendly may use cookies and local or session storage for this service to work. Please see their website for more information.
 
 We also process information you opt to give us on the contact form, so we can respond to your request and help you.
 
