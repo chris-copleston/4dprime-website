@@ -11,7 +11,7 @@ date: '09 Aug 2022'
 
 We do embed YouTube videos that may use cookies and local or session storage, if you choose to play them. For more information, see the <a href="https://youtube.com" target="blank">YouTube</a> website.
 
-If you book an appointment to chat with us, we use <a href="https://calendly.com" target="blank">calendly.com</a> so you can easily schedule a time we are available. Calendly may use cookies and local or session storage for this service to work. Please see their website for more information.
+If you book an appointment with us, we use Calendly so you can easily schedule a time we are available. Calendly may use cookies and local or session storage for this service to work. Please see the <a href="https://calendly.com" target="blank">calendly.com</a> website for more information.
 
 We also process information you opt to give us on the contact form, so we can respond to your request and help you.
 
