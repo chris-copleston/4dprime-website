@@ -65,14 +65,17 @@ import Container from '@components/container.astro'
         <a href="/mobile-apps" aria-label="Mobile Apps">
           <Picture
             id="hero-mobile"
-            class="animate-zoom-in"
+            class="animate-zoom-in max-w-[614px] w-full h-auto"
             src={heroMobileImage}
             alt="Amazing mobile apps"
+            width={1228}
+            height={1224}
             formats={['avif', 'webp']}
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            widths={[240, 540, 720, heroMobileImage.width]}
+            sizes="(max-width: 768px) 614px, 1228px"
+            widths={[614, 1228]}
             loading="eager"
             fetchpriority="high"
+            quality={90}
           />
         </a>
 
@@ -83,10 +86,11 @@ import Container from '@components/container.astro'
             src={heroWebImage}
             alt="Amazing websites"
             formats={['avif', 'webp']}
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            widths={[240, 540, 720, heroWebImage.width]}
+            sizes="(max-width: 768px) 614px, 1228px"
+            widths={[614, 1228]}
             loading="eager"
             fetchpriority="high"
+            quality={90}
           />
         </a>
 
@@ -97,10 +101,11 @@ import Container from '@components/container.astro'
             src={heroSoftwareImage}
             alt="Amazing software"
             formats={['avif', 'webp']}
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            widths={[240, 540, 720, heroSoftwareImage.width]}
+            sizes="(max-width: 768px) 614px, 1228px"
+            widths={[614, 1228]}
             loading="eager"
             fetchpriority="high"
+            quality={90}
           />
         </a>
       </div>
