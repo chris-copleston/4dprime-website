@@ -11,7 +11,7 @@ tags: [mobile apps, cross platform]
 
 **In the ever-evolving landscape of mobile app development, the battle between writing platform-specific code and adopting a cross-platform approach has been a longstanding debate. As technology continues to advance, the advantages of "code once, run anywhere" have become increasingly evident, reshaping the way mobile apps are conceptualized, developed and deployed.**
 
-## The Rise of Cross-Platform Development in 2024
+## The Rise of Cross-Platform Development
 
 Traditionally, developers faced the daunting task of writing separate codebases for iOS and Android, leading to increased development time, higher costs and maintenance challenges. The emergence of cross-platform development has revolutionized this process, offering a more streamlined approach where a single codebase can seamlessly run on multiple platforms.
 
