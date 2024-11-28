@@ -9,44 +9,43 @@ export default defineConfig({
   image: {
     service: sharpImageService(),
     domains: ['source.unsplash.com', 'images.unsplash.com'],
+    // Add default image optimization settings
+    defaults: {
+      quality: 80,
+      format: 'webp',
+    }
   },
-  integrations: [tailwind(), mdx(), sitemap()],
+  integrations: [
+    tailwind({
+      // Minify CSS in production
+      config: { applyBaseStyles: false }
+    }), 
+    mdx(), 
+    sitemap()
+  ],
+  output: 'static',
   build: {
-    assets: 'assets' // This enables asset hashing
+    assets: 'assets',
+    inlineStylesheets: 'auto', // Automatically inline small stylesheets
+    // Use compression
+    compress: true,
+    // Split larger components
+    splitting: true
   },
-  headers: {
-    // Immutable assets (Astro automatically adds content hash to filenames)
-    '/_astro/*': [
-      {
-        key: 'Cache-Control',
-        value: 'public, max-age=31536000, immutable'
+  vite: {
+    build: {
+      cssCodeSplit: true,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Split vendor code into separate chunks
+            'vendor': ['tailwindcss']
+          }
+        }
       }
-    ],
-    // Potentially mutable assets with shorter cache duration
-    '/logo.svg': [
-      {
-        key: 'Cache-Control',
-        value: 'public, max-age=86400, must-revalidate'
-      }
-    ],
-    '/pen-brush.svg': [
-      {
-        key: 'Cache-Control',
-        value: 'public, max-age=86400, must-revalidate'
-      }
-    ],
-    '/search.svg': [
-      {
-        key: 'Cache-Control',
-        value: 'public, max-age=86400, must-revalidate'
-      }
-    ],
-    // Default cache policy for other static assets
-    '/*.{js,css,jpg,jpeg,png,gif,ico,woff,woff2}': [
-      {
-        key: 'Cache-Control',
-        value: 'public, max-age=604800, must-revalidate'
-      }
-    ]
+    },
+    ssr: {
+      noExternal: ['@astrojs/*']
+    }
   }
 })
