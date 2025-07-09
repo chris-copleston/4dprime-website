@@ -25,15 +25,86 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
 <script>
   const initSearch = () => {
     if (!document.querySelector('#search')) return
+    
+    // Get search term from URL
+    const urlParams = new URLSearchParams(window.location.search)
+    const searchTerm = urlParams.get('q')
+    
+    // Initialize Pagefind with custom result template
     // @ts-ignore
-    new PagefindUI({ element: '#search', showSubResults: true })
-    const searchInput = document.querySelector(
-      '#search input',
-    ) as HTMLInputElement | null
+    const search = new PagefindUI({ 
+      element: '#search',
+      showSubResults: true,
+      processResult: (result) => {
+        // Fix image paths in search results
+        if (result.meta?.image) {
+          let imagePath = result.meta.image;
+          // Handle relative paths that start with ./ or ../
+          if (imagePath.startsWith('./')) {
+            // For blog post images, they're in content/blog/assets/
+            if (result.url.includes('/blog/')) {
+              imagePath = imagePath.replace('./', '/blog/');
+            }
+          }
+          // Ensure the path is absolute
+          if (!imagePath.startsWith('http') && !imagePath.startsWith('/')) {
+            imagePath = '/' + imagePath;
+          }
+          result.meta.image = imagePath;
+        }
+        return result;
+      },
+      render: (result) => {
+        // Custom render function to handle image paths in the template
+        let imageUrl = '';
+        if (result.meta?.image) {
+          imageUrl = result.meta.image.startsWith('http') 
+            ? result.meta.image 
+            : result.meta.image.startsWith('/') 
+              ? result.meta.image 
+              : `/${result.meta.image}`;
+        }
+          
+        return `
+          <div class="pagefind-ui__result-inner">
+            ${imageUrl ? `
+              <div class="pagefind-ui__result-image">
+                <img src="${imageUrl}" alt="${result.meta?.title || ''}" loading="lazy" />
+              </div>
+            ` : ''}
+            <div class="pagefind-ui__result-content">
+              <h3 class="pagefind-ui__result-title">
+                <a href="${result.url}" class="pagefind-ui__result-link">
+                  ${result.meta?.title || result.title}
+                </a>
+              </h3>
+              ${result.excerpt ? `<div class="pagefind-ui__result-excerpt">${result.excerpt}</div>` : ''}
+              ${result.meta?.date ? `<div class="pagefind-ui__result-date">${new Date(result.meta.date).toLocaleDateString()}</div>` : ''}
+            </div>
+          </div>
+        `;
+      }
+    });
+    
+    // Focus the search input
+    const searchInput = document.querySelector('#search input') as HTMLInputElement | null
     if (searchInput) {
-      searchInput.focus()
-    }
-    if (searchInput) {
+      if (searchTerm) {
+        // Set the search term and trigger the search
+        searchInput.value = searchTerm
+        // Wait for Pagefind to be fully initialized
+        setTimeout(() => {
+          // Trigger the search
+          const searchButton = document.querySelector('#search button[type="submit"]') as HTMLButtonElement | null
+          if (searchButton) {
+            searchButton.click()
+          } else {
+            // Fallback: dispatch input event to trigger search
+            const inputEvent = new Event('input', { bubbles: true })
+            searchInput.dispatchEvent(inputEvent)
+          }
+        }, 100)
+      }
       searchInput.focus()
     }
   }
@@ -45,32 +116,56 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
 </script>
 
 <style>
-  blockquote {
-    position: relative;
-    padding: 0.5rem;
-    font-size: 1.25rem;
+  /* Search results styling */
+  .pagefind-ui__result {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #e5e7eb;
   }
-  blockquote:before,
-  blockquote:after {
-    position: absolute;
-    color: #f1efe6;
-    font-size: 6rem;
-    width: 4rem;
-    height: 4rem;
+  
+  .pagefind-ui__result-inner {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
   }
-  blockquote:before {
-    content: '“';
-    left: -2rem;
-    top: -2rem;
+  
+  .pagefind-ui__result-image {
+    flex: 0 0 120px;
   }
-  blockquote:after {
-    content: '”';
-    right: -1rem;
-    bottom: 1rem;
+  
+  .pagefind-ui__result-image img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 0.375rem;
   }
-  cite {
-    display: block;
-    line-height: 3;
-    text-align: left;
+  
+  .pagefind-ui__result-content {
+    flex: 1;
+  }
+  
+  .pagefind-ui__result-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+  
+  .pagefind-ui__result-link {
+    color: #1e40af;
+    text-decoration: none;
+  }
+  
+  .pagefind-ui__result-link:hover {
+    text-decoration: underline;
+  }
+  
+  .pagefind-ui__result-excerpt {
+    color: #4b5563;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .pagefind-ui__result-date {
+    color: #6b7280;
+    font-size: 0.75rem;
   }
 </style>
