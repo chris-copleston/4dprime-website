@@ -39,8 +39,8 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       data-reveal
       data-reveal-delay="280"
       class="hero-sub mt-6 max-w-xl text-base sm:text-lg lg:text-xl text-bone/70 leading-relaxed [text-wrap:balance] pointer-events-auto">
-      Mobile apps, websites, bespoke software and AI &mdash; designed and
-      engineered in-house, since before Facebook.
+      We realise your ideas as stunning mobile apps, websites, bespoke software
+      and AI &mdash; designed and engineered in-house, since before Facebook.
     </p>
 
     <div
@@ -241,7 +241,11 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       buildParticles()
     }
 
-    function wrapByWords(text: string, maxWidth: number, m: CanvasRenderingContext2D): string[] {
+    function wrapByWords(
+      text: string,
+      maxWidth: number,
+      m: CanvasRenderingContext2D,
+    ): string[] {
       const words = text.split(' ')
       const lines: string[] = []
       let line = ''
@@ -262,7 +266,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       const cssW = w / dpr
       const cssH = h / dpr
       const isSmall = cssW < 700
-      const isTiny  = cssW < 480
+      const isTiny = cssW < 480
 
       // Available width for the wordmark (CSS pixels)
       const fitWidth = cssW * (isTiny ? 0.94 : isSmall ? 0.92 : 0.72)
@@ -274,7 +278,10 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       // 1) Try the whole phrase on one line and see what font size that needs.
       octx.font = `800 100px 'Inter Variable', Inter, system-ui, sans-serif`
       const fullAt100 = Math.max(1, octx.measureText(WORD).width)
-      const longestWord = WORD.split(' ').reduce((a, b) => (a.length >= b.length ? a : b), '')
+      const longestWord = WORD.split(' ').reduce(
+        (a, b) => (a.length >= b.length ? a : b),
+        '',
+      )
       const longestAt100 = Math.max(1, octx.measureText(longestWord).width)
 
       // What font size would the whole phrase need to fill our fitWidth?
@@ -282,7 +289,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
 
       // Ideal "hero size" font, capped by available height
       const idealFont = Math.min(
-        isTiny ? cssW * 0.20 : isSmall ? cssW * 0.16 : cssW * 0.11,
+        isTiny ? cssW * 0.2 : isSmall ? cssW * 0.16 : cssW * 0.11,
         cssH * 0.22,
       )
 
@@ -304,7 +311,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       const lineH = fontPx * 1.02
       const maxTotalH = cssH * 0.58
       if (lines.length * lineH > maxTotalH) {
-        fontPx = (maxTotalH / lines.length) / 1.02
+        fontPx = maxTotalH / lines.length / 1.02
         octx.font = `800 ${fontPx}px 'Inter Variable', Inter, system-ui, sans-serif`
         lines = wrapByWords(WORD, fitWidth, octx)
       }
@@ -404,11 +411,11 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     // Brand colour palette — sampled across the wordmark.
     // Stops are interpolated in RGB so the gradient feels continuous.
     const PALETTE: Array<[number, number, number]> = [
-      [99,  102, 241],   // iris
-      [139, 92,  246],   // violet
-      [34,  211, 238],   // cyan
-      [244, 114, 182],   // plasma
-      [251, 191, 36],    // solar
+      [99, 102, 241], // iris
+      [139, 92, 246], // violet
+      [34, 211, 238], // cyan
+      [244, 114, 182], // plasma
+      [251, 191, 36], // solar
     ]
     function sampleColor(t: number): [number, number, number] {
       // wrap t into 0..1 (allows drift to go past edges)
