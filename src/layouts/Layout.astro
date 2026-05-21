@@ -20,6 +20,19 @@ const { title, footerMargin = true } = Astro.props
 const makeTitle = title
   ? title + ' 🚀 ' + '4DPrime'
   : '4DPrime 🚀 Rocket your Mobile Apps, Websites and Software Projects'
+
+// Pages that open with a dark cinematic hero. On these, the navbar is
+// transparent (with light text) until the user scrolls into the white
+// content below.
+const darkHeroPaths = [
+  '/',
+  '/mobile-apps',
+  '/websites',
+  '/development',
+  '/ai',
+]
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/'
+const hasDarkHero = darkHeroPaths.includes(pathname)
 ---
 
 <!doctype html>
@@ -68,6 +81,8 @@ const makeTitle = title
 
       html { scroll-behavior: smooth; }
 
+      h2 { font-weight: 900 !important; }
+
       body {
         background: #ffffff;
         -webkit-font-smoothing: antialiased;
@@ -83,32 +98,45 @@ const makeTitle = title
       /* Subtle text emphasis - kept Inter, slightly lighter weight, single accent */
       .text-accent { color: #6366F1; }
 
-      /* Restrained gradient for key heading words (Apple-style, no pink, no italic) */
+      /* Purple/blue/pink only — no cyan/teal, no warm tones. */
       .text-gradient {
-        background: linear-gradient(120deg, #818CF8 0%, #A78BFA 50%, #67E8F9 100%);
-        background-size: 200% 200%;
+        background: linear-gradient(110deg,
+          #6366F1 0%,
+          #8B5CF6 25%,
+          #C084FC 50%,
+          #F472B6 75%,
+          #60A5FA 95%,
+          #6366F1 100%);
+        background-size: 220% 220%;
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
         color: transparent;
-        animation: text-gradient-drift 14s ease-in-out infinite;
+        filter: drop-shadow(0 0 16px rgba(139, 92, 246, 0.35));
+        animation: text-gradient-drift 12s ease-in-out infinite;
       }
       @keyframes text-gradient-drift {
         0%, 100% { background-position: 0% 50%; }
         50%      { background-position: 100% 50%; }
       }
       @media (prefers-reduced-motion: reduce) {
-        .text-gradient { animation: none; }
+        .text-gradient, .text-gradient-dark { animation: none; }
       }
-      /* Darker-tuned gradient when used on light backgrounds */
+      /* Deeper purple/blue/pink for light backgrounds. */
       .text-gradient-dark {
-        background: linear-gradient(120deg, #4F46E5 0%, #7C3AED 50%, #0891B2 100%);
-        background-size: 200% 200%;
+        background: linear-gradient(110deg,
+          #4338CA 0%,
+          #7C3AED 25%,
+          #9333EA 50%,
+          #DB2777 75%,
+          #2563EB 95%,
+          #4338CA 100%);
+        background-size: 220% 220%;
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
         color: transparent;
-        animation: text-gradient-drift 14s ease-in-out infinite;
+        animation: text-gradient-drift 12s ease-in-out infinite;
       }
 
       /* Shimmer used only on the hero rotator word, very subtle */
@@ -317,7 +345,7 @@ const makeTitle = title
     </style>
     <ViewTransitions fallback="none" />
   </head>
-  <body>
+  <body class:list={[hasDarkHero && 'has-dark-hero']}>
     <div class="cursor-halo" id="cursor-halo"></div>
     <Navbar />
     <slot />

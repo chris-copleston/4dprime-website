@@ -102,14 +102,18 @@ const menuitems = [
 
 <style is:global>
   .navbar {
-    backdrop-filter: blur(0px);
+    background: transparent;
+    transition:
+      background 0.3s ease,
+      backdrop-filter 0.3s ease;
   }
   .navbar-active {
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.78);
     border-bottom: 1px solid transparent;
     backdrop-filter: saturate(180%) blur(16px);
     -webkit-backdrop-filter: saturate(180%) blur(16px);
-    position: relative;
+    /* (was position: relative — that killed the sticky behaviour; sticky
+       creates its own positioning context for ::after anyway.) */
   }
   .navbar-active::after {
     content: '';
@@ -119,7 +123,11 @@ const menuitems = [
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.45), rgba(34, 211, 238, 0.45), transparent);
   }
-  .logo { width: 150px; height: 36.48px; }
+  .logo {
+    width: 150px;
+    height: 36.48px;
+    transition: filter 0.3s ease;
+  }
   .nav-link {
     position: relative;
     color: rgb(75, 85, 99);
@@ -160,4 +168,70 @@ const menuitems = [
     transition: background 0.2s, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .cta-pill:hover { background: #1f2233; }
+
+  /* When the navbar is in its white-blur state, the Let's chat
+     neon-ring button needs dark text (it sits on white now). */
+  .navbar-active .cta-pill.btn-magnetic,
+  .navbar-active .cta-pill {
+    color: #0a0b1f !important;
+  }
+
+  /* ============================================================
+     INTERNAL PAGES (no dark hero) — navbar always has the
+     white-blur look, never the transparent-over-dark state.
+     ============================================================ */
+  body:not(.has-dark-hero) .navbar {
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: saturate(180%) blur(16px);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    position: sticky;
+  }
+  body:not(.has-dark-hero) .navbar::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.45), rgba(34, 211, 238, 0.45), transparent);
+    pointer-events: none;
+  }
+  body:not(.has-dark-hero) .navbar .cta-pill.btn-magnetic,
+  body:not(.has-dark-hero) .navbar .cta-pill {
+    color: #0a0b1f !important;
+  }
+
+  /* ============================================================
+     DARK-HERO PAGES — navbar is transparent with light text until
+     the user scrolls past the hero (then navbar-active kicks in).
+     ============================================================ */
+  body.has-dark-hero .navbar:not(.navbar-active) .nav-link {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  body.has-dark-hero .navbar:not(.navbar-active) .nav-link:hover {
+    color: #ffffff;
+  }
+  body.has-dark-hero .navbar:not(.navbar-active) .nav-icon-btn {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  body.has-dark-hero .navbar:not(.navbar-active) .nav-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+  }
+  body.has-dark-hero .navbar:not(.navbar-active) .logo {
+    filter: brightness(0) invert(1);
+  }
+  body.has-dark-hero .navbar:not(.navbar-active) .cta-pill {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  body.has-dark-hero .navbar:not(.navbar-active) .cta-pill:hover {
+    background: rgba(255, 255, 255, 0.20);
+  }
+  /* Dropdown button uses similar styling as nav-link but has its own class
+     in the Dropdown component — selector covers the inline button text colour. */
+  body.has-dark-hero .navbar:not(.navbar-active) button {
+    color: rgba(255, 255, 255, 0.85);
+  }
 </style>

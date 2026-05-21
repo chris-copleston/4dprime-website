@@ -3,7 +3,8 @@ import ShaderCanvas from '@components/shader-canvas.astro'
 ---
 
 <section
-  class="hero relative overflow-hidden bg-ink text-bone"
+  class="hero relative overflow-hidden bg-ink text-bone -mt-20"
+  style="min-height: 100vh;"
   data-pagefind-ignore="all"
   transition:persist>
   <!-- Cinematic shader: deep aurora base + three drifting star layers.
@@ -66,14 +67,13 @@ import ShaderCanvas from '@components/shader-canvas.astro'
         <span>See what we make</span>
       </a>
     </div>
-
   </main>
 
   <a
     href="#what-we-make"
     aria-label="Scroll to what we make"
     data-scroll-cue
-    class="scroll-cue absolute left-1/2 bottom-8 z-[1] hidden sm:flex flex-col items-center gap-2 text-bone/45 hover:text-bone transition-colors">
+    class="scroll-cue absolute left-1/2 bottom-32 z-[3] hidden sm:flex flex-col items-center gap-2 text-bone/55 hover:text-bone transition-colors">
     <span class="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
     <span class="scroll-cue-track"><span class="scroll-cue-dot"></span></span>
   </a>
@@ -212,8 +212,10 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       transparent 88%
     );
     mix-blend-mode: screen;
-    /* Invisible at rest — appears only as you scroll, ramping fast. */
-    opacity: min(1, calc(var(--rise) * 2.6));
+    /* Soft baseline glow visible at rest, builds to full brightness as
+       the user scrolls. The arch behind sits low until scroll, so what
+       reads at rest is mostly the glow. */
+    opacity: min(1, calc(0.5 + var(--rise) * 1.6));
     transition: opacity 80ms linear;
   }
 
@@ -227,7 +229,10 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     --planet-d: 800vw;
     position: absolute;
     left: 50%;
-    top: calc(100% - 70px);
+    /* At rest the arch hides almost completely (just a 4px sliver peeking).
+       As --rise grows with scroll, the arch climbs to its full visible
+       height (~70px). */
+    top: calc(100% - 4px - var(--rise) * 66px);
     width: var(--planet-d);
     height: var(--planet-d);
     margin-left: calc(var(--planet-d) / -2);
@@ -238,6 +243,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       0 -1px 0 rgba(255, 255, 255, 0.95),
       0 -10px 30px rgba(255, 255, 255, 0.35),
       0 -40px 90px rgba(210, 226, 255, 0.18);
+    transition: top 90ms linear;
   }
 
   @media (max-width: 640px) {
@@ -247,7 +253,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     }
     .horizon-planet {
       --planet-d: 1100vw;
-      top: calc(100% - 50px);
+      top: calc(100% - 3px - var(--rise) * 47px);
     }
   }
 </style>
@@ -268,7 +274,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       '(prefers-reduced-motion: reduce)',
     ).matches
 
-    const WORD = 'Rocket your ideas'
+    const WORD = 'Rocket your  ideas'
 
     interface Particle {
       hx: number
@@ -652,8 +658,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       if (cue) cue.style.setProperty('--cue-y', curCue.toFixed(1) + 'px')
 
       const settled =
-        Math.abs(target - cur) < 0.001 &&
-        Math.abs(targetCue - curCue) < 0.5
+        Math.abs(target - cur) < 0.001 && Math.abs(targetCue - curCue) < 0.5
       if (!settled) {
         raf = requestAnimationFrame(tick)
       } else {
