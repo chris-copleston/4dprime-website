@@ -20,34 +20,15 @@ const logos = [
     Trusted by startups, SMEs, governments &amp; enterprises worldwide
   </p>
 
-  <div class="logo-marquee mt-8 relative">
-    <div class="logo-fade logo-fade-left"></div>
-    <div class="logo-fade logo-fade-right"></div>
-
-    <div class="logo-track motion-safe:animate-marquee-slow flex items-center gap-12 lg:gap-20 shrink-0">
-      {[0, 1].map(() => (
-        <div class="flex items-center gap-12 lg:gap-20 shrink-0 pr-12 lg:pr-20">
-          {logos.map((logo) => (
-            <div class="logo-cell h-9 md:h-11 grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition duration-500">
-              <Image class="brand-logo h-full w-auto" src={logo.src} alt={`${logo.alt} logo`} height={44} />
-            </div>
-          ))}
-        </div>
-      ))}
-    </div>
+  <div class="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-6 md:gap-x-16 lg:gap-x-20">
+    {logos.map((logo) => (
+      <div class="logo-cell h-9 md:h-11 grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition duration-500">
+        <Image class="brand-logo h-full w-auto" src={logo.src} alt={`${logo.alt} logo`} height={44} />
+      </div>
+    ))}
   </div>
 </section>
 
 <style>
-  .logo-marquee {
-    overflow: hidden;
-    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-  }
-  .logo-track { width: max-content; }
-  .logo-fade { position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none; }
   .brand-logo { max-width: 160px; }
-  @media (prefers-reduced-motion: reduce) {
-    .logo-track { animation: none !important; flex-wrap: wrap; justify-content: center; }
-  }
 </style>
