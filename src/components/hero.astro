@@ -217,6 +217,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       vy: number // velocity
       r: number // radius
       h: number // hue offset 0..1 across word (for color)
+      cj: number // per-particle colour jitter (-0.06..+0.06), stable
       tw: number // twinkle phase
     }
     let particles: Particle[] = []
@@ -376,6 +377,10 @@ import ShaderCanvas from '@components/shader-canvas.astro'
           existing.hx = np.x
           existing.hy = np.y
           existing.h = np.hRatio
+          // Backfill cj if missing from previous build
+          if (typeof existing.cj !== 'number') {
+            existing.cj = (Math.random() - 0.5) * 0.13
+          }
           next.push(existing)
         } else {
           // Spawn from random off-screen positions for the initial gather effect
@@ -388,6 +393,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
             vy: (Math.random() - 0.5) * 4,
             r: (Math.random() * 0.8 + 0.7) * dpr,
             h: np.hRatio,
+            cj: (Math.random() - 0.5) * 0.13, // ±0.065 stable jitter
             tw: Math.random() * Math.PI * 2,
           })
         }
@@ -395,12 +401,41 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       particles = next
     }
 
+    // Brand colour palette — sampled across the wordmark.
+    // Stops are interpolated in RGB so the gradient feels continuous.
+    const PALETTE: Array<[number, number, number]> = [
+      [99,  102, 241],   // iris
+      [139, 92,  246],   // violet
+      [34,  211, 238],   // cyan
+      [244, 114, 182],   // plasma
+      [251, 191, 36],    // solar
+    ]
+    function sampleColor(t: number): [number, number, number] {
+      // wrap t into 0..1 (allows drift to go past edges)
+      let u = t - Math.floor(t)
+      const seg = u * (PALETTE.length - 1)
+      const i = Math.floor(seg)
+      let f = seg - i
+      // Smoothstep the segment fraction so transitions between stops are
+      // S-curved instead of hard linear — kills sharp visual band edges.
+      f = f * f * (3 - 2 * f)
+      const a = PALETTE[i]
+      const b = PALETTE[Math.min(i + 1, PALETTE.length - 1)]
+      return [
+        a[0] + (b[0] - a[0]) * f,
+        a[1] + (b[1] - a[1]) * f,
+        a[2] + (b[2] - a[2]) * f,
+      ]
+    }
+
     function tick(now: number) {
       // Subtle trail effect for motion blur look
       ctx.fillStyle = 'rgba(6, 6, 15, 0.22)'
       ctx.fillRect(0, 0, w, h)
 
-      ctx.globalCompositeOperation = 'lighter'
+      // 'screen' instead of 'lighter' so overlapping particles in dense
+      // letter regions preserve their colour instead of bleaching to white.
+      ctx.globalCompositeOperation = 'screen'
 
       const mxC = mx * dpr
       const myC = my * dpr
@@ -409,6 +444,8 @@ import ShaderCanvas from '@components/shader-canvas.astro'
 
       // Slow idle breath: a soft wave that travels left→right across the word
       const breath = Math.sin(now * 0.001) * 0.5 + 0.5
+      // Slow palette drift — entire word's gradient slides through the palette
+      const paletteDrift = (now * 0.00006) % 1
 
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i]
@@ -443,17 +480,28 @@ import ShaderCanvas from '@components/shader-canvas.astro'
         p.x += p.vx
         p.y += p.vy
 
-        // Color: gradient along the word + breath glow
-        // h ratio drives hue 240→200→180 (indigo → blue → cyan-ish)
-        const hue = 240 - p.h * 60
-        const sat = 80
-        // brightness pulses with breath, and is higher where particle is near home
+        // === COLOUR ===
+        // Position across the word + drift gives the band travelling effect.
+        // Disturbed particles flash further along the palette toward plasma.
         const dispMag = Math.hypot(dxh, dyh)
         const tight = Math.max(0, 1 - dispMag / 200)
-        const light = 60 + tight * 15 + breath * 6
-        const alpha = 0.55 + tight * 0.35
+        const disturbBoost = Math.min(0.35, dispMag / 240)
+        // Per-particle jitter dithers band edges; cj is stable per particle
+        // so the colour doesn't shimmer frame-to-frame.
+        const t = p.h * 0.7 + paletteDrift + disturbBoost + p.cj
 
-        ctx.fillStyle = `hsla(${hue}, ${sat}%, ${light}%, ${alpha})`
+        const [cr, cg, cb] = sampleColor(t)
+
+        // Each particle keeps near-full palette saturation; with 'screen'
+        // blending, overlap builds richness without bleaching to white.
+        const energy = 0.85 + tight * 0.12 + breath * 0.06 + disturbBoost * 0.2
+        const r = Math.min(255, cr * energy)
+        const g = Math.min(255, cg * energy)
+        const b = Math.min(255, cb * energy)
+
+        const alpha = 0.6 + tight * 0.25 + disturbBoost * 0.1
+
+        ctx.fillStyle = `rgba(${r | 0}, ${g | 0}, ${b | 0}, ${alpha})`
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
         ctx.fill()
