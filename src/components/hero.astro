@@ -4,7 +4,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
 
 <section
   class="hero relative overflow-hidden bg-ink text-bone -mt-20"
-  style="min-height: 100vh;"
+  style="min-height: calc(100vh + 5rem);"
   data-pagefind-ignore="all"
   transition:persist>
   <!-- Cinematic shader: deep aurora base + three drifting star layers.
@@ -229,20 +229,18 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     --planet-d: 800vw;
     position: absolute;
     left: 50%;
-    /* At rest the arch hides almost completely (just a 4px sliver peeking).
-       As --rise grows with scroll, the arch climbs to its full visible
-       height (~70px). */
-    top: calc(100% - 4px - var(--rise) * 66px);
+    /* At rest the arch sits just below the hero bottom edge — completely
+       off-screen, so only the glow above it is visible. As --rise grows
+       with scroll, it climbs to its full visible height (~70px). */
+    top: calc(100% + 6px - var(--rise) * 76px);
     width: var(--planet-d);
     height: var(--planet-d);
     margin-left: calc(var(--planet-d) / -2);
     border-radius: 50%;
     background: #ffffff;
-    /* A subtle atmospheric rim of cool light just above the horizon. */
-    box-shadow:
-      0 -1px 0 rgba(255, 255, 255, 0.95),
-      0 -10px 30px rgba(255, 255, 255, 0.35),
-      0 -40px 90px rgba(210, 226, 255, 0.18);
+    /* Box-shadow rim removed — it was creating a visible white halo at
+       the bottom of the hero even when the arch sat below the viewport.
+       The atmospheric glow now comes solely from .horizon-glow. */
     transition: top 90ms linear;
   }
 
@@ -253,7 +251,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     }
     .horizon-planet {
       --planet-d: 1100vw;
-      top: calc(100% - 3px - var(--rise) * 47px);
+      top: calc(100% + 5px - var(--rise) * 55px);
     }
   }
 </style>
@@ -591,18 +589,105 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       raf = requestAnimationFrame(tick)
     }
 
+    let userActive = false
+
     function onMove(e: PointerEvent) {
       const rect = canvas.getBoundingClientRect()
       mx = e.clientX - rect.left
       my = e.clientY - rect.top
       lastMove = performance.now()
+      userActive = true
+      // Cancel any auto-swipe in progress when the user takes over.
+      if (autoSwipeRaf) {
+        cancelAnimationFrame(autoSwipeRaf)
+        autoSwipeRaf = 0
+      }
     }
     function onLeave() {
       mx = -9999
       my = -9999
+      userActive = false
     }
     window.addEventListener('pointermove', onMove, { passive: true })
     window.addEventListener('pointerleave', onLeave)
+
+    // ============================================================
+    // AUTO-SWIPE — after a period of pointer inactivity, animate a
+    // virtual pointer across the wordmark so the particles scatter
+    // and reform on their own, keeping the page alive.
+    // ============================================================
+    const IDLE_MS = 7000        // 7s of stillness before kicking off
+    const SWIPE_MS = 3400       // duration of a single swipe (slow, deliberate)
+    const SWIPE_GAP = 6000      // 6s gap between swipes
+    let autoSwipeRaf = 0
+    let lastSwipeEnd = 0
+    let swipeKind = 0
+
+    function planSwipe() {
+      const cssW = canvas.clientWidth
+      const cssH = canvas.clientHeight
+      const cy = cssH * 0.5
+      // Three swipe styles, cycled for variety
+      const k = swipeKind++ % 3
+      if (k === 0) {
+        // Left → right, slight downward drift
+        return {
+          x0: -120, y0: cy - 30,
+          x1: cssW + 120, y1: cy + 30,
+        }
+      } else if (k === 1) {
+        // Right → left, slight upward drift
+        return {
+          x0: cssW + 120, y0: cy + 24,
+          x1: -120, y1: cy - 24,
+        }
+      } else {
+        // Diagonal sweep through the wordmark
+        return {
+          x0: -120, y0: cy + 80,
+          x1: cssW + 120, y1: cy - 60,
+        }
+      }
+    }
+
+    function runSwipe() {
+      if (userActive) return
+      const swipe = planSwipe()
+      const start = performance.now()
+      function step(now: number) {
+        if (userActive) { autoSwipeRaf = 0; return }
+        const t = Math.min(1, (now - start) / SWIPE_MS)
+        // Ease in-out so the swipe accelerates through the centre
+        const e = t < 0.5
+          ? 2 * t * t
+          : 1 - Math.pow(-2 * t + 2, 2) / 2
+        mx = swipe.x0 + (swipe.x1 - swipe.x0) * e
+        my = swipe.y0 + (swipe.y1 - swipe.y0) * e
+        if (t < 1) {
+          autoSwipeRaf = requestAnimationFrame(step)
+        } else {
+          // Park the virtual pointer offscreen so particles spring back
+          mx = -9999
+          my = -9999
+          lastSwipeEnd = performance.now()
+          autoSwipeRaf = 0
+        }
+      }
+      autoSwipeRaf = requestAnimationFrame(step)
+    }
+
+    function idleWatch() {
+      if (reduced) return
+      const now = performance.now()
+      const idle = now - lastMove > IDLE_MS
+      const readyForNext = now - lastSwipeEnd > SWIPE_GAP
+      if (idle && !autoSwipeRaf && !userActive && readyForNext) {
+        runSwipe()
+      }
+      setTimeout(idleWatch, 500)
+    }
+    // First idle check happens AFTER the initial idle window
+    setTimeout(idleWatch, IDLE_MS)
 
     // Resize observer
     const ro = new ResizeObserver(resize)
