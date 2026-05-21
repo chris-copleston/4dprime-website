@@ -1,0 +1,628 @@
+---
+interface Props {
+  variant?: 'aurora' | 'plasma' | 'grid' | 'mesh' | 'liquid' | 'spectrum' | 'noir' | 'cinematic'
+  class?: string
+  intensity?: number
+  hueShift?: number
+  speed?: number
+  fallbackClass?: string
+}
+
+const {
+  variant = 'aurora',
+  class: className = '',
+  intensity = 1,
+  hueShift = 0,
+  speed = 1,
+  fallbackClass = '',
+} = Astro.props
+---
+
+<div class:list={['shader-host', className]} data-shader-host>
+  <canvas
+    class="shader-canvas"
+    data-shader-variant={variant}
+    data-shader-intensity={intensity}
+    data-shader-hue={hueShift}
+    data-shader-speed={speed}
+    aria-hidden="true"></canvas>
+  <div class:list={['shader-fallback', fallbackClass]} data-shader-variant-fallback={variant}></div>
+</div>
+
+<style>
+  .shader-host {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .shader-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .shader-fallback {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  [data-shader-variant-fallback='aurora'] {
+    background:
+      radial-gradient(60% 80% at 20% 10%, rgba(99, 102, 241, 0.55), transparent 60%),
+      radial-gradient(50% 70% at 80% 30%, rgba(139, 92, 246, 0.45), transparent 60%),
+      radial-gradient(70% 60% at 60% 90%, rgba(34, 211, 238, 0.35), transparent 60%),
+      linear-gradient(180deg, #06060f 0%, #0a0b1f 100%);
+  }
+  [data-shader-variant-fallback='plasma'] {
+    background:
+      radial-gradient(50% 70% at 30% 40%, rgba(244, 114, 182, 0.45), transparent 60%),
+      radial-gradient(60% 70% at 70% 60%, rgba(99, 102, 241, 0.55), transparent 60%),
+      linear-gradient(120deg, #4338ca 0%, #6d28d9 100%);
+  }
+  [data-shader-variant-fallback='grid'] {
+    background:
+      linear-gradient(180deg, #06060f 0%, #0a0b1f 100%);
+  }
+  [data-shader-variant-fallback='mesh'] {
+    background:
+      radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.25), transparent 60%),
+      linear-gradient(180deg, #050714 0%, #0a0b1f 100%);
+  }
+  [data-shader-variant-fallback='liquid'] {
+    background:
+      radial-gradient(40% 60% at 60% 40%, rgba(139, 92, 246, 0.45), transparent 60%),
+      linear-gradient(180deg, #0a0b1f 0%, #1e1b4b 100%);
+  }
+  [data-shader-variant-fallback='spectrum'] {
+    background: linear-gradient(120deg, #4338ca, #8b5cf6, #22d3ee, #f472b6);
+  }
+  [data-shader-variant-fallback='noir'] {
+    background:
+      radial-gradient(60% 80% at 30% 20%, rgba(58, 70, 130, 0.35), transparent 60%),
+      radial-gradient(50% 60% at 70% 80%, rgba(40, 30, 80, 0.4), transparent 60%),
+      linear-gradient(180deg, #06060f 0%, #0a0b1f 100%);
+  }
+  [data-shader-variant-fallback='cinematic'] {
+    background:
+      radial-gradient(70% 90% at 30% 30%, rgba(75, 90, 200, 0.40), transparent 60%),
+      radial-gradient(50% 70% at 70% 70%, rgba(50, 100, 200, 0.30), transparent 60%),
+      radial-gradient(40% 40% at 80% 20%, rgba(160, 200, 255, 0.20), transparent 60%),
+      linear-gradient(180deg, #04050d 0%, #0a0b1f 100%);
+  }
+  .shader-host.shader-failed .shader-canvas {
+    display: none;
+  }
+  .shader-host.shader-failed .shader-fallback {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .shader-host .shader-canvas {
+      display: none;
+    }
+    .shader-host .shader-fallback {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script is:inline>
+  ;(() => {
+    if (window.__shaderEngineBooted) return
+    window.__shaderEngineBooted = true
+
+    const VS = `
+      attribute vec2 a_pos;
+      void main(){ gl_Position = vec4(a_pos, 0.0, 1.0); }
+    `
+
+    const COMMON = `
+      precision highp float;
+      uniform vec2 u_res;
+      uniform float u_time;
+      uniform vec2 u_mouse;
+      uniform float u_intensity;
+      uniform float u_hue;
+
+      vec3 hueRotate(vec3 c, float h){
+        const mat3 toY = mat3(0.299,0.587,0.114, 0.596,-0.274,-0.322, 0.211,-0.523,0.312);
+        const mat3 toR = mat3(1.0,0.956,0.621, 1.0,-0.272,-0.647, 1.0,-1.106,1.703);
+        vec3 yiq = toY * c;
+        float a = h;
+        float ca = cos(a), sa = sin(a);
+        yiq = vec3(yiq.x, yiq.y*ca - yiq.z*sa, yiq.y*sa + yiq.z*ca);
+        return clamp(toR * yiq, 0.0, 1.0);
+      }
+
+      float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+      float noise(vec2 p){
+        vec2 i = floor(p); vec2 f = fract(p);
+        float a = hash(i);
+        float b = hash(i + vec2(1.0, 0.0));
+        float c = hash(i + vec2(0.0, 1.0));
+        float d = hash(i + vec2(1.0, 1.0));
+        vec2 u = f*f*(3.0-2.0*f);
+        return mix(a,b,u.x) + (c-a)*u.y*(1.0-u.x) + (d-b)*u.x*u.y;
+      }
+      float fbm(vec2 p){
+        float v = 0.0; float a = 0.5;
+        for(int i=0;i<5;i++){ v += a*noise(p); p *= 2.02; a *= 0.5; }
+        return v;
+      }
+    `
+
+    const AURORA = COMMON + `
+      void main(){
+        vec2 uv = gl_FragCoord.xy / u_res.xy;
+        vec2 p = uv - 0.5;
+        p.x *= u_res.x / u_res.y;
+        float t = u_time * 0.08;
+        vec2 mouse = (u_mouse - 0.5);
+        p += mouse * 0.08;
+
+        float n1 = fbm(p * 1.6 + vec2(t, t*0.7));
+        float n2 = fbm(p * 2.4 - vec2(t*0.9, -t*0.5) + n1);
+        float n3 = fbm(p * 0.8 + vec2(-t*0.3, t*0.4) + n2*0.5);
+
+        vec3 c1 = vec3(0.04, 0.04, 0.10);
+        vec3 c2 = vec3(0.39, 0.40, 0.95);
+        vec3 c3 = vec3(0.55, 0.36, 0.96);
+        vec3 c4 = vec3(0.13, 0.83, 0.93);
+        vec3 c5 = vec3(0.96, 0.45, 0.71);
+
+        vec3 col = c1;
+        col = mix(col, c2, smoothstep(0.20, 0.85, n1));
+        col = mix(col, c3, smoothstep(0.45, 0.95, n2));
+        col = mix(col, c4, smoothstep(0.55, 1.05, n3) * 0.85);
+        col += c5 * pow(smoothstep(0.65, 1.0, n2 * n3), 2.0) * 0.6;
+
+        float vig = smoothstep(1.2, 0.4, length(p));
+        col *= vig;
+        col += (hash(uv * u_res.xy + u_time) - 0.5) * 0.025;
+        col = hueRotate(col, u_hue);
+        col *= u_intensity;
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `
+
+    const PLASMA = COMMON + `
+      void main(){
+        vec2 uv = gl_FragCoord.xy / u_res.xy;
+        vec2 p = uv - 0.5;
+        p.x *= u_res.x / u_res.y;
+        float t = u_time * 0.18;
+
+        float v = sin(p.x*4.0 + t) + sin(p.y*4.0 - t*0.8);
+        v += sin(length(p)*8.0 - t*1.5);
+        v += sin(dot(p, vec2(cos(t*0.5), sin(t*0.5))) * 6.0 + t);
+        v = v * 0.25;
+
+        vec3 c1 = vec3(0.27, 0.22, 0.78);
+        vec3 c2 = vec3(0.55, 0.36, 0.96);
+        vec3 c3 = vec3(0.96, 0.45, 0.71);
+        vec3 c4 = vec3(0.13, 0.83, 0.93);
+        vec3 col = mix(c1, c2, 0.5 + 0.5*sin(v*3.14159));
+        col = mix(col, c3, 0.5 + 0.5*cos(v*3.14159*1.3));
+        col = mix(col, c4, pow(0.5 + 0.5*sin(v*6.28 + t), 4.0)*0.7);
+        col += (hash(uv*u_res.xy + u_time)-0.5)*0.02;
+        col = hueRotate(col, u_hue);
+        col *= u_intensity;
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `
+
+    const GRID = COMMON + `
+      vec3 stars(vec2 uv){
+        float s = pow(hash(floor(uv*220.0)), 80.0);
+        return vec3(s) * vec3(0.7, 0.85, 1.0);
+      }
+      void main(){
+        vec2 uv = gl_FragCoord.xy / u_res.xy;
+        vec2 p = uv - 0.5;
+        p.x *= u_res.x / u_res.y;
+        float t = u_time * 0.4;
+
+        vec3 col = mix(vec3(0.02,0.02,0.06), vec3(0.05,0.04,0.14), uv.y);
+        col += stars(uv*1.3 + vec2(0.0, t*0.05));
+
+        // perspective floor grid
+        float horizon = 0.55;
+        if (uv.y < horizon){
+          float depth = (horizon - uv.y);
+          float perspective = 0.08 / max(depth, 0.001);
+          vec2 gp = vec2((uv.x - 0.5) * perspective * 18.0, perspective * 10.0 - t);
+          vec2 g = abs(fract(gp) - 0.5);
+          float line = min(g.x, g.y);
+          float glow = smoothstep(0.06, 0.0, line) * smoothstep(0.0, 0.35, depth);
+          vec3 lineCol = mix(vec3(0.36, 0.32, 0.96), vec3(0.13, 0.83, 0.93), uv.x);
+          col += lineCol * glow * 1.4;
+        } else {
+          // upper aurora glow
+          float a = fbm(vec2(uv.x*3.0 + t*0.5, uv.y*2.0 - t*0.2));
+          col += vec3(0.36, 0.32, 0.96) * a * 0.35 * smoothstep(horizon, 1.0, uv.y);
+          col += vec3(0.96, 0.45, 0.71) * a * 0.20 * smoothstep(horizon+0.1, 1.0, uv.y);
+        }
+        // sun disc on horizon
+        float d = length((uv - vec2(0.5, horizon)) * vec2(1.0, 2.4));
+        float sun = smoothstep(0.20, 0.0, d);
+        vec3 sunCol = mix(vec3(0.96,0.45,0.71), vec3(1.0,0.7,0.2), smoothstep(0.0,0.2,uv.y - horizon + 0.2));
+        col += sunCol * sun * 1.2;
+        // scanline cuts
+        float scan = step(0.5, fract((uv.y - horizon)*12.0 - t*0.5)) * smoothstep(horizon-0.1, horizon, uv.y);
+        col *= 1.0 - scan*0.25;
+
+        col = hueRotate(col, u_hue);
+        col *= u_intensity;
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `
+
+    const MESH = COMMON + `
+      // simplified neural mesh — moving nodes with connecting glow
+      float node(vec2 p, vec2 c, float r){
+        return smoothstep(r, 0.0, length(p-c));
+      }
+      void main(){
+        vec2 uv = gl_FragCoord.xy / u_res.xy;
+        vec2 p = uv - 0.5;
+        p.x *= u_res.x / u_res.y;
+        float t = u_time * 0.25;
+
+        vec3 col = vec3(0.02, 0.03, 0.08);
+
+        // 9 nodes orbiting
+        float glow = 0.0;
+        vec2 nodes[9];
+        nodes[0] = 0.42*vec2(cos(t*0.7), sin(t*0.9));
+        nodes[1] = 0.50*vec2(cos(t*0.9 + 1.0), sin(t*0.6 + 1.0));
+        nodes[2] = 0.38*vec2(cos(t*0.5 + 2.0), sin(t*1.1 + 2.0));
+        nodes[3] = 0.55*vec2(cos(-t*0.8 + 3.0), sin(t*0.5 + 3.0));
+        nodes[4] = 0.30*vec2(cos(t*1.2 + 4.0), sin(-t*0.9 + 4.0));
+        nodes[5] = 0.60*vec2(cos(t*0.4 + 5.0), sin(t*0.8 + 5.0));
+        nodes[6] = 0.45*vec2(cos(-t*0.6 + 6.0), sin(-t*0.7 + 6.0));
+        nodes[7] = 0.52*vec2(cos(t*1.0 + 7.0), sin(t*0.4 + 7.0));
+        nodes[8] = 0.35*vec2(cos(-t*1.1 + 8.0), sin(t*0.9 + 8.0));
+
+        for (int i=0; i<9; i++){
+          glow += node(p, nodes[i], 0.012) * 1.5;
+          // connect node i to i+1
+          for (int j=0; j<9; j++){
+            if (j>i){
+              vec2 a = nodes[i]; vec2 b = nodes[j];
+              vec2 ba = b - a; vec2 pa = p - a;
+              float h = clamp(dot(pa,ba)/dot(ba,ba), 0.0, 1.0);
+              float d = length(pa - ba*h);
+              float dist = length(ba);
+              float line = smoothstep(0.004, 0.0, d) * smoothstep(0.55, 0.0, dist);
+              glow += line * 0.35;
+            }
+          }
+        }
+
+        vec3 c1 = vec3(0.13, 0.83, 0.93);
+        vec3 c2 = vec3(0.55, 0.36, 0.96);
+        vec3 c3 = vec3(0.96, 0.45, 0.71);
+        col += mix(c1, c2, 0.5 + 0.5*sin(t)) * glow;
+        col += c3 * pow(glow, 3.0) * 0.6;
+
+        // soft vignette
+        col *= smoothstep(1.1, 0.3, length(p));
+        col = hueRotate(col, u_hue);
+        col *= u_intensity;
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `
+
+    const LIQUID = COMMON + `
+      void main(){
+        vec2 uv = gl_FragCoord.xy / u_res.xy;
+        vec2 p = uv - 0.5;
+        p.x *= u_res.x / u_res.y;
+        float t = u_time * 0.12;
+        vec2 m = (u_mouse - 0.5);
+
+        // metaballs
+        float d = 0.0;
+        for(int i=0;i<5;i++){
+          float fi = float(i);
+          vec2 c = 0.35*vec2(cos(t + fi*1.4), sin(t*1.3 + fi*1.7)) + m*0.15;
+          d += 0.06 / max(length(p - c), 0.0001);
+        }
+        float mask = smoothstep(1.6, 2.6, d);
+
+        vec3 bg = mix(vec3(0.04,0.04,0.12), vec3(0.07,0.05,0.18), uv.y);
+        vec3 blob = mix(vec3(0.39,0.40,0.95), vec3(0.96,0.45,0.71), smoothstep(0.0,1.0, p.y+0.5));
+        vec3 col = mix(bg, blob, mask);
+
+        // specular highlight
+        float spec = pow(mask, 6.0) * smoothstep(0.4, 0.1, length(p - vec2(0.1,0.1)));
+        col += vec3(0.85, 0.9, 1.0) * spec * 0.5;
+
+        col = hueRotate(col, u_hue);
+        col *= u_intensity;
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `
+
+    const SPECTRUM = COMMON + `
+      void main(){
+        vec2 uv = gl_FragCoord.xy / u_res.xy;
+        float t = u_time * 0.3;
+        float v = fbm(uv*3.0 + vec2(t, -t*0.6));
+        vec3 c1 = vec3(0.27, 0.22, 0.78);
+        vec3 c2 = vec3(0.55, 0.36, 0.96);
+        vec3 c3 = vec3(0.13, 0.83, 0.93);
+        vec3 c4 = vec3(0.96, 0.45, 0.71);
+        vec3 col = mix(c1, c2, smoothstep(0.2, 0.7, v));
+        col = mix(col, c3, smoothstep(0.4, 0.9, v));
+        col = mix(col, c4, pow(smoothstep(0.65, 1.0, v), 2.0));
+        col = hueRotate(col, u_hue);
+        col *= u_intensity;
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `
+
+    const NOIR = COMMON + `
+      void main(){
+        vec2 uv = gl_FragCoord.xy / u_res.xy;
+        vec2 p = uv - 0.5;
+        p.x *= u_res.x / u_res.y;
+        float t = u_time * 0.05;
+        vec2 mouse = (u_mouse - 0.5);
+        p += mouse * 0.06;
+
+        float n1 = fbm(p * 1.2 + vec2(t, t*0.6));
+        float n2 = fbm(p * 2.0 - vec2(t*0.5, -t*0.3) + n1*0.5);
+        float n3 = fbm(p * 3.5 + vec2(-t*0.3, t*0.4));
+
+        // deep ink base
+        vec3 base = vec3(0.030, 0.033, 0.062);
+        // soft indigo mid tone
+        vec3 mid  = vec3(0.110, 0.135, 0.255);
+        // restrained violet highlight
+        vec3 high = vec3(0.260, 0.220, 0.420);
+
+        vec3 col = mix(base, mid, smoothstep(0.15, 0.85, n1));
+        col = mix(col, high, smoothstep(0.55, 1.05, n2) * 0.8);
+        // soft cool kiss in highlights
+        col += vec3(0.05, 0.12, 0.20) * pow(smoothstep(0.7, 1.05, n3), 2.5);
+
+        // gentle radial brighten from upper-left
+        float lp = 1.0 - clamp(length(p + vec2(0.55, 0.4)) * 0.55, 0.0, 1.0);
+        col += vec3(0.04, 0.05, 0.10) * lp;
+
+        // very subtle vignette
+        col *= smoothstep(1.5, 0.4, length(p));
+        // subtle grain
+        col += (hash(uv * u_res.xy + u_time) - 0.5) * 0.012;
+        col = hueRotate(col, u_hue);
+        col *= u_intensity;
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `
+
+    const CINEMATIC = COMMON + `
+      // Cinematic hero: deep aurora base + drifting bright spotlight +
+      // diagonal volumetric light streaks + twinkling star field.
+      void main(){
+        vec2 uv = gl_FragCoord.xy / u_res.xy;
+        vec2 p = uv - 0.5;
+        p.x *= u_res.x / u_res.y;
+        float t = u_time * 0.06;
+        vec2 mouse = (u_mouse - 0.5);
+        p += mouse * 0.05;
+
+        // === LAYER 1 — deep flowing aurora mesh ===
+        float n1 = fbm(p * 1.0 + vec2(t * 0.5, t * 0.3));
+        float n2 = fbm(p * 2.0 - vec2(t * 0.7, -t * 0.4) + n1 * 0.5);
+        float n3 = fbm(p * 3.5 + vec2(-t * 0.4, t * 0.6) + n2 * 0.3);
+
+        vec3 deep   = vec3(0.018, 0.022, 0.055);
+        vec3 mid    = vec3(0.085, 0.110, 0.230);
+        vec3 high   = vec3(0.260, 0.250, 0.500);
+        vec3 ember  = vec3(0.55, 0.45, 0.85);
+
+        vec3 col = mix(deep, mid, smoothstep(0.15, 0.85, n1));
+        col      = mix(col,  high, smoothstep(0.55, 1.05, n2) * 0.75);
+        col     += ember * pow(smoothstep(0.7, 1.05, n3), 3.0) * 0.45;
+
+        // === LAYER 2 — drifting cinematic spotlight (slow comet) ===
+        // travels left-to-right across the frame, scaled to aspect
+        float aspect = u_res.x / u_res.y;
+        vec2 spot = vec2(
+          (-1.2 + 2.4 * fract(t * 0.08)) * (0.5 * aspect),
+          0.05 + 0.18 * sin(t * 0.5)
+        );
+        float sd = length(p - spot);
+        vec3 spotCol = vec3(0.55, 0.70, 1.00);
+        col += spotCol * exp(-sd * 3.4) * 0.55;
+        // its faint trail
+        col += spotCol * exp(-sd * 1.4) * 0.06;
+
+        // === LAYER 3 — slow diagonal light streaks (volumetric rays) ===
+        // Two streaks at slightly different angles, drifting independently
+        for (int i = 0; i < 2; i++){
+          float fi = float(i);
+          float ang = -0.35 - fi * 0.18;
+          float ca = cos(ang); float sa = sin(ang);
+          vec2 rp = vec2(ca * p.x - sa * p.y, sa * p.x + ca * p.y);
+          float wob = 0.10 * sin(t * 0.6 + fi * 2.0 + rp.x * 2.2);
+          float yOff = 0.10 + fi * 0.22 - 0.18 * fract(t * 0.07 + fi * 0.3);
+          float streak = exp(-abs(rp.y - yOff - wob) * (22.0 - fi * 4.0));
+          // taper the streak ends
+          streak *= smoothstep(-0.9, -0.4, rp.x) * smoothstep(0.9, 0.4, rp.x);
+          col += vec3(0.55, 0.72, 1.00) * streak * (0.28 - fi * 0.08);
+        }
+
+        // === LAYER 4 — particle star field ===
+        // soft fixed twinkling stars at varying density
+        vec2 starGrid = uv * vec2(80.0 * aspect / max(aspect, 1.0), 80.0);
+        vec2 starCell = floor(starGrid);
+        vec2 starFr   = fract(starGrid) - 0.5;
+        float sh = hash(starCell);
+        float present = step(0.985, sh);
+        float twinkle = 0.45 + 0.55 * sin(u_time * 2.5 + sh * 60.0);
+        float sdist = length(starFr);
+        float star = present * smoothstep(0.05, 0.0, sdist) * twinkle;
+        col += vec3(0.85, 0.92, 1.00) * star * 0.9;
+        // a few brighter "anchor" stars
+        float bigPresent = step(0.997, sh);
+        float bigStar = bigPresent * smoothstep(0.12, 0.0, sdist);
+        col += vec3(1.0, 0.96, 0.85) * bigStar * twinkle * 1.2;
+
+        // === LAYER 5 — radial vignette to focus the centre ===
+        col *= smoothstep(1.7, 0.45, length(p));
+
+        // === LAYER 6 — film grain ===
+        col += (hash(uv * u_res.xy + u_time) - 0.5) * 0.013;
+
+        col = hueRotate(col, u_hue);
+        col *= u_intensity;
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `
+
+    const SHADERS = { aurora: AURORA, plasma: PLASMA, grid: GRID, mesh: MESH, liquid: LIQUID, spectrum: SPECTRUM, noir: NOIR, cinematic: CINEMATIC }
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    function compile(gl, type, src){
+      const sh = gl.createShader(type)
+      gl.shaderSource(sh, src)
+      gl.compileShader(sh)
+      if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)){
+        console.warn('Shader compile failed', gl.getShaderInfoLog(sh))
+        gl.deleteShader(sh)
+        return null
+      }
+      return sh
+    }
+
+    function setup(canvas){
+      const variant = canvas.getAttribute('data-shader-variant') || 'aurora'
+      const intensity = parseFloat(canvas.getAttribute('data-shader-intensity') || '1')
+      const hue = parseFloat(canvas.getAttribute('data-shader-hue') || '0')
+      const speed = parseFloat(canvas.getAttribute('data-shader-speed') || '1')
+      const host = canvas.parentElement
+      const fragSrc = SHADERS[variant] || SHADERS.aurora
+
+      if (reduced){ host && host.classList.add('shader-failed'); return null }
+
+      const gl = canvas.getContext('webgl', { antialias: false, alpha: false, premultipliedAlpha: false, powerPreference: 'low-power' })
+      if (!gl){ host && host.classList.add('shader-failed'); return null }
+
+      const vs = compile(gl, gl.VERTEX_SHADER, VS)
+      const fs = compile(gl, gl.FRAGMENT_SHADER, fragSrc)
+      if (!vs || !fs){ host && host.classList.add('shader-failed'); return null }
+      const prog = gl.createProgram()
+      gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog)
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)){ host && host.classList.add('shader-failed'); return null }
+      gl.useProgram(prog)
+
+      const buf = gl.createBuffer()
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf)
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW)
+      const aPos = gl.getAttribLocation(prog, 'a_pos')
+      gl.enableVertexAttribArray(aPos)
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0)
+
+      const uRes = gl.getUniformLocation(prog, 'u_res')
+      const uTime = gl.getUniformLocation(prog, 'u_time')
+      const uMouse = gl.getUniformLocation(prog, 'u_mouse')
+      const uIntensity = gl.getUniformLocation(prog, 'u_intensity')
+      const uHue = gl.getUniformLocation(prog, 'u_hue')
+
+      gl.uniform1f(uIntensity, intensity)
+      gl.uniform1f(uHue, hue)
+
+      const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5 }
+      const onMove = (e) => {
+        const rect = canvas.getBoundingClientRect()
+        const cx = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left
+        const cy = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top
+        mouse.tx = Math.max(0, Math.min(1, cx / rect.width))
+        mouse.ty = 1 - Math.max(0, Math.min(1, cy / rect.height))
+      }
+      window.addEventListener('pointermove', onMove, { passive: true })
+
+      function resize(){
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
+        const w = Math.max(1, Math.floor(canvas.clientWidth * dpr))
+        const h = Math.max(1, Math.floor(canvas.clientHeight * dpr))
+        if (canvas.width !== w || canvas.height !== h){
+          canvas.width = w; canvas.height = h
+          gl.viewport(0, 0, w, h)
+        }
+        gl.uniform2f(uRes, canvas.width, canvas.height)
+      }
+      resize()
+      const ro = new ResizeObserver(resize)
+      ro.observe(canvas)
+
+      let raf = 0
+      let start = performance.now()
+      let running = true
+      let resizeTicker = 0
+      function frame(now){
+        if (!running) return
+        // re-check size periodically to handle late layout changes
+        if ((resizeTicker++ % 30) === 0) resize()
+        mouse.x += (mouse.tx - mouse.x) * 0.06
+        mouse.y += (mouse.ty - mouse.y) * 0.06
+        gl.uniform2f(uMouse, mouse.x, mouse.y)
+        gl.uniform1f(uTime, ((now - start) / 1000) * speed)
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
+        raf = requestAnimationFrame(frame)
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries){
+          if (e.isIntersecting && !running){
+            resize()
+            running = true
+            start = performance.now() - (gl.getUniform(prog, uTime) || 0) * 1000
+            raf = requestAnimationFrame(frame)
+          } else if (!e.isIntersecting && running){
+            running = false
+            cancelAnimationFrame(raf)
+          }
+        }
+      }, { rootMargin: '100px' })
+      io.observe(canvas)
+      // belt-and-braces: re-check size on next two frames after boot
+      requestAnimationFrame(() => { resize(); requestAnimationFrame(resize) })
+
+      raf = requestAnimationFrame(frame)
+
+      return () => {
+        running = false
+        cancelAnimationFrame(raf)
+        io.disconnect()
+        ro.disconnect()
+        window.removeEventListener('pointermove', onMove)
+      }
+    }
+
+    const teardowns = new WeakMap()
+    function boot(){
+      document.querySelectorAll('canvas.shader-canvas').forEach((c) => {
+        if (teardowns.has(c)) return
+        const t = setup(c)
+        if (t) teardowns.set(c, t)
+      })
+    }
+    if (document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', boot, { once: true })
+    } else {
+      // already past parsing - run on next frame so any sibling canvases later in DOM are present
+      requestAnimationFrame(boot)
+    }
+    // also run on load() to catch anything injected late
+    window.addEventListener('load', boot, { once: true })
+    document.addEventListener('astro:after-swap', () => {
+      requestAnimationFrame(boot)
+    })
+  })()
+</script>

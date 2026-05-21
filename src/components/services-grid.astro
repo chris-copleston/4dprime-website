@@ -1,0 +1,98 @@
+---
+import ShaderCanvas from '@components/shader-canvas.astro'
+
+const services = [
+  {
+    title: 'Mobile Apps',
+    desc: 'Cross-platform apps that ship to iOS, Android & tablets — one codebase, every device.',
+    href: '/mobile-apps',
+    accent: 'iris',
+    shader: 'liquid',
+    icon: 'phone',
+  },
+  {
+    title: 'Websites',
+    desc: 'Blazing-fast, accessible sites with 100% Google scores. Bespoke design, infinite scope.',
+    href: '/websites',
+    accent: 'cyan',
+    shader: 'aurora',
+    icon: 'web',
+  },
+  {
+    title: 'Bespoke Software',
+    desc: 'Secure, scalable systems for NHS, MoD & enterprise. Decades of engineering depth.',
+    href: '/development',
+    accent: 'violet',
+    shader: 'grid',
+    icon: 'code',
+  },
+  {
+    title: 'AI Agents',
+    desc: 'Custom agents, chatbots & analytics — trained on your data, integrated everywhere.',
+    href: '/ai',
+    accent: 'plasma',
+    shader: 'mesh',
+    icon: 'sparkle',
+  },
+]
+
+const accentMap: Record<string, { ring: string; glow: string; text: string; from: string }> = {
+  iris: { ring: 'ring-iris/30', glow: 'shadow-[0_0_60px_-15px_rgba(99,102,241,0.6)]', text: 'text-iris', from: 'from-iris/80' },
+  cyan: { ring: 'ring-cyan/30', glow: 'shadow-[0_0_60px_-15px_rgba(34,211,238,0.6)]', text: 'text-cyan', from: 'from-cyan/80' },
+  violet: { ring: 'ring-violet/30', glow: 'shadow-[0_0_60px_-15px_rgba(139,92,246,0.6)]', text: 'text-violet', from: 'from-violet/80' },
+  plasma: { ring: 'ring-plasma/30', glow: 'shadow-[0_0_60px_-15px_rgba(244,114,182,0.6)]', text: 'text-plasma', from: 'from-plasma/80' },
+}
+---
+
+<section id="what-we-make" class="mt-24 lg:mt-32 scroll-mt-20">
+  <div class="max-w-3xl mx-auto text-center" data-reveal>
+    <p class="text-xs uppercase tracking-[0.18em] text-slate-500">What we make</p>
+    <h2 class="mt-3 text-4xl lg:text-6xl font-semibold tracking-[-0.03em] text-slate-900 [text-wrap:balance]">
+      Four disciplines. <span class="text-gradient-dark">One studio.</span>
+    </h2>
+    <p class="mt-5 text-lg text-slate-600 [text-wrap:balance]">
+      Everything in-house — design, engineering, infrastructure and AI. No subcontractors, no handoffs, no surprises.
+    </p>
+  </div>
+
+  <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5" data-reveal-stagger data-stagger-base="80">
+    {services.map((s) => {
+      const a = accentMap[s.accent]
+      return (
+        <a
+          href={s.href}
+          class={`service-card tilt-card group relative block rounded-3xl overflow-hidden bg-ink text-bone ring-1 ${a.ring} ${a.glow} transition-transform`}
+          data-tilt="6">
+          <div class="absolute inset-0 transition-opacity duration-700 [&_canvas]:opacity-90 group-hover:[&_canvas]:opacity-100">
+            <ShaderCanvas variant={s.shader as any} intensity={1.0} />
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/15 group-hover:from-ink/95 group-hover:via-ink/30 group-hover:to-transparent transition-all duration-500"></div>
+
+          <div class="relative p-6 lg:p-7 min-h-[280px] flex flex-col justify-end">
+            <div class="absolute top-6 right-6">
+              <span class={`inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/10 backdrop-blur-md ${a.text} border border-white/20 transition-transform group-hover:rotate-6 group-hover:scale-110`}>
+                {s.icon === 'phone' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg>}
+                {s.icon === 'web' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>}
+                {s.icon === 'code' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg>}
+                {s.icon === 'sparkle' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M12 3v3M12 18v3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M3 12h3M18 12h3M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3"/></svg>}
+              </span>
+            </div>
+
+            <h3 class="text-2xl font-bold tracking-tight">{s.title}</h3>
+            <p class="mt-2 text-sm text-bone/70 [text-wrap:pretty]">{s.desc}</p>
+            <div class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-bone group-hover:gap-3 transition-all">
+              <span>Explore</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 transition-transform group-hover:translate-x-1">
+                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+          </div>
+        </a>
+      )
+    })}
+  </div>
+</section>
+
+<style>
+  .service-card { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s; }
+</style>
