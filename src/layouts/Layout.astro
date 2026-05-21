@@ -155,11 +155,61 @@ const makeTitle = title
         }
       }
 
-      /* Magnetic button base */
+      /* Rotating neon border — applied as a conic-gradient ring around the
+         button via a pseudo-element. The conic gradient rotates via a
+         registered custom property so it animates GPU-cheaply. */
+      @property --neon-angle {
+        syntax: '<angle>';
+        initial-value: 0deg;
+        inherits: false;
+      }
       .btn-magnetic {
+        --neon-angle: 0deg;
+        --neon-pad: 2px;
         position: relative;
-        will-change: transform;
-        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        isolation: isolate;
+        animation: neon-spin 4s linear infinite;
+        /* No fill — just the rotating neon ring framing the text. */
+        background: transparent !important;
+        color: #ffffff !important;
+      }
+      .btn-magnetic:hover {
+        background: transparent !important;
+      }
+      .btn-magnetic::before {
+        content: '';
+        position: absolute;
+        inset: calc(var(--neon-pad) * -1);
+        z-index: -1;
+        border-radius: inherit;
+        padding: var(--neon-pad);
+        background: conic-gradient(
+          from var(--neon-angle),
+          #6366F1 0deg,
+          #22D3EE 90deg,
+          #F472B6 180deg,
+          #FBBF24 270deg,
+          #6366F1 360deg
+        );
+        /* Mask so only the ring is visible — interior is transparent */
+        -webkit-mask:
+          linear-gradient(#000 0 0) content-box,
+          linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        mask:
+          linear-gradient(#000 0 0) content-box,
+          linear-gradient(#000 0 0);
+        mask-composite: exclude;
+        opacity: 0.95;
+        filter: blur(0.4px);
+      }
+      /* (Outer halo pseudo-element removed — it was bleeding the conic
+         gradient inwards and looking like a fill behind the button.) */
+      @keyframes neon-spin {
+        to { --neon-angle: 360deg; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .btn-magnetic { animation: none; }
       }
 
       /* Gradient hairline */
@@ -310,23 +360,8 @@ const makeTitle = title
           })
         }
 
-        function initMagnetic(){
-          if (reduced) return
-          document.querySelectorAll('.btn-magnetic').forEach(btn => {
-            if (btn.__magneticBound) return
-            btn.__magneticBound = true
-            const strength = parseFloat(btn.getAttribute('data-magnetic-strength') || '0.35')
-            btn.addEventListener('pointermove', (e) => {
-              const r = btn.getBoundingClientRect()
-              const x = (e.clientX - r.left - r.width/2) * strength
-              const y = (e.clientY - r.top - r.height/2) * strength
-              btn.style.transform = `translate3d(${x}px,${y}px,0)`
-            })
-            btn.addEventListener('pointerleave', () => {
-              btn.style.transform = ''
-            })
-          })
-        }
+        // (Magnetic cursor-tracking removed — replaced by pure-CSS rotating
+        // neon border on .btn-magnetic elements.)
 
         function initTilt(){
           if (reduced) return
@@ -407,7 +442,6 @@ const makeTitle = title
 
         function boot(){
           initReveals()
-          initMagnetic()
           initTilt()
           initCounters()
           initCursorHalo()
