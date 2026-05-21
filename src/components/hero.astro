@@ -6,8 +6,10 @@ import ShaderCanvas from '@components/shader-canvas.astro'
   class="hero relative overflow-hidden bg-ink text-bone"
   data-pagefind-ignore="all"
   transition:persist>
-  <!-- Cinematic shader at reduced intensity, just for atmospheric depth -->
-  <ShaderCanvas variant="cinematic" intensity={0.55} />
+  <!-- Cinematic shader: deep aurora base + three drifting star layers.
+       Low intensity keeps the background dark; star brightness is boosted
+       inside the shader so they still read against the darker sky. -->
+  <ShaderCanvas variant="cinematic" intensity={0.45} />
 
   <div class="absolute inset-x-0 top-0 h-px bg-white/[0.06]"></div>
 
@@ -65,18 +67,13 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       </a>
     </div>
 
-    <p
-      data-reveal
-      data-reveal-delay="600"
-      class="hero-hint mt-8 text-[11px] uppercase tracking-[0.25em] text-bone/35">
-      &mdash; move your cursor &mdash;
-    </p>
   </main>
 
   <a
     href="#what-we-make"
     aria-label="Scroll to what we make"
-    class="scroll-cue absolute left-1/2 -translate-x-1/2 bottom-8 z-10 hidden sm:flex flex-col items-center gap-2 text-bone/45 hover:text-bone transition-colors">
+    data-scroll-cue
+    class="scroll-cue absolute left-1/2 bottom-8 z-[1] hidden sm:flex flex-col items-center gap-2 text-bone/45 hover:text-bone transition-colors">
     <span class="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
     <span class="scroll-cue-track"><span class="scroll-cue-dot"></span></span>
   </a>
@@ -123,6 +120,14 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     }
   }
 
+  /* Scroll cue slides DOWN as user scrolls, going behind the horizon
+     curve and out of view. --cue-y is driven from JS. */
+  .scroll-cue {
+    --cue-y: 0px;
+    transform: translate(-50%, var(--cue-y));
+    transition: transform 80ms linear;
+  }
+
   .scroll-cue-track {
     display: block;
     width: 1.5px;
@@ -159,37 +164,13 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     }
   }
 
-  .hero-hint {
-    opacity: 0;
-    animation:
-      hintFade 1.4s ease-out 1.2s forwards,
-      hintBreathe 4s ease-in-out 2.6s infinite;
-  }
-  @keyframes hintFade {
-    0% {
-      opacity: 0;
-      transform: translateY(6px);
-    }
-    100% {
-      opacity: 0.5;
-      transform: translateY(0);
-    }
-  }
-  @keyframes hintBreathe {
-    0%,
-    100% {
-      opacity: 0.35;
-    }
-    50% {
-      opacity: 0.6;
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .hero-dot,
-    .scroll-cue-dot,
-    .hero-hint {
+    .scroll-cue-dot {
       animation: none;
+    }
+    .scroll-cue {
+      transition: none;
     }
   }
 
@@ -517,12 +498,16 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     }
 
     function tick(now: number) {
-      // Subtle trail effect for motion blur look
-      ctx.fillStyle = 'rgba(6, 6, 15, 0.22)'
+      // Trail effect: ERASE existing pixels each frame via destination-out.
+      // Painting a translucent dark fill (the old approach) accumulates to
+      // fully opaque and hides the shader behind. Erasing keeps empty areas
+      // transparent so the cosmic shader (stars, aurora) shows through.
+      ctx.globalCompositeOperation = 'destination-out'
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.22)'
       ctx.fillRect(0, 0, w, h)
 
-      // 'screen' instead of 'lighter' so overlapping particles in dense
-      // letter regions preserve their colour instead of bleaching to white.
+      // 'screen' so overlapping particles preserve their colour instead of
+      // bleaching to white in dense letter regions.
       ctx.globalCompositeOperation = 'screen'
 
       const mxC = mx * dpr
@@ -630,37 +615,52 @@ import ShaderCanvas from '@components/shader-canvas.astro'
   function initSunrise() {
     const hero = document.querySelector<HTMLElement>('.hero')
     const horizon = document.querySelector<HTMLElement>('[data-hero-horizon]')
+    const cue = document.querySelector<HTMLElement>('[data-scroll-cue]')
     if (!hero || !horizon) return
 
     let cur = 0
     let target = 0
+    let curCue = 0
+    let targetCue = 0
     let raf = 0
+    let scrolled = 0
+    let heroH = 1
 
     function compute() {
       const rect = hero.getBoundingClientRect()
-      const heroH = Math.max(1, rect.height)
-      // How much of the hero has scrolled past the top of the viewport.
-      const scrolled = Math.max(0, -rect.top)
-      // Map: sun starts rising at 5% scroll, fully risen by 75% of hero height.
+      heroH = Math.max(1, rect.height)
+      scrolled = Math.max(0, -rect.top)
       const start = heroH * 0.05
       const end = heroH * 0.75
       const t = Math.max(
         0,
         Math.min(1, (scrolled - start) / Math.max(1, end - start)),
       )
-      // Ease-out for a softer settle near peak.
       target = 1 - Math.pow(1 - t, 2)
+      // Scroll cue: stays put for the first ~140px of scroll, then drifts
+      // down very slowly (~0.3x scroll speed) so it lingers in view well
+      // past the start of the scroll before slipping behind the horizon.
+      const cueStart = 140
+      targetCue = Math.max(0, (scrolled - cueStart) * 0.3)
+      targetCue = Math.min(heroH, targetCue)
     }
 
     function tick() {
-      // Smooth toward target so quick scroll wheels still look cinematic.
       cur += (target - cur) * 0.18
+      curCue += (targetCue - curCue) * 0.22
       horizon.style.setProperty('--rise', cur.toFixed(3))
-      if (Math.abs(target - cur) > 0.001) {
+      if (cue) cue.style.setProperty('--cue-y', curCue.toFixed(1) + 'px')
+
+      const settled =
+        Math.abs(target - cur) < 0.001 &&
+        Math.abs(targetCue - curCue) < 0.5
+      if (!settled) {
         raf = requestAnimationFrame(tick)
       } else {
         cur = target
+        curCue = targetCue
         horizon.style.setProperty('--rise', cur.toFixed(3))
+        if (cue) cue.style.setProperty('--cue-y', curCue.toFixed(1) + 'px')
         raf = 0
       }
     }
@@ -674,7 +674,9 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     window.addEventListener('resize', onScroll)
     compute()
     cur = target
+    curCue = targetCue
     horizon.style.setProperty('--rise', cur.toFixed(3))
+    if (cue) cue.style.setProperty('--cue-y', curCue.toFixed(1) + 'px')
   }
 
   initSunrise()

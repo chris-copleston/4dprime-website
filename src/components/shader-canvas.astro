@@ -419,14 +419,14 @@ const {
         float n2 = fbm(p * 2.0 - vec2(t * 0.7, -t * 0.4) + n1 * 0.5);
         float n3 = fbm(p * 3.5 + vec2(-t * 0.4, t * 0.6) + n2 * 0.3);
 
-        vec3 deep   = vec3(0.018, 0.022, 0.055);
-        vec3 mid    = vec3(0.085, 0.110, 0.230);
-        vec3 high   = vec3(0.260, 0.250, 0.500);
-        vec3 ember  = vec3(0.55, 0.45, 0.85);
+        vec3 deep   = vec3(0.010, 0.013, 0.034);
+        vec3 mid    = vec3(0.050, 0.065, 0.140);
+        vec3 high   = vec3(0.155, 0.150, 0.305);
+        vec3 ember  = vec3(0.36, 0.30, 0.55);
 
         vec3 col = mix(deep, mid, smoothstep(0.15, 0.85, n1));
-        col      = mix(col,  high, smoothstep(0.55, 1.05, n2) * 0.75);
-        col     += ember * pow(smoothstep(0.7, 1.05, n3), 3.0) * 0.45;
+        col      = mix(col,  high, smoothstep(0.55, 1.05, n2) * 0.55);
+        col     += ember * pow(smoothstep(0.7, 1.05, n3), 3.0) * 0.30;
 
         // === LAYER 2 — drifting cinematic spotlight (slow comet) ===
         // travels left-to-right across the frame, scaled to aspect
@@ -437,9 +437,9 @@ const {
         );
         float sd = length(p - spot);
         vec3 spotCol = vec3(0.55, 0.70, 1.00);
-        col += spotCol * exp(-sd * 3.4) * 0.55;
+        col += spotCol * exp(-sd * 3.4) * 0.36;
         // its faint trail
-        col += spotCol * exp(-sd * 1.4) * 0.06;
+        col += spotCol * exp(-sd * 1.4) * 0.04;
 
         // === LAYER 3 — slow diagonal light streaks (volumetric rays) ===
         // Two streaks at slightly different angles, drifting independently
@@ -453,24 +453,42 @@ const {
           float streak = exp(-abs(rp.y - yOff - wob) * (22.0 - fi * 4.0));
           // taper the streak ends
           streak *= smoothstep(-0.9, -0.4, rp.x) * smoothstep(0.9, 0.4, rp.x);
-          col += vec3(0.55, 0.72, 1.00) * streak * (0.28 - fi * 0.08);
+          col += vec3(0.55, 0.72, 1.00) * streak * (0.18 - fi * 0.06);
         }
 
-        // === LAYER 4 — particle star field ===
-        // soft fixed twinkling stars at varying density
-        vec2 starGrid = uv * vec2(80.0 * aspect / max(aspect, 1.0), 80.0);
-        vec2 starCell = floor(starGrid);
-        vec2 starFr   = fract(starGrid) - 0.5;
-        float sh = hash(starCell);
-        float present = step(0.985, sh);
-        float twinkle = 0.45 + 0.55 * sin(u_time * 2.5 + sh * 60.0);
-        float sdist = length(starFr);
-        float star = present * smoothstep(0.05, 0.0, sdist) * twinkle;
-        col += vec3(0.85, 0.92, 1.00) * star * 0.9;
-        // a few brighter "anchor" stars
-        float bigPresent = step(0.997, sh);
-        float bigStar = bigPresent * smoothstep(0.12, 0.0, sdist);
-        col += vec3(1.0, 0.96, 0.85) * bigStar * twinkle * 1.2;
+        // === LAYER 4 — MOVING STAR FIELDS (parallax: 3 depth layers) ===
+        // Stars need to read against a much darker background — multipliers
+        // are amped relative to the aurora layers so the eye sees stars first.
+
+        // FAR layer — dense, small, slow drift (deep background)
+        vec2 sgA = uv * vec2(140.0 * aspect, 140.0) + vec2(u_time * 0.018, u_time * 0.004);
+        vec2 sfA = fract(sgA) - 0.5;
+        float shA = hash(floor(sgA));
+        float prA = step(0.984, shA);
+        float twA = 0.5 + 0.5 * sin(u_time * 1.6 + shA * 50.0);
+        float sdA = length(sfA);
+        float starA = prA * smoothstep(0.035, 0.0, sdA) * twA;
+        col += vec3(0.78, 0.85, 1.00) * starA * 1.8;
+
+        // MID layer — medium stars, moderate drift
+        vec2 sgB = uv * vec2(75.0 * aspect, 75.0) + vec2(u_time * 0.045, u_time * 0.010);
+        vec2 sfB = fract(sgB) - 0.5;
+        float shB = hash(floor(sgB));
+        float prB = step(0.993, shB);
+        float twB = 0.5 + 0.5 * sin(u_time * 2.4 + shB * 70.0);
+        float sdB = length(sfB);
+        float starB = prB * smoothstep(0.075, 0.0, sdB) * twB;
+        col += vec3(0.92, 0.95, 1.00) * starB * 2.4;
+
+        // NEAR layer — sparse big bright anchor stars, fastest drift
+        vec2 sgC = uv * vec2(38.0 * aspect, 38.0) + vec2(u_time * 0.085, u_time * 0.018);
+        vec2 sfC = fract(sgC) - 0.5;
+        float shC = hash(floor(sgC));
+        float prC = step(0.997, shC);
+        float twC = 0.4 + 0.6 * sin(u_time * 3.0 + shC * 80.0);
+        float sdC = length(sfC);
+        float starC = prC * smoothstep(0.13, 0.0, sdC) * twC;
+        col += vec3(1.0, 0.97, 0.88) * starC * 2.8;
 
         // === LAYER 5 — radial vignette to focus the centre ===
         col *= smoothstep(1.7, 0.45, length(p));
