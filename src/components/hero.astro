@@ -39,8 +39,8 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       data-reveal
       data-reveal-delay="280"
       class="hero-sub mt-6 max-w-xl text-base sm:text-lg lg:text-xl text-bone/70 leading-relaxed [text-wrap:balance] pointer-events-auto">
-      We realise your ideas as stunning mobile apps, websites, bespoke software
-      and AI &mdash; designed and engineered in-house, since before Facebook.
+      25+ years turning ideas into stunning mobile apps, websites, bespoke
+      software and AI.
     </p>
 
     <div
@@ -224,12 +224,12 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     background: radial-gradient(
       ellipse 140% 95% at 50% calc(112% - var(--rise) * 38%),
       rgba(255, 255, 255, 0.35) 0%,
-      rgba(240, 248, 255, 0.20) 18%,
-      rgba(210, 226, 255, 0.10) 44%,
+      rgba(240, 248, 255, 0.2) 18%,
+      rgba(210, 226, 255, 0.1) 44%,
       transparent 75%
     );
     mix-blend-mode: screen;
-    opacity: calc(0.30 + var(--rise) * 0.70);
+    opacity: calc(0.3 + var(--rise) * 0.7);
     transition: opacity 80ms linear;
   }
 
@@ -641,7 +641,10 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       // Map: sun starts rising at 5% scroll, fully risen by 75% of hero height.
       const start = heroH * 0.05
       const end = heroH * 0.75
-      const t = Math.max(0, Math.min(1, (scrolled - start) / Math.max(1, end - start)))
+      const t = Math.max(
+        0,
+        Math.min(1, (scrolled - start) / Math.max(1, end - start)),
+      )
       // Ease-out for a softer settle near peak.
       target = 1 - Math.pow(1 - t, 2)
     }
