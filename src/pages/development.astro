@@ -2,7 +2,7 @@
 import { Picture } from 'astro:assets'
 import Layout from '@layouts/Layout.astro'
 import Container from '@components/container.astro'
-import Sectionhead from '@components/sectionhead.astro'
+import PageHero from '@components/page-hero.astro'
 import Link from '@components/ui/link.astro'
 import Cta from '@components/cta.astro'
 import heroDevelopment from '../assets/hero-development.png'
@@ -10,16 +10,16 @@ import Quote from '@components/quote.astro'
 import JamieSimmonds from '../assets/people/jamie-simmonds-headshot.jpg'
 ---
 
-<Layout title='Websites"' footerMargin={false}>
+<Layout title="Bespoke Software" footerMargin={false}>
+  <PageHero variant="noir" badge="Bespoke Development">
+    <Fragment slot="title">Your development <span class="text-gradient">partner</span>.</Fragment>
+    <Fragment slot="desc">
+      Decades of engineering experience across web, intranet, SaaS, backend,
+      integrations, databases, APIs and server solutions — for NHS, MoD, and enterprise.
+    </Fragment>
+  </PageHero>
+
   <Container>
-    <Sectionhead>
-      <Fragment slot="badge">Bespoke Development</Fragment>
-      <Fragment slot="title">Your Development Partner</Fragment>
-      <Fragment slot="desc">
-        Decades of experience in building Web, Intranet, SaaS, Backend,
-        Integrations, Databases, APIs and Server Solutions.
-      </Fragment>
-    </Sectionhead>
 
     <div class="grid md:grid-cols-2 py-10">
       <div class="grid place-items-start pb-10 md:pb-0 md:order-2">

@@ -5,56 +5,49 @@ import logoHiscox from '../assets/brands/hiscox.svg'
 import logoMoD from '../assets/brands/mod.svg'
 import logoMAA from '../assets/brands/maa.svg'
 import logoICA from '../assets/brands/ica.svg'
+
+const logos = [
+  { src: logoNHS, alt: 'NHS' },
+  { src: logoHiscox, alt: 'Hiscox' },
+  { src: logoMoD, alt: 'Ministry of Defence' },
+  { src: logoMAA, alt: 'Midlands Aerospace Alliance' },
+  { src: logoICA, alt: 'Institute of Canadian Agencies' },
+]
 ---
 
-<div>
-  <h2 class="text-center text-slate-500">
-    Trusted by Startups, SMEs, Governments and Enterprises worldwide.
-  </h2>
-  <div
-    class="flex gap-x-8 gap-y-8 md:gap-10 lg:gap-20 items-center justify-center mt-6 flex-wrap">
-    <div class="text-gray-500 my-2 h-7 md:h-9">
-      <Image class="brand-logo" src={logoNHS} alt="NHS logo" height={40} />
-    </div>
+<section class="mt-16" data-reveal>
+  <p class="text-center text-xs uppercase tracking-[0.25em] text-slate-500">
+    Trusted by startups, SMEs, governments &amp; enterprises worldwide
+  </p>
 
-    <div class="text-gray-500 my-2 h-7 md:h-9">
-      <Image
-        class="brand-logo"
-        src={logoHiscox}
-        alt="Hiscox Insurance logo"
-        height={40}
-      />
-    </div>
-    <div class="text-gray-500 my-2 h-7 md:h-9">
-      <Image
-        class="brand-logo"
-        src={logoMoD}
-        alt="Ministry of Defence logo"
-        height={40}
-      />
-    </div>
-    <div class="text-gray-500 my-2 h-7 md:h-9">
-      <Image
-        class="brand-logo"
-        src={logoMAA}
-        alt="Midlands Aerospace Alliance logo"
-        height={40}
-      />
-    </div>
-    <div class="text-gray-500 my-2 h-7 md:h-9">
-      <Image
-        class="brand-logo"
-        src={logoICA}
-        alt="The Institute of Canadian Agencies logo"
-        height={40}
-      />
+  <div class="logo-marquee mt-8 relative">
+    <div class="logo-fade logo-fade-left"></div>
+    <div class="logo-fade logo-fade-right"></div>
+
+    <div class="logo-track motion-safe:animate-marquee-slow flex items-center gap-12 lg:gap-20 shrink-0">
+      {[0, 1].map(() => (
+        <div class="flex items-center gap-12 lg:gap-20 shrink-0 pr-12 lg:pr-20">
+          {logos.map((logo) => (
+            <div class="logo-cell h-9 md:h-11 grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition duration-500">
+              <Image class="brand-logo h-full w-auto" src={logo.src} alt={`${logo.alt} logo`} height={44} />
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   </div>
-</div>
+</section>
 
 <style>
-  .Xbrand-logo {
-    max-height: 100%;
-    max-width: 100px;
+  .logo-marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .logo-track { width: max-content; }
+  .logo-fade { position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none; }
+  .brand-logo { max-width: 160px; }
+  @media (prefers-reduced-motion: reduce) {
+    .logo-track { animation: none !important; flex-wrap: wrap; justify-content: center; }
   }
 </style>

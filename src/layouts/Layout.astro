@@ -29,6 +29,7 @@ const makeTitle = title
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#0A0B1F" />
 
     <SEO
       title={makeTitle}
@@ -52,19 +53,371 @@ const makeTitle = title
       }}
     />
     <style is:global>
-      /* Improve Page speed */
-      /* https://css-tricks.com/almanac/properties/c/content-visibility/ */
-      img {
-        content-visibility: auto;
+      img { content-visibility: auto; }
+
+      :root {
+        --ink: #0A0B1F;
+        --void: #06060F;
+        --iris: #6366F1;
+        --violet: #8B5CF6;
+        --cyan: #22D3EE;
+        --plasma: #F472B6;
+        --solar: #FBBF24;
+        --bone: #F5F5F7;
       }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        background: #ffffff;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+      }
+
+      ::selection {
+        background: rgba(99, 102, 241, 0.25);
+        color: inherit;
+      }
+
+      /* Subtle text emphasis - kept Inter, slightly lighter weight, single accent */
+      .text-accent { color: #6366F1; }
+
+      /* Restrained gradient for key heading words (Apple-style, no pink, no italic) */
+      .text-gradient {
+        background: linear-gradient(120deg, #818CF8 0%, #A78BFA 50%, #67E8F9 100%);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        animation: text-gradient-drift 14s ease-in-out infinite;
+      }
+      @keyframes text-gradient-drift {
+        0%, 100% { background-position: 0% 50%; }
+        50%      { background-position: 100% 50%; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .text-gradient { animation: none; }
+      }
+      /* Darker-tuned gradient when used on light backgrounds */
+      .text-gradient-dark {
+        background: linear-gradient(120deg, #4F46E5 0%, #7C3AED 50%, #0891B2 100%);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        animation: text-gradient-drift 14s ease-in-out infinite;
+      }
+
+      /* Shimmer used only on the hero rotator word, very subtle */
+      .text-mono-shimmer {
+        background: linear-gradient(110deg, #ffffff 35%, rgba(255,255,255,0.55) 50%, #ffffff 65%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: monoShimmer 6s linear infinite;
+      }
+      @keyframes monoShimmer {
+        0%   { background-position: 200% center; }
+        100% { background-position: -200% center; }
+      }
+
+      /* Reveal-on-scroll */
+      [data-reveal] {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform;
+      }
+      [data-reveal][data-revealed='true'] {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      [data-reveal-stagger] > * {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      [data-reveal-stagger][data-revealed='true'] > * {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        [data-reveal], [data-reveal-stagger] > * {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
+        }
+      }
+
+      /* Magnetic button base */
+      .btn-magnetic {
+        position: relative;
+        will-change: transform;
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      /* Gradient hairline */
+      .hairline {
+        position: relative;
+      }
+      .hairline::after {
+        content: '';
+        position: absolute;
+        left: 0; right: 0; bottom: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.55), rgba(34, 211, 238, 0.55), transparent);
+      }
+
+      /* Tilt cards */
+      .tilt-card { transform-style: preserve-3d; transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+
+      /* Custom cursor halo — kept subtle, single hue */
+      .cursor-halo {
+        position: fixed;
+        top: 0; left: 0;
+        width: 24px; height: 24px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.18), rgba(255,255,255,0) 70%);
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate3d(-50%,-50%,0);
+        mix-blend-mode: difference;
+        transition: width 0.25s cubic-bezier(0.16,1,0.3,1), height 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.2s;
+        opacity: 0;
+      }
+      .cursor-halo.active { opacity: 1; }
+      .cursor-halo.hover { width: 56px; height: 56px; }
+      @media (hover: none) { .cursor-halo { display: none; } }
+
+      /* Noise overlay for dark hero */
+      .grain::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        opacity: 0.06;
+        mix-blend-mode: overlay;
+      }
+
+      /* Apple-style primary CTA (solid white on dark, dark on light) */
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.9rem 1.6rem;
+        border-radius: 9999px;
+        font-size: 1rem;
+        font-weight: 500;
+        letter-spacing: -0.005em;
+        background: #ffffff;
+        color: #0A0B1F;
+        transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), background 0.2s, color 0.2s;
+      }
+      .btn-primary:hover { background: #e5e7eb; }
+      .btn-primary-dark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.9rem 1.6rem;
+        border-radius: 9999px;
+        font-size: 1rem;
+        font-weight: 500;
+        letter-spacing: -0.005em;
+        background: #0A0B1F;
+        color: #ffffff;
+        transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), background 0.2s;
+      }
+      .btn-primary-dark:hover { background: #1f2233; }
+      .btn-ghost-dark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.9rem 1.6rem;
+        border-radius: 9999px;
+        font-size: 1rem;
+        font-weight: 500;
+        letter-spacing: -0.005em;
+        color: #ffffff;
+        border: 1px solid rgba(255,255,255,0.22);
+        background: transparent;
+        transition: background 0.2s, border-color 0.2s;
+      }
+      .btn-ghost-dark:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); }
+      .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #6366F1;
+        transition: color 0.2s, gap 0.25s cubic-bezier(0.16,1,0.3,1);
+      }
+      .btn-ghost:hover { color: #4338CA; gap: 0.6rem; }
     </style>
     <ViewTransitions fallback="none" />
   </head>
   <body>
+    <div class="cursor-halo" id="cursor-halo"></div>
     <Navbar />
     <slot />
     <Footer margin={footerMargin} />
     <link href=" /pagefind/pagefind-ui.css" rel="stylesheet" />
     <script src="/pagefind/pagefind-ui.js" is:inline></script>
+
+    <script is:inline>
+      ;(() => {
+        if (window.__motionBooted) {
+          // re-bind on swap
+        }
+        window.__motionBooted = true
+
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+        function initReveals(){
+          const io = new IntersectionObserver((entries) => {
+            for (const e of entries){
+              if (e.isIntersecting){
+                e.target.setAttribute('data-revealed', 'true')
+                io.unobserve(e.target)
+              }
+            }
+          }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' })
+          document.querySelectorAll('[data-reveal], [data-reveal-stagger]').forEach(el => {
+            if (el.getAttribute('data-revealed') === 'true') return
+            // stagger children by index
+            if (el.hasAttribute('data-reveal-stagger')){
+              const base = parseFloat(el.getAttribute('data-stagger-base') || '60')
+              const start = parseFloat(el.getAttribute('data-stagger-start') || '0')
+              ;[...el.children].forEach((c, i) => {
+                c.style.transitionDelay = (start + i * base) + 'ms'
+              })
+            } else {
+              const delay = parseFloat(el.getAttribute('data-reveal-delay') || '0')
+              el.style.transitionDelay = delay + 'ms'
+            }
+            io.observe(el)
+          })
+        }
+
+        function initMagnetic(){
+          if (reduced) return
+          document.querySelectorAll('.btn-magnetic').forEach(btn => {
+            if (btn.__magneticBound) return
+            btn.__magneticBound = true
+            const strength = parseFloat(btn.getAttribute('data-magnetic-strength') || '0.35')
+            btn.addEventListener('pointermove', (e) => {
+              const r = btn.getBoundingClientRect()
+              const x = (e.clientX - r.left - r.width/2) * strength
+              const y = (e.clientY - r.top - r.height/2) * strength
+              btn.style.transform = `translate3d(${x}px,${y}px,0)`
+            })
+            btn.addEventListener('pointerleave', () => {
+              btn.style.transform = ''
+            })
+          })
+        }
+
+        function initTilt(){
+          if (reduced) return
+          document.querySelectorAll('.tilt-card').forEach(card => {
+            if (card.__tiltBound) return
+            card.__tiltBound = true
+            const max = parseFloat(card.getAttribute('data-tilt') || '8')
+            card.addEventListener('pointermove', (e) => {
+              const r = card.getBoundingClientRect()
+              const px = (e.clientX - r.left) / r.width
+              const py = (e.clientY - r.top) / r.height
+              const rx = (0.5 - py) * max
+              const ry = (px - 0.5) * max
+              card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`
+            })
+            card.addEventListener('pointerleave', () => {
+              card.style.transform = 'perspective(900px) rotateX(0) rotateY(0)'
+            })
+          })
+        }
+
+        function initCounters(){
+          const io = new IntersectionObserver((entries) => {
+            for (const e of entries){
+              if (e.isIntersecting){
+                const el = e.target
+                const target = parseFloat(el.getAttribute('data-counter') || '0')
+                const decimals = parseInt(el.getAttribute('data-counter-decimals') || '0', 10)
+                const dur = parseFloat(el.getAttribute('data-counter-dur') || '1600')
+                const prefix = el.getAttribute('data-counter-prefix') || ''
+                const suffix = el.getAttribute('data-counter-suffix') || ''
+                const start = performance.now()
+                function step(now){
+                  const t = Math.min(1, (now - start) / dur)
+                  const eased = 1 - Math.pow(1 - t, 3)
+                  const v = target * eased
+                  el.textContent = prefix + v.toFixed(decimals) + suffix
+                  if (t < 1) requestAnimationFrame(step)
+                }
+                requestAnimationFrame(step)
+                io.unobserve(el)
+              }
+            }
+          }, { threshold: 0.4 })
+          document.querySelectorAll('[data-counter]').forEach(el => io.observe(el))
+        }
+
+        function initCursorHalo(){
+          if (reduced) return
+          if (matchMedia('(hover: none)').matches) return
+          const halo = document.getElementById('cursor-halo')
+          if (!halo) return
+          let x = 0, y = 0, tx = 0, ty = 0, raf = 0
+          let active = false
+          window.addEventListener('pointermove', (e) => {
+            tx = e.clientX; ty = e.clientY
+            if (!active){ active = true; halo.classList.add('active') }
+            if (!raf) raf = requestAnimationFrame(tick)
+          }, { passive: true })
+          window.addEventListener('pointerleave', () => {
+            active = false; halo.classList.remove('active')
+          })
+          function tick(){
+            x += (tx - x) * 0.18; y += (ty - y) * 0.18
+            halo.style.transform = `translate3d(${x}px,${y}px,0) translate(-50%,-50%)`
+            raf = requestAnimationFrame(tick)
+          }
+          // hover state on interactive elements
+          document.addEventListener('pointerover', (e) => {
+            const t = e.target
+            if (t instanceof Element && t.closest('a, button, [role="button"]')) halo.classList.add('hover')
+          })
+          document.addEventListener('pointerout', (e) => {
+            const t = e.target
+            if (t instanceof Element && t.closest('a, button, [role="button"]')) halo.classList.remove('hover')
+          })
+        }
+
+        function boot(){
+          initReveals()
+          initMagnetic()
+          initTilt()
+          initCounters()
+          initCursorHalo()
+        }
+        boot()
+        document.addEventListener('astro:after-swap', () => {
+          // rerun for new nodes; bound flags prevent double-binding
+          requestAnimationFrame(boot)
+        })
+      })()
+    </script>
   </body>
 </html>

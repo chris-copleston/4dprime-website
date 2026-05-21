@@ -2,7 +2,7 @@
 import { Picture } from 'astro:assets'
 import Layout from '@layouts/Layout.astro'
 import Container from '@components/container.astro'
-import Sectionhead from '@components/sectionhead.astro'
+import PageHero from '@components/page-hero.astro'
 import Link from '@components/ui/link.astro'
 import { Icon } from 'astro-icon'
 import Cta from '@components/cta.astro'
@@ -14,16 +14,15 @@ import PhilMason from '../assets/people/phil-mason-headshot.jpg'
 ---
 
 <Layout title="Mobile Apps" footerMargin={false}>
+  <PageHero variant="noir" badge="Mobile Apps">
+    <Fragment slot="title">Your idea, <span class="text-gradient">realised</span>.</Fragment>
+    <Fragment slot="desc">
+      From conception to launch, our creative, development, marketing and support
+      teams breathe life into your vision — across iOS, Android and tablet, one codebase.
+    </Fragment>
+  </PageHero>
+
   <Container>
-    <Sectionhead>
-      <Fragment slot="badge">Mobile Apps</Fragment>
-      <Fragment slot="title">Your Idea Realised</Fragment>
-      <Fragment slot="desc">
-        Let us realise your idea. From conception to success, our creative,
-        development, marketing and support teams will breathe life into your
-        vision.
-      </Fragment>
-    </Sectionhead>
 
     <div class="grid md:grid-cols-2 py-10">
       <div class="grid place-items-center px-4 md:px-4 xs:px-0">

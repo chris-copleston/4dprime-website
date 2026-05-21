@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content'
 import { Picture } from 'astro:assets'
 import Layout from '@layouts/Layout.astro'
 import Container from '@components/container.astro'
-import Sectionhead from '@components/sectionhead.astro'
+import PageHero from '@components/page-hero.astro'
 import Link from '@components/ui/link.astro'
 import LighthouseImage from '../assets/performance.jpg'
 import Cta from '@components/cta.astro'
@@ -18,15 +18,16 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
 })
 ---
 
-<Layout title='Websites"' footerMargin={false}>
+<Layout title="Websites" footerMargin={false}>
+  <PageHero variant="noir" badge="Websites">
+    <Fragment slot="title">Web Presence <span class="text-gradient">Excellence</span>.</Fragment>
+    <Fragment slot="desc">
+      Blazing-fast, accessible, bespoke websites. Trusted by startups, SMEs, governments
+      and enterprises worldwide — with 100% Google scores out of the box.
+    </Fragment>
+  </PageHero>
+
   <Container>
-    <Sectionhead>
-      <Fragment slot="badge">Websites</Fragment>
-      <Fragment slot="title">Web Presence Excellence&trade;</Fragment>
-      <Fragment slot="desc">
-        Trusted by Startups, SMEs, Governments and Enterprises worldwide.
-      </Fragment>
-    </Sectionhead>
 
     <div class="grid md:grid-cols-2 py-10">
       <div class="grid place-items-center pb-10 md:pb-0 md:order-2">

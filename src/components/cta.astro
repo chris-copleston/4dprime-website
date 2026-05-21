@@ -1,19 +1,40 @@
 ---
-import Link from './ui/link.astro'
+import ShaderCanvas from '@components/shader-canvas.astro'
 ---
 
-<div
-  class="bg-gradient-to-bl from-indigo-900 to-indigo-700 p-8 md:px-20 md:py-20 mt-20 flex flex-col items-center text-center">
-  <h2 class="text-white text-4xl md:text-6xl tracking-tight">
-    <span class="text-white/70">Rocket your</span> ideas.
-  </h2>
-  <p class="text-white/60 mt-4 text-lg md:text-xl">
-    Get the 4DPrime advantage. Chat to a friendly expert now about launching
-    your next project.
-  </p>
-  <div class="flex mt-5">
-    <Link href="/contact" style="inverted">
-      🚀 Request your Free Consultation
-    </Link>
+<section class="relative overflow-hidden mt-24 bg-ink text-bone">
+  <ShaderCanvas variant="noir" intensity={1.0} />
+
+  <div class="absolute inset-x-0 top-0 h-px bg-white/[0.06]"></div>
+
+  <div class="relative z-10 px-6 md:px-20 py-24 md:py-32 flex flex-col items-center text-center">
+    <div data-reveal class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 backdrop-blur px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-bone/75">
+      <span class="inline-block w-1.5 h-1.5 rounded-full bg-white/80"></span>
+      Ready when you are
+    </div>
+
+    <h2
+      data-reveal
+      data-reveal-delay="80"
+      class="mt-7 text-5xl md:text-7xl lg:text-[5.5rem] font-semibold tracking-[-0.035em] leading-[1.02] [text-wrap:balance] max-w-4xl">
+      Rocket your <span class="text-gradient">next idea</span>.
+    </h2>
+
+    <p data-reveal data-reveal-delay="200" class="text-bone/65 mt-6 text-lg md:text-xl max-w-xl [text-wrap:balance] leading-relaxed">
+      Get the 4DPrime advantage. Talk to a friendly expert about launching your next project &mdash; no obligation, no auto-responders.
+    </p>
+
+    <div data-reveal data-reveal-delay="320" class="mt-10 flex flex-col sm:flex-row gap-3 items-center">
+      <a href="/contact" class="btn-primary btn-magnetic group">
+        <span>Request your free consultation</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 transition-transform group-hover:translate-x-1">
+          <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/>
+        </svg>
+      </a>
+      <a href="tel:+441376350001" class="btn-ghost-dark">
+        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor"><path d="M19.44 13c-.22 0-.45-.07-.67-.12a9.44 9.44 0 0 1-1.31-.39 2 2 0 0 0-2.48 1l-.22.45a12.18 12.18 0 0 1-2.66-2 12.18 12.18 0 0 1-2-2.66l.42-.28a2 2 0 0 0 1-2.48 10.33 10.33 0 0 1-.39-1.31c-.05-.22-.09-.45-.12-.68a3 3 0 0 0-3-2.49h-3a3 3 0 0 0-3 3.41 19 19 0 0 0 16.52 16.46h.38a3 3 0 0 0 2-.76 3 3 0 0 0 1-2.25v-3a3 3 0 0 0-2.47-2.9z"/></svg>
+        +44 (0) 1376 350001
+      </a>
+    </div>
   </div>
-</div>
+</section>

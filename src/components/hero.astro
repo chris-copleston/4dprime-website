@@ -1,285 +1,411 @@
 ---
-import { Picture } from 'astro:assets'
-import heroSoftwareImage from '../assets/hero-development.png'
-import heroMobileImage from '../assets/hero-mobile.png'
-import heroWebImage from '../assets/hero-web.png'
-import Link from '@components/ui/link.astro'
-import Container from '@components/container.astro'
+import ShaderCanvas from '@components/shader-canvas.astro'
 ---
 
-<div class="overflow-x-clip">
-  <Container>
-    <main
-      data-pagefind-ignore="all"
-      class="grid lg:grid-cols-5 place-items-center relative"
-      transition:persist>
-      <div
-        class="absolute w-96 h-96 blur-2xl -z-10 bg-gradient-radial from-indigo-200 right-0 top-0">
-      </div>
-      <div
-        class="absolute w-96 h-96 blur-2xl -z-10 bg-gradient-radial from-purple-200 right-56 top-10">
-      </div>
+<section
+  class="hero relative overflow-hidden bg-ink text-bone"
+  data-pagefind-ignore="all"
+  transition:persist>
+  <!-- Cinematic shader at reduced intensity, just for atmospheric depth -->
+  <ShaderCanvas variant="cinematic" intensity={0.55} />
 
-      <div class="max-w-sm md:max-w-max lg:ml-10 lg:col-span-2">
-        <h1
-          class="text-4xl lg:text-4xl xl:text-5xl font-bold lg:tracking-tight xl:tracking-tighter [text-wrap:balance] text-center lg:text-start">
-          🚀 Rocket your ideas, with wow-factor
-          <a id="link-mobile" class="active">mobile apps</a>,
-          <a id="link-web">websites</a> &
-          <a id="link-software">bespoke software</a>.
-        </h1>
-        <p
-          class="text-lg mt-4 lg:max-w-lg text-slate-600 [text-wrap:balance] text-center lg:text-start">
-          First impressions are everything. Talk to us, we've been doing this
-          since before Facebook&reg;.
-        </p>
-        <div
-          class="mt-6 flex flex-col sm:flex-row sm:justify-center lg:justify-start gap-3">
-          <Link
-            href="/contact"
-            class="flex gap-1 items-center justify-center"
-            rel="noopener">
-            Let's chat
-          </Link>
-          <Link
-            id="learn-more-link"
-            size="lg"
-            style="outline"
-            rel="noopener"
-            href="/mobile-apps"
-            class="flex gap-1 items-center justify-center">
-            Mobile Apps <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              class="w-4 h-4 mt-px group-hover:translate-x-1 transition-transform">
-              <path
-                fill-rule="evenodd"
-                d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-                clip-rule="evenodd"></path>
-            </svg>
-          </Link>
-        </div>
-      </div>
-      <div class="py-3 lg:col-span-3 lg:-mr-44">
-        <a href="/mobile-apps" aria-label="Mobile Apps">
-          <Picture
-            id="hero-mobile"
-            class="animate-zoom-in max-w-[614px] w-full h-auto"
-            src={heroMobileImage}
-            alt="Amazing mobile apps"
-            width={1228}
-            height={1224}
-            formats={['avif', 'webp']}
-            sizes="(max-width: 768px) 614px, 1228px"
-            widths={[614, 1228]}
-            loading="eager"
-            fetchpriority="high"
-            quality={90}
-          />
-        </a>
+  <div class="absolute inset-x-0 top-0 h-px bg-white/[0.06]"></div>
 
-        <a href="/websites" aria-label="Websites">
-          <Picture
-            id="hero-web"
-            class="animate-zoom-in hidden"
-            src={heroWebImage}
-            alt="Amazing websites"
-            formats={['avif', 'webp']}
-            sizes="(max-width: 768px) 614px, 1228px"
-            widths={[614, 1228]}
-            loading="eager"
-            fetchpriority="high"
-            quality={90}
-          />
-        </a>
+  <!-- Particle text canvas — fills the hero, sits above the shader. -->
+  <canvas class="particle-canvas" data-particle-canvas aria-hidden="true"
+  ></canvas>
 
-        <a href="/development" aria-label="Bespoke Development">
-          <Picture
-            id="hero-software"
-            class="animate-zoom-in hidden"
-            src={heroSoftwareImage}
-            alt="Amazing software"
-            formats={['avif', 'webp']}
-            sizes="(max-width: 768px) 614px, 1228px"
-            widths={[614, 1228]}
-            loading="eager"
-            fetchpriority="high"
-            quality={90}
-          />
-        </a>
-      </div>
-    </main>
-  </Container>
-</div>
+  <main
+    class="relative z-10 min-h-[100vh] flex flex-col items-center justify-center text-center px-5 pointer-events-none">
+    <div
+      data-reveal
+      class="hero-eyebrow inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm px-3 py-1.5 text-[11px] tracking-[0.22em] uppercase text-bone/80 pointer-events-auto">
+      <span class="inline-block w-1.5 h-1.5 rounded-full bg-white/85 hero-dot"
+      ></span>
+       Independent studio &middot; est. 2001
+    </div>
 
-<script>
-  let linkMobile: Element | null,
-    linkWeb: Element | null,
-    linkSoftware: Element | null,
-    heroMobile: Element | null,
-    heroWeb: Element | null,
-    heroSoftware: Element | null,
-    interval: NodeJS.Timeout | null,
-    paused: boolean = false
+    <!-- Spacer that reserves room for the particle wordmark.
+         The actual word is painted by the canvas; this just keeps layout. -->
+    <div
+      class="particle-spacer"
+      aria-label="4DPrime"
+      role="heading"
+      aria-level="1">
+      <h1 class="sr-only">4DPrime &mdash; Rocket your ideas.</h1>
+    </div>
 
-  const initHero = () => {
-    linkMobile = document.getElementById('link-mobile')
-    linkWeb = document.getElementById('link-web')
-    linkSoftware = document.getElementById('link-software')
+    <p
+      data-reveal
+      data-reveal-delay="280"
+      class="hero-sub mt-6 max-w-xl text-base sm:text-lg lg:text-xl text-bone/70 leading-relaxed [text-wrap:balance] pointer-events-auto">
+      Mobile apps, websites, bespoke software and AI &mdash; designed and
+      engineered in-house, since before Facebook.
+    </p>
 
-    heroMobile = document.getElementById('hero-mobile')
-    heroWeb = document.getElementById('hero-web')
-    heroSoftware = document.getElementById('hero-software')
+    <div
+      data-reveal
+      data-reveal-delay="440"
+      class="hero-actions mt-9 flex flex-col sm:flex-row gap-3 items-center pointer-events-auto">
+      <a href="/contact" class="btn-primary btn-magnetic group">
+        <span>Start a conversation</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          class="w-4 h-4 transition-transform group-hover:translate-x-1">
+          <path
+            fill-rule="evenodd"
+            d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+            clip-rule="evenodd"></path>
+        </svg>
+      </a>
+      <a href="#what-we-make" class="btn-ghost-dark group">
+        <span>See what we make</span>
+      </a>
+    </div>
 
-    linkMobile?.addEventListener('focus', () => showHero('hero-mobile'))
-    linkWeb?.addEventListener('focus', () => showHero('hero-web'))
-    linkSoftware?.addEventListener('focus', () => showHero('hero-software'))
-    linkMobile?.addEventListener('click', () => showHero('hero-mobile'))
-    linkWeb?.addEventListener('click', () => showHero('hero-web'))
-    linkSoftware?.addEventListener('click', () => showHero('hero-software'))
+    <p
+      data-reveal
+      data-reveal-delay="600"
+      class="hero-hint mt-8 text-[11px] uppercase tracking-[0.25em] text-bone/35">
+      &mdash; move your cursor &mdash;
+    </p>
+  </main>
 
-    // pause the hero rotation when the user clicks, presses a key or scrolls
-    const events = ['click', 'keydown', 'scroll']
-    events.forEach((event) => {
-      document.addEventListener(event, () => {
-        if (paused) return
-        paused = true
-        setTimeout(() => {
-          paused = false
-        }, 8000)
-      })
-    })
+  <a
+    href="#what-we-make"
+    aria-label="Scroll to what we make"
+    class="scroll-cue absolute left-1/2 -translate-x-1/2 bottom-8 z-10 hidden sm:flex flex-col items-center gap-2 text-bone/45 hover:text-bone transition-colors">
+    <span class="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
+    <span class="scroll-cue-track"><span class="scroll-cue-dot"></span></span>
+  </a>
 
-    // rotate each hero every 5 seconds by calling showHero
-    const heroIds = ['hero-web', 'hero-software', 'hero-mobile']
-    let heroIndex = 0
-    interval = setInterval(() => {
-      //if url is not  / then stop the timer
-      if (window.location.pathname !== '/') {
-        interval && clearInterval(interval)
-        return
-      }
-      if (paused) {
-        return
-      }
-
-      showHero(heroIds[heroIndex])
-      heroIndex++
-      if (heroIndex >= heroIds.length) {
-        heroIndex = 0
-      }
-    }, 5000)
-  }
-
-  const showHero = (id: string) => {
-    let arrow = `<svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        class="w-4 h-4 mt-px group-hover:translate-x-1 transition-transform">
-        <path
-          fill-rule="evenodd"
-          d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-          clip-rule="evenodd"></path>
-      </svg>`
-    let learnMoreLink = document.getElementById('learn-more-link')
-    switch (id) {
-      case 'hero-web':
-        if (!isElementVisible(heroMobile)) {
-          return
-        }
-        learnMoreLink?.setAttribute('href', '/websites')
-        learnMoreLink
-          ? (learnMoreLink.innerHTML = 'Websites ' + arrow)
-          : 'Learn more...'
-        heroWeb?.classList.remove('hidden')
-        linkWeb?.classList.add('active')
-        heroMobile?.classList.add('hidden')
-        linkMobile?.classList.remove('active')
-        heroSoftware?.classList.add('hidden')
-        linkSoftware?.classList.remove('active')
-        break
-      case 'hero-software':
-        if (!isElementVisible(heroWeb)) {
-          return
-        }
-        learnMoreLink?.setAttribute('href', '/development')
-        learnMoreLink
-          ? (learnMoreLink.innerHTML = 'Bespoke Software ' + arrow)
-          : 'Learn more...'
-        heroSoftware?.classList.remove('hidden')
-        linkSoftware?.classList.add('active')
-        heroMobile?.classList.add('hidden')
-        linkMobile?.classList.remove('active')
-        heroWeb?.classList.add('hidden')
-        linkWeb?.classList.remove('active')
-        break
-      default:
-        if (!isElementVisible(heroSoftware)) {
-          return
-        }
-        learnMoreLink?.setAttribute('href', '/mobile-apps')
-        learnMoreLink
-          ? (learnMoreLink.innerHTML = 'Mobile Apps ' + arrow)
-          : 'Learn more...'
-        heroMobile?.classList.remove('hidden')
-        linkMobile?.classList.add('active')
-        heroWeb?.classList.add('hidden')
-        linkWeb?.classList.remove('active')
-        heroSoftware?.classList.add('hidden')
-        linkSoftware?.classList.remove('active')
-        break
-    }
-  }
-
-  initHero()
-  document.addEventListener('astro:after-swap', () => {
-    interval && clearInterval(interval)
-    initHero()
-  })
-
-  const isElementVisible = (el) => {
-    const rect = el.getBoundingClientRect()
-    const vWidth = window.innerWidth || doc.documentElement.clientWidth
-    const vHeight = window.innerHeight || doc.documentElement.clientHeight
-    const efp = function (x, y) {
-      return document.elementFromPoint(x, y)
-    }
-
-    // Return false if it's not in the viewport
-    if (
-      rect.right < 0 ||
-      rect.bottom < 0 ||
-      rect.left > vWidth ||
-      rect.top > vHeight
-    )
-      return false
-
-    // Return true if any of its four corners are visible
-    return (
-      el.contains(efp(rect.left, rect.top)) ||
-      el.contains(efp(rect.right, rect.top)) ||
-      el.contains(efp(rect.right, rect.bottom)) ||
-      el.contains(efp(rect.left, rect.bottom))
-    )
-  }
-</script>
+  <div
+    class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-white pointer-events-none z-[2]">
+  </div>
+</section>
 
 <style>
-  h1 {
-    line-height: 1.1;
+  .particle-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
   }
-  h1 a {
-    text-decoration: underline;
-    text-decoration-color: rgb(255, 163, 52);
-    cursor: pointer;
+
+  /* Reserve vertical space where the particle wordmark sits */
+  .particle-spacer {
+    width: 100%;
+    height: clamp(160px, 30vh, 360px);
+    margin-top: 2.5rem;
   }
-  h1 a.active {
-    background: url(/pen-brush.svg);
-    outline: none;
+
+  .hero-dot {
+    box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.55);
+    animation: dotPulse 3.6s ease-in-out infinite;
   }
-  h1 a:focus {
-    outline: none;
+  @keyframes dotPulse {
+    0%,
+    100% {
+      opacity: 0.65;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.25);
+    }
+  }
+
+  .scroll-cue-track {
+    display: block;
+    width: 1.5px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .scroll-cue-dot {
+    position: absolute;
+    left: 50%;
+    top: -6px;
+    transform: translateX(-50%);
+    width: 1.5px;
+    height: 12px;
+    background: linear-gradient(180deg, transparent, #ffffff);
+    animation: scrollCueGlide 2.4s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+  }
+  @keyframes scrollCueGlide {
+    0% {
+      top: -12px;
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      top: 36px;
+      opacity: 0;
+    }
+  }
+
+  .hero-hint {
+    opacity: 0;
+    animation:
+      hintFade 1.4s ease-out 1.2s forwards,
+      hintBreathe 4s ease-in-out 2.6s infinite;
+  }
+  @keyframes hintFade {
+    0% {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    100% {
+      opacity: 0.5;
+      transform: translateY(0);
+    }
+  }
+  @keyframes hintBreathe {
+    0%,
+    100% {
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-dot,
+    .scroll-cue-dot,
+    .hero-hint {
+      animation: none;
+    }
   }
 </style>
+
+<script>
+  // ============================================================
+  // PARTICLE WORDMARK — interactive, cursor-disrupted typography
+  // ============================================================
+  function initParticleHero() {
+    const canvas = document.querySelector<HTMLCanvasElement>(
+      '[data-particle-canvas]',
+    )
+    if (!canvas) return
+    const ctx = canvas.getContext('2d', { alpha: true })
+    if (!ctx) return
+
+    const reduced = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+
+    const WORD = 'Rocket your ideas'
+
+    interface Particle {
+      hx: number
+      hy: number // home position
+      x: number
+      y: number // current
+      vx: number
+      vy: number // velocity
+      r: number // radius
+      h: number // hue offset 0..1 across word (for color)
+      tw: number // twinkle phase
+    }
+    let particles: Particle[] = []
+
+    let dpr = Math.min(window.devicePixelRatio || 1, 1.6)
+    let w = 0,
+      h = 0
+    let mx = -9999,
+      my = -9999 // mouse (offscreen by default)
+    let lastMove = 0
+    let raf = 0
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect()
+      w = Math.max(1, Math.floor(rect.width * dpr))
+      h = Math.max(1, Math.floor(rect.height * dpr))
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w
+        canvas.height = h
+      }
+      buildParticles()
+    }
+
+    function buildParticles() {
+      // Choose font size to fit the word in the canvas with some margin.
+      const isSmall = w / dpr < 700
+      const fitWidth = (w / dpr) * (isSmall ? 0.86 : 0.7)
+      // Approx em-width per character for Inter bold @ 1em ≈ 0.62
+      const approxCharW = 0.62
+      let fontPx = fitWidth / (WORD.length * approxCharW)
+      fontPx = Math.min(fontPx, (h / dpr) * 0.4)
+      fontPx = Math.max(64, fontPx)
+
+      // Offscreen canvas to rasterize the word at high res
+      const off = document.createElement('canvas')
+      const ow = Math.floor(w)
+      const oh = Math.floor(fontPx * 1.2 * dpr)
+      off.width = ow
+      off.height = oh
+      const octx = off.getContext('2d')!
+      octx.scale(dpr, dpr)
+      octx.fillStyle = '#fff'
+      octx.font = `800 ${fontPx}px 'Inter Variable', Inter, system-ui, sans-serif`
+      octx.textAlign = 'center'
+      octx.textBaseline = 'middle'
+      // Use letter-spacing via slight character drawing — drawn as single string is fine
+      octx.fillText(WORD, ow / (2 * dpr), oh / (2 * dpr))
+
+      const img = octx.getImageData(0, 0, ow, oh)
+
+      // Sample step controls density — denser on desktop
+      const step = isSmall ? 5 : 4
+      // Vertical placement: position the wordmark roughly centered, slightly
+      // above middle to leave room for sub-text below.
+      const targetCenterY = (h / dpr) * 0.45
+      const offsetY = (targetCenterY - oh / dpr / 2) * dpr
+
+      const newPositions: { x: number; y: number; hRatio: number }[] = []
+      for (let y = 0; y < img.height; y += step) {
+        for (let x = 0; x < img.width; x += step) {
+          const i = (y * img.width + x) * 4
+          if (img.data[i + 3] > 130) {
+            newPositions.push({
+              x,
+              y: y + offsetY,
+              hRatio: x / img.width,
+            })
+          }
+        }
+      }
+
+      // Reuse particles where possible to avoid full re-init
+      const next: Particle[] = []
+      for (let i = 0; i < newPositions.length; i++) {
+        const np = newPositions[i]
+        const existing = particles[i]
+        if (existing) {
+          existing.hx = np.x
+          existing.hy = np.y
+          existing.h = np.hRatio
+          next.push(existing)
+        } else {
+          // Spawn from random off-screen positions for the initial gather effect
+          next.push({
+            hx: np.x,
+            hy: np.y,
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 4,
+            vy: (Math.random() - 0.5) * 4,
+            r: (Math.random() * 0.8 + 0.7) * dpr,
+            h: np.hRatio,
+            tw: Math.random() * Math.PI * 2,
+          })
+        }
+      }
+      particles = next
+    }
+
+    function tick(now: number) {
+      // Subtle trail effect for motion blur look
+      ctx.fillStyle = 'rgba(6, 6, 15, 0.22)'
+      ctx.fillRect(0, 0, w, h)
+
+      ctx.globalCompositeOperation = 'lighter'
+
+      const mxC = mx * dpr
+      const myC = my * dpr
+      const disturbR = 140 * dpr
+      const disturbR2 = disturbR * disturbR
+
+      // Slow idle breath: a soft wave that travels left→right across the word
+      const breath = Math.sin(now * 0.001) * 0.5 + 0.5
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i]
+
+        // Spring back to home
+        const dxh = p.hx - p.x
+        const dyh = p.hy - p.y
+        p.vx += dxh * 0.018
+        p.vy += dyh * 0.018
+
+        // Damping
+        p.vx *= 0.86
+        p.vy *= 0.86
+
+        // Cursor repulsion
+        if (mxC > -1000) {
+          const mdx = p.x - mxC
+          const mdy = p.y - myC
+          const d2 = mdx * mdx + mdy * mdy
+          if (d2 < disturbR2 && d2 > 0.01) {
+            const d = Math.sqrt(d2)
+            const force = ((disturbR - d) / disturbR) * 4.5
+            p.vx += (mdx / d) * force
+            p.vy += (mdy / d) * force
+          }
+        }
+
+        // Tiny ambient noise so the word never looks static
+        p.vx += (Math.random() - 0.5) * 0.05
+        p.vy += (Math.random() - 0.5) * 0.05
+
+        p.x += p.vx
+        p.y += p.vy
+
+        // Color: gradient along the word + breath glow
+        // h ratio drives hue 240→200→180 (indigo → blue → cyan-ish)
+        const hue = 240 - p.h * 60
+        const sat = 80
+        // brightness pulses with breath, and is higher where particle is near home
+        const dispMag = Math.hypot(dxh, dyh)
+        const tight = Math.max(0, 1 - dispMag / 200)
+        const light = 60 + tight * 15 + breath * 6
+        const alpha = 0.55 + tight * 0.35
+
+        ctx.fillStyle = `hsla(${hue}, ${sat}%, ${light}%, ${alpha})`
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx.fill()
+      }
+
+      ctx.globalCompositeOperation = 'source-over'
+
+      raf = requestAnimationFrame(tick)
+    }
+
+    function onMove(e: PointerEvent) {
+      const rect = canvas.getBoundingClientRect()
+      mx = e.clientX - rect.left
+      my = e.clientY - rect.top
+      lastMove = performance.now()
+    }
+    function onLeave() {
+      mx = -9999
+      my = -9999
+    }
+    window.addEventListener('pointermove', onMove, { passive: true })
+    window.addEventListener('pointerleave', onLeave)
+
+    // Resize observer
+    const ro = new ResizeObserver(resize)
+    ro.observe(canvas)
+    resize()
+
+    if (!reduced) raf = requestAnimationFrame(tick)
+  }
+
+  initParticleHero()
+  document.addEventListener('astro:after-swap', initParticleHero)
+</script>

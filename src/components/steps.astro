@@ -1,79 +1,62 @@
 ---
-// @ts-ignore
-import Badge from '@components/ui/badge.astro'
-import { Icon } from 'astro-icon'
-
 const features = [
   {
-    title: 'Understanding Your Needs',
-    description:
-      'We start with a complimentary consultation to understand your unique requirements and goals. We then brainstorm and work with you to come up with the best solution.',
-    step: '1',
+    title: 'Understanding your needs',
+    description: 'A complimentary consultation to understand your goals. We brainstorm and work with you to find the best path.',
+    step: '01',
   },
   {
-    title: 'Scope and Quotation',
-    description:
-      'We provide a detailed scope of work and quotation for your approval. We then work with you to refine the scope and phases of the project.',
-    step: '2',
+    title: 'Scope & quotation',
+    description: 'A detailed scope of work and quotation for your approval. We refine the scope and phase the project together.',
+    step: '02',
   },
   {
-    title: 'Project Plan',
-    description:
-      'We then agree a project plan and schedule. We will keep you updated on progress and milestones throughout the project.',
-    step: '3',
+    title: 'Project plan',
+    description: 'A clear plan and schedule. You get updates on progress and milestones the entire way through.',
+    step: '03',
   },
   {
-    title: 'Creative Design',
-    description:
-      'Our creative team will work with you to create a design that is unique to your business and brand. We will then refine the design until you are 100% happy.',
-    step: '4',
+    title: 'Creative design',
+    description: 'Our team creates a design unique to your business and brand — then refines it until you are 100% happy.',
+    step: '04',
   },
   {
     title: 'Development',
-    description:
-      'We will develop your project using the latest technologies and best practices. We will keep you updated on progress and milestones throughout the project.',
-    step: '5',
+    description: 'We build with the latest technologies and best practices, with regular check-ins and demos.',
+    step: '05',
   },
   {
-    title: 'Test, Deploy and Support',
-    description:
-      'Then we will test your project to ensure it is working as expected and deploy it to the live environment. We will then provide mantenance and support to keep your project running smoothly.',
-    step: '6',
+    title: 'Test, deploy & support',
+    description: 'We test, deploy, and continue to provide maintenance and support to keep things running smoothly.',
+    step: '06',
   },
 ]
 ---
 
-<!-- <div class="mt-16">
-  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
-    We have got more awesome <span class="text-indigo-600">features</span>
-  </h2>
-  <p class="text-lg mt-4 text-slate-600">
-    Use this section to highlight not so important features of your product.
-  </p>
-</div> -->
-<div class="mt-24 max-w-3xl mx-auto flex flex-col items-center justify-center">
-  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight mt-4 text-center">
-    We've got you <span class="text-indigo-800">covered</span>
-  </h2>
-  <p class="text-lg mt-4 text-slate-600 text-center [text-wrap:pretty]">
-    We will guide you through the steps to realising your vision. As your
-    digital partner, we will keep everything running smoothly and continue to
-    support you as your needs grow.
-  </p>
-</div>
+<section class="mt-24 lg:mt-32">
+  <div class="max-w-3xl mx-auto text-center" data-reveal>
+    <p class="text-xs uppercase tracking-[0.18em] text-slate-500">Our process</p>
+    <h2 class="mt-3 text-4xl lg:text-6xl font-semibold tracking-[-0.03em] text-slate-900 [text-wrap:balance]">
+      We've got you <span class="text-gradient-dark">covered</span>.
+    </h2>
+    <p class="mt-5 text-lg text-slate-600 [text-wrap:pretty]">
+      As your digital partner, we keep everything running smoothly and continue to support you as your needs grow.
+    </p>
+  </div>
 
-<div class="grid sm:grid-cols-2 md:grid-cols-3 mt-16 gap-8 md:gap-16">
-  {
-    features.map((item) => (
-      <div class="flex flex-col gap-4 items-start group hover:bg-slate-50 hover:border-slate-100 border border-transparent rounded-lg transition-all md:-m-5 p-5">
-        <div class="mt-1 bg-indigo-800 border shadow shadow-indigo-100/50 border-indigo-100 transition-colors rounded-full grid place-items-center  p-1 w-10 h-10 shrink-0">
-          <span class="text-white text-2xl font-bold">{item.step}</span>
+  <div class="mt-16 relative" data-reveal-stagger data-stagger-base="80">
+    <div class="hidden lg:block absolute left-0 right-0 top-[28px] h-px bg-slate-200" aria-hidden="true"></div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
+      {features.map((item) => (
+        <div class="step-card relative group">
+          <span class="relative grid place-items-center w-14 h-14 rounded-full bg-white ring-1 ring-slate-200 text-slate-900 transition-shadow group-hover:shadow-md">
+            <span class="font-semibold tabular-nums text-base">{item.step}</span>
+          </span>
+          <h3 class="mt-5 text-xl font-semibold tracking-tight text-slate-900">{item.title}</h3>
+          <p class="mt-2 text-slate-600 leading-relaxed [text-wrap:pretty]">{item.description}</p>
         </div>
-        <div>
-          <h3 class="font-semibold text-lg">{item.title}</h3>{' '}
-          <p class="text-slate-500 mt-2 leading-relaxed">{item.description}</p>
-        </div>
-      </div>
-    ))
-  }
-</div>
+      ))}
+    </div>
+  </div>
+</section>

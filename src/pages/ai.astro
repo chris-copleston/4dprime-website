@@ -2,7 +2,7 @@
 import { Picture } from 'astro:assets'
 import Layout from '@layouts/Layout.astro'
 import Container from '@components/container.astro'
-import Sectionhead from '@components/sectionhead.astro'
+import PageHero from '@components/page-hero.astro'
 import Link from '@components/ui/link.astro'
 import { Icon } from 'astro-icon'
 import Cta from '@components/cta.astro'
@@ -12,16 +12,15 @@ import SimonMehlman from '../assets/people/simon-mehlman-headshot.jpg'
 ---
 
 <Layout title="AI Development" footerMargin={false}>
+  <PageHero variant="noir" badge="AI Solutions">
+    <Fragment slot="title">Boost your business with <span class="text-gradient">AI</span>.</Fragment>
+    <Fragment slot="desc">
+      Unlock the power of artificial intelligence with custom development.
+      From agents and chatbots to natural language processing — integrated into your business, securely.
+    </Fragment>
+  </PageHero>
+
   <Container>
-    <Sectionhead>
-      <Fragment slot="badge">AI Solutions</Fragment>
-      <Fragment slot="title">Boost your business with AI</Fragment>
-      <Fragment slot="desc">
-        Unlock the power of Artificial Intelligence with our custom development
-        solutions. From chatbots to natural language processing, we can help you
-        integrate AI into your business.
-      </Fragment>
-    </Sectionhead>
 
     <div class="grid md:grid-cols-2 py-10">
       <div class="grid place-items-center">

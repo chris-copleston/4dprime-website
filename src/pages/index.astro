@@ -5,33 +5,39 @@ import FeatureAlt from '@components/feature-alt.astro'
 import Steps from '@components/steps.astro'
 import Hero from '@components/hero.astro'
 import Logos from '@components/logos.astro'
+import ServicesGrid from '@components/services-grid.astro'
 import Testimonials from '@components/testimonials.astro'
 import Layout from '@layouts/Layout.astro'
 ---
 
 <Layout footerMargin={false}>
   <Hero />
+
   <Container>
     <Logos />
+    <ServicesGrid />
     <FeatureAlt />
-  </Container>
-  <Container>
     <Steps />
   </Container>
 
   <Container>
-    <div class="mt-24">
-      <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight text-center">
-        Client <span class="text-indigo-800">Testimonials</span>
+    <div class="mt-24 lg:mt-32 max-w-3xl mx-auto text-center" data-reveal>
+      <p class="text-xs uppercase tracking-[0.18em] text-slate-500">Praise</p>
+      <h2 class="mt-3 text-4xl lg:text-6xl font-semibold tracking-[-0.03em] text-slate-900 [text-wrap:balance]">
+        Client <span class="text-gradient-dark">testimonials</span>.
       </h2>
-      <p class="text-lg mt-4 text-slate-600 text-center">
-        4DPrime is trusted by leading companies and brands all over the world.<br
-        /><a href="/testimonials" class="text-indigo-800"
-          >Read more testimonials</a
-        >.
+      <p class="mt-5 text-lg text-slate-600">
+        4DPrime is trusted by leading companies and brands all over the world.
+        <br />
+        <a href="/testimonials" class="btn-ghost mt-2 inline-flex">Read more testimonials
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/>
+          </svg>
+        </a>
       </p>
     </div>
   </Container>
+
   <Testimonials />
 
   <Cta />

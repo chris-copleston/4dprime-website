@@ -1,7 +1,6 @@
 ---
 import { Picture } from 'astro:assets'
 import FeatureImg2 from '../assets/features/2.png'
-import { Icon } from 'astro-icon'
 import Link from '@components/ui/link.astro'
 import YouTube from '@components/youtube.astro'
 import homeYoutubeCover from '../assets/home-youtube-cover.jpg'
@@ -9,154 +8,120 @@ import homeYoutubeCover from '../assets/home-youtube-cover.jpg'
 const { nomargin } = Astro.props
 ---
 
-<div
-  class:list={[
-    'max-w-3xl mx-auto flex flex-col items-center justify-center',
-    !nomargin && 'mt-10 lg:mt-20',
-  ]}>
-  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight mt-4 text-center">
-    Why <span class="text-indigo-800">Choose Us?</span>
-  </h2>
-  <p class="text-lg mt-5 text-slate-600 text-center [text-wrap:pretty]">
-    We deliver cutting-edge mobile apps, websites, custom AI and bespoke
-    software solutions, tailored to meet your unique business needs. With our
-    expertise and passion for technology, we empower businesses <u>like yours</u
-    > to thrive in the digital age.
-  </p>
-</div>
-
-<div class="grid md:grid-cols-2 py-10">
-  <div class="grid place-items-center px-4 md:px-4 xs:px-0">
-    <YouTube
-      class="rounded-2xl mx-8"
-      embedParams={{ rel: 0, controls: 1, autoplay: 1 }}
-      thumbnailRes="maxres"
-      thumbnailSrc={homeYoutubeCover.src}
-      title="4DPrime - The Future of Digital Marketing"
-      videoId="E92AL5sb_u8"
-    />
+<section class:list={['relative', !nomargin && 'mt-24 lg:mt-32']}>
+  <div class="max-w-3xl mx-auto text-center" data-reveal>
+    <p class="text-xs uppercase tracking-[0.18em] text-slate-500">Why choose us</p>
+    <h2 class="mt-3 text-4xl lg:text-6xl font-semibold tracking-[-0.03em] text-slate-900 [text-wrap:balance]">
+      We empower businesses <span class="text-gradient-dark">like yours</span> to thrive.
+    </h2>
+    <p class="mt-5 text-lg text-slate-600 [text-wrap:pretty]">
+      Cutting-edge mobile apps, websites, custom AI and bespoke software &mdash; tailored to your unique business needs.
+    </p>
   </div>
 
-  <div class="grid place-items-center">
-    <div class="max-w-lg">
-      <h3 class="text-2xl font-medium mt-4 [text-wrap:balance]">
-        Boost Your Business
+  <div class="grid md:grid-cols-2 gap-10 lg:gap-16 py-16 items-center">
+    <div class="grid place-items-center" data-reveal>
+      <div class="relative w-full">
+        <div class="relative rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-sm">
+          <YouTube
+            class="rounded-2xl"
+            embedParams={{ rel: 0, controls: 1, autoplay: 1 }}
+            thumbnailRes="maxres"
+            thumbnailSrc={homeYoutubeCover.src}
+            title="4DPrime - The Future of Digital Marketing"
+            videoId="E92AL5sb_u8"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div data-reveal data-reveal-delay="120">
+      <h3 class="text-3xl font-semibold tracking-tight text-slate-900 [text-wrap:balance]">
+        Boost your business.
       </h3>
-      <p class="mt-4 text-slate-600 [text-wrap:balance]">
-        Our innovative team of talented developers, designers and engineers are
-        masters of their craft, with decades of experience in creating
-        exceptional digital solutions.
+      <p class="mt-4 text-slate-600 [text-wrap:pretty]">
+        Our team of talented developers, designers and engineers are masters of their craft, with decades of experience
+        creating exceptional digital solutions.
       </p>
 
-      <ul class="grid mt-6 text-left gap-y-4">
-        <li class="flex items-center gap-3 text-neutral-800">
-          <Icon name="ph:check-circle-fill" class="w-5 h-5" />
-
-          <span class="text-sm">100% in-house experts</span>
+      <ul class="grid mt-7 gap-y-4">
+        <li class="flex items-start gap-3 text-slate-800">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mt-0.5 text-iris shrink-0">
+            <path d="m5 10 4 4 7-8" />
+          </svg>
+          <span>100% in-house experts</span>
         </li>
-
-        <li class="flex items-center gap-3 text-neutral-800">
-          <Icon name="ph:check-circle-fill" class="w-5 h-5" />
-
-          <span class="text-sm">Over 22 years in business</span>
+        <li class="flex items-start gap-3 text-slate-800">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mt-0.5 text-iris shrink-0">
+            <path d="m5 10 4 4 7-8" />
+          </svg>
+          <span>Over 22 years in business</span>
         </li>
-
-        <li class="flex items-center gap-3 text-neutral-800">
-          <Icon name="ph:check-circle-fill" class="w-5 h-5" />
-
-          <span class="text-sm">Friendly support and advice</span>
+        <li class="flex items-start gap-3 text-slate-800">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mt-0.5 text-iris shrink-0">
+            <path d="m5 10 4 4 7-8" />
+          </svg>
+          <span>Friendly support and advice</span>
         </li>
       </ul>
-      <div class="flex items-center gap-4 mt-6">
-        <Link
-          href="/contact"
-          size="sm"
-          class="inline-flex items-center group gap-px">
-          <span>Chat with an expert</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            class="w-4 h-4 mt-px group-hover:translate-x-1 transition-transform">
-            <path
-              fill-rule="evenodd"
-              d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-              clip-rule="evenodd"></path>
+
+      <div class="mt-8">
+        <a href="/contact" class="btn-ghost">
+          Chat with an expert
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/>
           </svg>
-        </Link>
+        </a>
       </div>
     </div>
   </div>
-</div>
 
-<div class="grid md:grid-cols-2 py-10">
-  <div class="grid place-items-center pb-10 md:pb-0 md:order-2">
-    <Picture
-      src={FeatureImg2}
-      alt="Feature Image"
-      formats={['avif', 'webp']}
-      loading="lazy"
-    />
-  </div>
+  <div class="grid md:grid-cols-2 gap-10 lg:gap-16 py-16 items-center">
+    <div class="grid place-items-center order-2" data-reveal>
+      <div class="relative w-full">
+        <Picture
+          src={FeatureImg2}
+          alt="Feature Image"
+          formats={['avif', 'webp']}
+          loading="lazy"
+          class="relative rounded-2xl w-full h-auto ring-1 ring-slate-200"
+        />
+      </div>
+    </div>
 
-  <div class="grid place-items-center">
-    <div class="max-w-lg">
-      <h3 class="text-2xl font-medium mt-4 [text-wrap:balance]">
-        The 4DPrime Difference
+    <div data-reveal data-reveal-delay="120">
+      <h3 class="text-3xl font-semibold tracking-tight text-slate-900 [text-wrap:balance]">
+        The 4DPrime difference.
       </h3>
-      <p class="mt-4 text-slate-600 [text-wrap:balance]">
-        We stay highly skilled in the latest design, technologies and frameworks
-        to give your business the edge.
+      <p class="mt-4 text-slate-600 [text-wrap:pretty]">
+        We stay sharp on the latest design, technologies and frameworks so your business has the edge.
       </p>
-      <ul class="grid mt-6 text-left gap-y-4">
-        <li class="flex items-center gap-3 text-neutral-800">
-          <Icon name="ph:check-circle-fill" class="w-5 h-5" />
-
-          <span class="text-sm"
-            >Mobile and tablet apps run on Android and iOS, keeping costs lower</span
-          >
+      <ul class="grid mt-7 gap-y-4">
+        <li class="flex items-start gap-3 text-slate-800">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mt-0.5 text-iris shrink-0"><path d="m5 10 4 4 7-8" /></svg>
+          <span>One codebase for Android &amp; iOS &mdash; lower cost</span>
         </li>
-        <li class="flex items-center gap-3 text-neutral-800">
-          <Icon name="ph:check-circle-fill" class="w-5 h-5" />
-
-          <span class="text-sm"
-            >Websites are <i>blazingly</i> fast and accessible</span
-          >
+        <li class="flex items-start gap-3 text-slate-800">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mt-0.5 text-iris shrink-0"><path d="m5 10 4 4 7-8" /></svg>
+          <span>Websites that are blazingly fast &amp; accessible</span>
         </li>
-        <li class="flex items-center gap-3 text-neutral-800">
-          <Icon name="ph:check-circle-fill" class="w-5 h-5" />
-
-          <span class="text-sm"
-            >AI solutions tailored for your business systems, products and
-            services</span
-          >
+        <li class="flex items-start gap-3 text-slate-800">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mt-0.5 text-iris shrink-0"><path d="m5 10 4 4 7-8" /></svg>
+          <span>AI tailored to your systems, products &amp; services</span>
         </li>
-        <li class="flex items-center gap-3 text-neutral-800">
-          <Icon name="ph:check-circle-fill" class="w-5 h-5" />
-
-          <span class="text-sm"
-            >Bespoke software solutions are secure and scaleable</span
-          >
+        <li class="flex items-start gap-3 text-slate-800">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mt-0.5 text-iris shrink-0"><path d="m5 10 4 4 7-8" /></svg>
+          <span>Bespoke software that's secure &amp; scalable</span>
         </li>
       </ul>
-      <div class="flex items-center gap-4 mt-6">
-        <Link
-          href="/contact"
-          size="sm"
-          class="inline-flex items-center group gap-px">
-          <span>Let's discuss your project</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            class="w-4 h-4 mt-px group-hover:translate-x-1 transition-transform">
-            <path
-              fill-rule="evenodd"
-              d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-              clip-rule="evenodd"></path>
+      <div class="mt-8">
+        <a href="/contact" class="btn-ghost">
+          Let's discuss your project
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/>
           </svg>
-        </Link>
+        </a>
       </div>
     </div>
   </div>
-</div>
+</section>
