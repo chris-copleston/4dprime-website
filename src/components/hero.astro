@@ -240,39 +240,118 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       buildParticles()
     }
 
-    function buildParticles() {
-      // Choose font size to fit the word in the canvas with some margin.
-      const isSmall = w / dpr < 700
-      const fitWidth = (w / dpr) * (isSmall ? 0.86 : 0.7)
-      // Approx em-width per character for Inter bold @ 1em ≈ 0.62
-      const approxCharW = 0.62
-      let fontPx = fitWidth / (WORD.length * approxCharW)
-      fontPx = Math.min(fontPx, (h / dpr) * 0.4)
-      fontPx = Math.max(64, fontPx)
+    function wrapByWords(text: string, maxWidth: number, m: CanvasRenderingContext2D): string[] {
+      const words = text.split(' ')
+      const lines: string[] = []
+      let line = ''
+      for (const word of words) {
+        const candidate = line ? line + ' ' + word : word
+        if (m.measureText(candidate).width <= maxWidth || !line) {
+          line = candidate
+        } else {
+          lines.push(line)
+          line = word
+        }
+      }
+      if (line) lines.push(line)
+      return lines
+    }
 
-      // Offscreen canvas to rasterize the word at high res
+    function buildParticles() {
+      const cssW = w / dpr
+      const cssH = h / dpr
+      const isSmall = cssW < 700
+      const isTiny  = cssW < 480
+
+      // Available width for the wordmark (CSS pixels)
+      const fitWidth = cssW * (isTiny ? 0.94 : isSmall ? 0.92 : 0.72)
+
+      // Measurement context for picking font size
       const off = document.createElement('canvas')
+      const octx = off.getContext('2d')!
+
+      // 1) Try the whole phrase on one line and see what font size that needs.
+      octx.font = `800 100px 'Inter Variable', Inter, system-ui, sans-serif`
+      const fullAt100 = Math.max(1, octx.measureText(WORD).width)
+      const longestWord = WORD.split(' ').reduce((a, b) => (a.length >= b.length ? a : b), '')
+      const longestAt100 = Math.max(1, octx.measureText(longestWord).width)
+
+      // What font size would the whole phrase need to fill our fitWidth?
+      const oneLineFont = (fitWidth / fullAt100) * 100
+
+      // Ideal "hero size" font, capped by available height
+      const idealFont = Math.min(
+        isTiny ? cssW * 0.20 : isSmall ? cssW * 0.16 : cssW * 0.11,
+        cssH * 0.22,
+      )
+
+      let fontPx: number
+      let lines: string[]
+
+      if (oneLineFont >= idealFont * 0.75 && !isTiny) {
+        // The phrase fits well enough on one line at a respectable size
+        fontPx = Math.min(oneLineFont, idealFont)
+        lines = [WORD]
+      } else {
+        // Wrap into multiple lines, sized so the longest word still fills nicely
+        fontPx = Math.min((fitWidth / longestAt100) * 100, idealFont)
+        octx.font = `800 ${fontPx}px 'Inter Variable', Inter, system-ui, sans-serif`
+        lines = wrapByWords(WORD, fitWidth, octx)
+      }
+
+      // Cap by total height — never let the wordmark exceed ~58% of the canvas
+      const lineH = fontPx * 1.02
+      const maxTotalH = cssH * 0.58
+      if (lines.length * lineH > maxTotalH) {
+        fontPx = (maxTotalH / lines.length) / 1.02
+        octx.font = `800 ${fontPx}px 'Inter Variable', Inter, system-ui, sans-serif`
+        lines = wrapByWords(WORD, fitWidth, octx)
+      }
+
+      fontPx = Math.max(28, fontPx)
+
+      // Resize offscreen canvas to fit all lines
+      const finalLineH = fontPx * 1.02
+      const padH = fontPx * 0.3
+      const totalH = lines.length * finalLineH + padH * 2
       const ow = Math.floor(w)
-      const oh = Math.floor(fontPx * 1.2 * dpr)
+      const oh = Math.max(2, Math.floor(totalH * dpr))
       off.width = ow
       off.height = oh
-      const octx = off.getContext('2d')!
-      octx.scale(dpr, dpr)
-      octx.fillStyle = '#fff'
-      octx.font = `800 ${fontPx}px 'Inter Variable', Inter, system-ui, sans-serif`
-      octx.textAlign = 'center'
-      octx.textBaseline = 'middle'
-      // Use letter-spacing via slight character drawing — drawn as single string is fine
-      octx.fillText(WORD, ow / (2 * dpr), oh / (2 * dpr))
 
-      const img = octx.getImageData(0, 0, ow, oh)
+      // Setup must happen AFTER resizing (resize clears state)
+      const octx2 = off.getContext('2d')!
+      octx2.scale(dpr, dpr)
+      octx2.fillStyle = '#fff'
+      octx2.font = `800 ${fontPx}px 'Inter Variable', Inter, system-ui, sans-serif`
+      octx2.textAlign = 'center'
+      octx2.textBaseline = 'middle'
 
-      // Sample step controls density — denser on desktop
-      const step = isSmall ? 5 : 4
-      // Vertical placement: position the wordmark roughly centered, slightly
-      // above middle to leave room for sub-text below.
-      const targetCenterY = (h / dpr) * 0.45
-      const offsetY = (targetCenterY - oh / dpr / 2) * dpr
+      // Draw each line, vertically stacked & centered
+      const startY = padH + finalLineH / 2
+      for (let i = 0; i < lines.length; i++) {
+        octx2.fillText(lines[i], cssW / 2, startY + i * finalLineH)
+      }
+
+      const img = octx2.getImageData(0, 0, ow, oh)
+
+      // Density: keep particle count manageable on tiny screens
+      const step = isTiny ? 6 : isSmall ? 5 : 4
+
+      // Resize the layout spacer to fit the wordmark — this prevents
+      // the wrapped multi-line text from colliding with the subtitle below.
+      const spacer = document.querySelector<HTMLElement>('.particle-spacer')
+      if (spacer) spacer.style.height = totalH + 'px'
+
+      // Anchor the wordmark inside the spacer (force layout read after the
+      // height change so getBoundingClientRect reflects the new size).
+      const sRect = spacer ? spacer.getBoundingClientRect() : null
+      const cRect = canvas.getBoundingClientRect()
+      const targetCenterY =
+        sRect && sRect.height > 0
+          ? (sRect.top + sRect.bottom) / 2 - cRect.top
+          : cssH * 0.45
+      const offsetY = (targetCenterY - totalH / 2) * dpr
 
       const newPositions: { x: number; y: number; hRatio: number }[] = []
       for (let y = 0; y < img.height; y += step) {
