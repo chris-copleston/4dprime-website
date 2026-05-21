@@ -220,16 +220,19 @@ import ShaderCanvas from '@components/shader-canvas.astro'
      when the entire sky brightens just before dawn. */
   .horizon-glow {
     position: absolute;
-    inset: -10% 0 0 0;
+    /* Stay within the horizon container — no extension up into the hero. */
+    inset: 0;
     background: radial-gradient(
-      ellipse 140% 95% at 50% calc(112% - var(--rise) * 38%),
-      rgba(255, 255, 255, 0.35) 0%,
-      rgba(240, 248, 255, 0.2) 18%,
-      rgba(210, 226, 255, 0.1) 44%,
-      transparent 75%
+      ellipse 170% 55% at 50% calc(118% - var(--rise) * 30%),
+      rgba(255, 255, 255, 0.78) 0%,
+      rgba(245, 250, 255, 0.5) 16%,
+      rgba(220, 232, 255, 0.25) 42%,
+      rgba(200, 218, 255, 0.08) 68%,
+      transparent 88%
     );
     mix-blend-mode: screen;
-    opacity: calc(0.3 + var(--rise) * 0.7);
+    /* Invisible at rest — appears only as you scroll, ramping fast. */
+    opacity: min(1, calc(var(--rise) * 2.6));
     transition: opacity 80ms linear;
   }
 
