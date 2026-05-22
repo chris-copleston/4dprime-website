@@ -42,8 +42,8 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       data-reveal
       data-reveal-delay="280"
       class="hero-sub mt-6 max-w-xl text-base sm:text-lg lg:text-xl text-bone/70 leading-relaxed [text-wrap:balance] pointer-events-auto">
-      25+ years turning ideas into stunning mobile apps, websites, bespoke
-      software and AI.
+      <b>25+ years</b> turning ideas into stunning mobile apps, websites,
+      bespoke software and AI.
     </p>
 
     <div
@@ -559,14 +559,19 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       raf = requestAnimationFrame(tick)
     }
 
-    let userActive = false
+    // "User is taking over right now" — true only when a real pointer move
+    // happened in the last 250ms. Derived from lastMove rather than a sticky
+    // flag, so it self-resets when the user stops moving.
+    const ACTIVE_WINDOW = 250
+    function isUserActive() {
+      return performance.now() - lastMove < ACTIVE_WINDOW
+    }
 
     function onMove(e: PointerEvent) {
       const rect = canvas.getBoundingClientRect()
       mx = e.clientX - rect.left
       my = e.clientY - rect.top
       lastMove = performance.now()
-      userActive = true
       // Cancel any auto-swipe in progress when the user takes over.
       if (autoSwipeRaf) {
         cancelAnimationFrame(autoSwipeRaf)
@@ -576,10 +581,13 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     function onLeave() {
       mx = -9999
       my = -9999
-      userActive = false
     }
-    window.addEventListener('pointermove', onMove, { passive: true })
-    window.addEventListener('pointerleave', onLeave)
+    // Listen on the hero section only. Activity below the hero (reading body
+    // content, scrolling) must NOT reset the idle timer.
+    const heroEl = canvas.closest('.hero') as HTMLElement | null
+    const listenTarget: HTMLElement | Window = heroEl ?? window
+    listenTarget.addEventListener('pointermove', onMove as EventListener, { passive: true })
+    listenTarget.addEventListener('pointerleave', onLeave as EventListener)
 
     // ============================================================
     // AUTO-SWIPE — after a period of pointer inactivity, animate a
@@ -627,11 +635,11 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     }
 
     function runSwipe() {
-      if (userActive) return
+      if (isUserActive()) return
       const swipe = planSwipe()
       const start = performance.now()
       function step(now: number) {
-        if (userActive) {
+        if (isUserActive()) {
           autoSwipeRaf = 0
           return
         }
@@ -658,7 +666,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       const now = performance.now()
       const idle = now - lastMove > IDLE_MS
       const readyForNext = now - lastSwipeEnd > SWIPE_GAP
-      if (idle && !autoSwipeRaf && !userActive && readyForNext) {
+      if (idle && !autoSwipeRaf && readyForNext) {
         runSwipe()
       }
       setTimeout(idleWatch, 500)
@@ -756,7 +764,9 @@ import ShaderCanvas from '@components/shader-canvas.astro'
   function initScrollCueAnimation() {
     const cue = document.querySelector<HTMLAnchorElement>('[data-scroll-cue]')
     if (!cue) return
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const reduced = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
 
     cue.addEventListener('click', (e) => {
       const href = cue.getAttribute('href') || ''
@@ -781,7 +791,8 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       // hauls feel cinematic — clamped to a comfortable range.
       const duration = Math.max(900, Math.min(1700, Math.abs(distance) * 0.9))
       // ease-in-out cubic — slow start, fast middle, slow finish.
-      const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
+      const ease = (t: number) =>
+        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
 
       // The global scroll-behavior:smooth would smooth each per-frame
       // scrollTo call, mangling our custom ease. Disable it for the
@@ -793,9 +804,17 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       const startTime = performance.now()
       let raf = 0
       let cancelled = false
-      const onUserScroll = () => { cancelled = true }
-      window.addEventListener('wheel', onUserScroll, { passive: true, once: true })
-      window.addEventListener('touchstart', onUserScroll, { passive: true, once: true })
+      const onUserScroll = () => {
+        cancelled = true
+      }
+      window.addEventListener('wheel', onUserScroll, {
+        passive: true,
+        once: true,
+      })
+      window.addEventListener('touchstart', onUserScroll, {
+        passive: true,
+        once: true,
+      })
       window.addEventListener('keydown', onUserScroll, { once: true })
 
       function cleanup() {
