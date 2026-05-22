@@ -43,7 +43,7 @@ const isHome = pathname === '/'
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#0A0B1F" />
+    <meta name="theme-color" content={isHome ? '#000000' : '#0A0B1F'} />
 
     <SEO
       title={makeTitle}
@@ -109,9 +109,12 @@ const isHome = pathname === '/'
       }
       /* Home page: the visible page background stays white (so content
          sections render as designed), but the html element underneath is
-         black — that's what shows in iOS rubber-band overscroll. */
+         black — that's what shows in iOS rubber-band overscroll.
+         color-scheme: dark tells iOS Safari to render the URL bar and
+         status-bar chrome in dark mode so they don't fall back to light. */
       html.is-home {
         background: #000000;
+        color-scheme: dark;
       }
 
       ::selection {
