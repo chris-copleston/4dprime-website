@@ -244,11 +244,6 @@ const {
           col += vec3(0.36, 0.32, 0.96) * a * 0.35 * smoothstep(horizon, 1.0, uv.y);
           col += vec3(0.96, 0.45, 0.71) * a * 0.20 * smoothstep(horizon+0.1, 1.0, uv.y);
         }
-        // sun disc on horizon
-        float d = length((uv - vec2(0.5, horizon)) * vec2(1.0, 2.4));
-        float sun = smoothstep(0.20, 0.0, d);
-        vec3 sunCol = mix(vec3(0.96,0.45,0.71), vec3(1.0,0.7,0.2), smoothstep(0.0,0.2,uv.y - horizon + 0.2));
-        col += sunCol * sun * 1.2;
         // scanline cuts
         float scan = step(0.5, fract((uv.y - horizon)*12.0 - t*0.5)) * smoothstep(horizon-0.1, horizon, uv.y);
         col *= 1.0 - scan*0.25;

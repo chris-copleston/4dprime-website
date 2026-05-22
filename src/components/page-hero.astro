@@ -5,13 +5,14 @@ interface Props {
   variant?: 'aurora' | 'plasma' | 'grid' | 'mesh' | 'liquid' | 'spectrum' | 'noir'
   badge?: string
   accent?: 'iris' | 'violet' | 'cyan' | 'plasma' | 'solar'
+  intensity?: number
 }
 
-const { variant = 'noir', badge } = Astro.props
+const { variant = 'noir', badge, intensity = 1 } = Astro.props
 ---
 
 <section class="page-hero relative overflow-hidden bg-ink text-bone -mt-20">
-  <ShaderCanvas variant={variant} intensity={1} />
+  <ShaderCanvas variant={variant} intensity={intensity} />
   <div class="absolute inset-x-0 top-0 h-px bg-white/[0.06]"></div>
 
   <div class="relative z-10 max-w-screen-xl mx-auto px-5 pt-20 pb-28 lg:pt-28 lg:pb-36">
@@ -38,6 +39,85 @@ const { variant = 'noir', badge } = Astro.props
     </div>
   </div>
 
-  <!-- bottom gradient fade to white -->
-  <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white pointer-events-none z-[2]"></div>
+  <!-- Curved horizon: huge white disc whose top arc spans the full width.
+       Soft glow above bleeds into the dark sky for an atmospheric edge. -->
+  <div class="page-hero-horizon" aria-hidden="true">
+    <div class="page-hero-glow"></div>
+    <div class="page-hero-edge"></div>
+    <div class="page-hero-planet"></div>
+  </div>
 </section>
+
+<style>
+  .page-hero-horizon {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 160px;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  /* Soft white halo above the horizon, screen-blended for a glow. */
+  .page-hero-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 170% 70% at 50% 115%,
+      rgba(255, 255, 255, 0.78) 0%,
+      rgba(245, 250, 255, 0.5) 16%,
+      rgba(220, 232, 255, 0.25) 42%,
+      rgba(200, 218, 255, 0.08) 68%,
+      transparent 88%
+    );
+    mix-blend-mode: screen;
+    opacity: 0.85;
+  }
+  /* Gradient-coloured edge sitting just above the white planet. Only the
+     top sliver shows as a thin curved rim of colour along the horizon. */
+  .page-hero-edge {
+    --planet-d: 800vw;
+    position: absolute;
+    left: 50%;
+    top: calc(100% - 53px);
+    width: var(--planet-d);
+    height: var(--planet-d);
+    margin-left: calc(var(--planet-d) / -2);
+    border-radius: 50%;
+    background: linear-gradient(
+      110deg,
+      #6366F1 0%,
+      #8B5CF6 25%,
+      #C084FC 50%,
+      #F472B6 75%,
+      #60A5FA 100%
+    );
+    filter: blur(0.5px);
+  }
+  /* Huge white disc — its top arc is visible across the full page width
+     creating the curved horizon. Sits 3px below the coloured edge so the
+     gradient rim is visible. */
+  .page-hero-planet {
+    --planet-d: 800vw;
+    position: absolute;
+    left: 50%;
+    top: calc(100% - 50px);
+    width: var(--planet-d);
+    height: var(--planet-d);
+    margin-left: calc(var(--planet-d) / -2);
+    border-radius: 50%;
+    background: #ffffff;
+  }
+  @media (max-width: 640px) {
+    .page-hero-horizon { height: 120px; }
+    .page-hero-edge {
+      --planet-d: 1100vw;
+      top: calc(100% - 39px);
+    }
+    .page-hero-planet {
+      --planet-d: 1100vw;
+      top: calc(100% - 36px);
+    }
+  }
+</style>

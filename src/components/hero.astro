@@ -272,7 +272,10 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       '(prefers-reduced-motion: reduce)',
     ).matches
 
-    const WORD = 'Rocket your  ideas'
+    const LINES: Array<{ text: string; scale: number }> = [
+      { text: 'Launch your', scale: 0.65 },
+      { text: 'BIG idea', scale: 1.0 },
+    ]
 
     interface Particle {
       hx: number
@@ -307,27 +310,6 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       buildParticles()
     }
 
-    function wrapByWords(
-      text: string,
-      maxWidth: number,
-      m: CanvasRenderingContext2D,
-    ): string[] {
-      const words = text.split(' ')
-      const lines: string[] = []
-      let line = ''
-      for (const word of words) {
-        const candidate = line ? line + ' ' + word : word
-        if (m.measureText(candidate).width <= maxWidth || !line) {
-          line = candidate
-        } else {
-          lines.push(line)
-          line = word
-        }
-      }
-      if (line) lines.push(line)
-      return lines
-    }
-
     function buildParticles() {
       const cssW = w / dpr
       const cssH = h / dpr
@@ -340,54 +322,38 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       // Measurement context for picking font size
       const off = document.createElement('canvas')
       const octx = off.getContext('2d')!
-
-      // 1) Try the whole phrase on one line and see what font size that needs.
       octx.font = `800 100px 'Inter Variable', Inter, system-ui, sans-serif`
-      const fullAt100 = Math.max(1, octx.measureText(WORD).width)
-      const longestWord = WORD.split(' ').reduce(
-        (a, b) => (a.length >= b.length ? a : b),
-        '',
-      )
-      const longestAt100 = Math.max(1, octx.measureText(longestWord).width)
 
-      // What font size would the whole phrase need to fill our fitWidth?
-      const oneLineFont = (fitWidth / fullAt100) * 100
-
-      // Ideal "hero size" font, capped by available height
+      // Ideal "hero size" font for the unscaled (largest) line, capped by height
       const idealFont = Math.min(
         isTiny ? cssW * 0.2 : isSmall ? cssW * 0.16 : cssW * 0.11,
         cssH * 0.22,
       )
 
-      let fontPx: number
-      let lines: string[]
-
-      if (oneLineFont >= idealFont * 0.75 && !isTiny) {
-        // The phrase fits well enough on one line at a respectable size
-        fontPx = Math.min(oneLineFont, idealFont)
-        lines = [WORD]
-      } else {
-        // Wrap into multiple lines, sized so the longest word still fills nicely
-        fontPx = Math.min((fitWidth / longestAt100) * 100, idealFont)
-        octx.font = `800 ${fontPx}px 'Inter Variable', Inter, system-ui, sans-serif`
-        lines = wrapByWords(WORD, fitWidth, octx)
+      // baseFontPx is the size of a line with scale=1. Smaller-scaled lines
+      // render at baseFontPx * scale. Cap so every line fits the width.
+      let baseFontPx = idealFont
+      for (const line of LINES) {
+        const wAt100 = Math.max(1, octx.measureText(line.text).width)
+        const cap = (fitWidth / (wAt100 * line.scale)) * 100
+        baseFontPx = Math.min(baseFontPx, cap)
       }
 
-      // Cap by total height — never let the wordmark exceed ~58% of the canvas
-      const lineH = fontPx * 1.02
+      // Cap by total height — never exceed ~58% of the canvas
+      const totalAtBase = LINES.reduce(
+        (s, l) => s + baseFontPx * l.scale * 1.02,
+        0,
+      )
       const maxTotalH = cssH * 0.58
-      if (lines.length * lineH > maxTotalH) {
-        fontPx = maxTotalH / lines.length / 1.02
-        octx.font = `800 ${fontPx}px 'Inter Variable', Inter, system-ui, sans-serif`
-        lines = wrapByWords(WORD, fitWidth, octx)
+      if (totalAtBase > maxTotalH) {
+        baseFontPx *= maxTotalH / totalAtBase
       }
+      baseFontPx = Math.max(28, baseFontPx)
 
-      fontPx = Math.max(28, fontPx)
+      const lineHeights = LINES.map((l) => baseFontPx * l.scale * 1.02)
+      const padH = baseFontPx * 0.3
+      const totalH = lineHeights.reduce((s, h) => s + h, 0) + padH * 2
 
-      // Resize offscreen canvas to fit all lines
-      const finalLineH = fontPx * 1.02
-      const padH = fontPx * 0.3
-      const totalH = lines.length * finalLineH + padH * 2
       const ow = Math.floor(w)
       const oh = Math.max(2, Math.floor(totalH * dpr))
       off.width = ow
@@ -397,14 +363,18 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       const octx2 = off.getContext('2d')!
       octx2.scale(dpr, dpr)
       octx2.fillStyle = '#fff'
-      octx2.font = `800 ${fontPx}px 'Inter Variable', Inter, system-ui, sans-serif`
       octx2.textAlign = 'center'
       octx2.textBaseline = 'middle'
 
-      // Draw each line, vertically stacked & centered
-      const startY = padH + finalLineH / 2
-      for (let i = 0; i < lines.length; i++) {
-        octx2.fillText(lines[i], cssW / 2, startY + i * finalLineH)
+      // Draw each line at its own scaled font size, vertically stacked
+      let yCursor = padH
+      for (let li = 0; li < LINES.length; li++) {
+        const line = LINES[li]
+        const lineFontPx = baseFontPx * line.scale
+        const lh = lineHeights[li]
+        octx2.font = `800 ${lineFontPx}px 'Inter Variable', Inter, system-ui, sans-serif`
+        octx2.fillText(line.text, cssW / 2, yCursor + lh / 2)
+        yCursor += lh
       }
 
       const img = octx2.getImageData(0, 0, ow, oh)
@@ -616,9 +586,9 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     // virtual pointer across the wordmark so the particles scatter
     // and reform on their own, keeping the page alive.
     // ============================================================
-    const IDLE_MS = 7000        // 7s of stillness before kicking off
-    const SWIPE_MS = 3400       // duration of a single swipe (slow, deliberate)
-    const SWIPE_GAP = 6000      // 6s gap between swipes
+    const IDLE_MS = 7000 // 7s of stillness before kicking off
+    const SWIPE_MS = 3400 // duration of a single swipe (slow, deliberate)
+    const SWIPE_GAP = 6000 // 6s gap between swipes
     let autoSwipeRaf = 0
     let lastSwipeEnd = 0
     let swipeKind = 0
@@ -632,20 +602,26 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       if (k === 0) {
         // Left → right, slight downward drift
         return {
-          x0: -120, y0: cy - 30,
-          x1: cssW + 120, y1: cy + 30,
+          x0: -120,
+          y0: cy - 30,
+          x1: cssW + 120,
+          y1: cy + 30,
         }
       } else if (k === 1) {
         // Right → left, slight upward drift
         return {
-          x0: cssW + 120, y0: cy + 24,
-          x1: -120, y1: cy - 24,
+          x0: cssW + 120,
+          y0: cy + 24,
+          x1: -120,
+          y1: cy - 24,
         }
       } else {
         // Diagonal sweep through the wordmark
         return {
-          x0: -120, y0: cy + 80,
-          x1: cssW + 120, y1: cy - 60,
+          x0: -120,
+          y0: cy + 80,
+          x1: cssW + 120,
+          y1: cy - 60,
         }
       }
     }
@@ -655,12 +631,13 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       const swipe = planSwipe()
       const start = performance.now()
       function step(now: number) {
-        if (userActive) { autoSwipeRaf = 0; return }
+        if (userActive) {
+          autoSwipeRaf = 0
+          return
+        }
         const t = Math.min(1, (now - start) / SWIPE_MS)
         // Ease in-out so the swipe accelerates through the centre
-        const e = t < 0.5
-          ? 2 * t * t
-          : 1 - Math.pow(-2 * t + 2, 2) / 2
+        const e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2
         mx = swipe.x0 + (swipe.x1 - swipe.x0) * e
         my = swipe.y0 + (swipe.y1 - swipe.y0) * e
         if (t < 1) {
