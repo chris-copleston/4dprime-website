@@ -104,6 +104,22 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     margin-top: 2.5rem;
   }
 
+  /* Short landscape viewports (most phones in landscape) — mobile browser
+     chrome (URL bar) eats into the top of the page, clipping the eyebrow
+     chip. Push content down so the chip lands below the browser UI and
+     keep the rest of the hero balanced. */
+  @media (max-height: 600px) and (orientation: landscape) {
+    .hero main {
+      justify-content: flex-start;
+      padding-top: max(5rem, env(safe-area-inset-top));
+      padding-bottom: 2rem;
+    }
+    .particle-spacer {
+      height: clamp(110px, 40vh, 220px);
+      margin-top: 1.5rem;
+    }
+  }
+
   .hero-dot {
     box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.55);
     animation: dotPulse 3.6s ease-in-out infinite;

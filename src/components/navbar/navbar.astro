@@ -139,7 +139,7 @@ const menuitems = [
   }
   .logo {
     width: 150px;
-    height: 36.48px;
+    height: auto;
   }
   /* Default: show the light-background logo, hide the dark-background one. */
   .logo-dark { display: none; }
@@ -252,6 +252,12 @@ const menuitems = [
   body.has-dark-hero .navbar:not(.navbar-active) button {
     color: rgba(255, 255, 255, 0.85);
   }
+  /* Mobile menu hamburger / close icon — astro-navbar's MenuIcon ships
+     with its own `text-gray-800` class which overrides the button colour.
+     Force it light on dark-hero pages. */
+  body.has-dark-hero .navbar:not(.navbar-active) button[aria-label="Toggle Menu"] svg {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
   /* Desktop dropdown panel matches the dark-hero theme so it doesn't punch
      a white hole over the dark hero when opened. */
   @media (min-width: 1024px) {
@@ -302,6 +308,9 @@ const menuitems = [
       color: #ffffff !important;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
+    }
+    body.has-dark-hero .navbar:has(.astronav-items:not(.hidden)) button[aria-label="Toggle Menu"] svg {
+      color: rgba(255, 255, 255, 0.9) !important;
     }
   }
 </style>
