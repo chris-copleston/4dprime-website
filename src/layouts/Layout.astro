@@ -33,6 +33,7 @@ const darkHeroPaths = [
 ]
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/'
 const hasDarkHero = darkHeroPaths.includes(pathname)
+const isHome = pathname === '/'
 ---
 
 <!doctype html>
@@ -105,6 +106,9 @@ const hasDarkHero = darkHeroPaths.includes(pathname)
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
+      }
+      body.is-home {
+        background: #000000;
       }
 
       ::selection {
@@ -362,7 +366,7 @@ const hasDarkHero = darkHeroPaths.includes(pathname)
     </style>
     <ViewTransitions fallback="none" />
   </head>
-  <body class:list={[hasDarkHero && 'has-dark-hero']}>
+  <body class:list={[hasDarkHero && 'has-dark-hero', isHome && 'is-home']}>
     <div class="cursor-halo" id="cursor-halo"></div>
     <Navbar />
     <slot />
