@@ -10,7 +10,7 @@ import Cta from '@components/cta.astro'
 // Sort content entries by publication date
 
 export async function getStaticPaths({ paginate }) {
-  const PAGE_SIZE = 6
+  const PAGE_SIZE = 9
   const allPosts = await getCollection('blog', ({ data }) => {
     return !data.draft && data.publishDate < new Date()
   })
