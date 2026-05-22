@@ -10,7 +10,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
   <!-- Cinematic shader: deep aurora base + three drifting star layers.
        Low intensity keeps the background dark; star brightness is boosted
        inside the shader so they still read against the darker sky. -->
-  <ShaderCanvas variant="cinematic" intensity={0.45} />
+  <ShaderCanvas variant="cinematic" intensity={0.2} />
 
   <div class="absolute inset-x-0 top-0 h-px bg-white/[0.06]"></div>
 
@@ -380,7 +380,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
       const img = octx2.getImageData(0, 0, ow, oh)
 
       // Density: keep particle count manageable on tiny screens
-      const step = isTiny ? 6 : isSmall ? 5 : 4
+      const step = isTiny ? 8 : isSmall ? 7 : 6
 
       // Resize the layout spacer to fit the wordmark — this prevents
       // the wrapped multi-line text from colliding with the subtitle below.
