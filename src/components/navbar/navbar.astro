@@ -36,7 +36,8 @@ const menuitems = [
           <a
             href="/"
             class="flex items-center transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-iris focus-visible:outline-none rounded-full px-2 -ml-2">
-            <img src="/logo.svg" alt="4DPrime" class="logo" />
+            <img src="/logo.svg" alt="4DPrime" class="logo logo-light" />
+            <img src="/4dprime-dark.svg" alt="" aria-hidden="true" class="logo logo-dark" />
           </a>
           <div class="block lg:hidden">
             <MenuIcon class="w-8 h-8 text-gray-800" />
@@ -126,8 +127,9 @@ const menuitems = [
   .logo {
     width: 150px;
     height: 36.48px;
-    transition: filter 0.3s ease;
   }
+  /* Default: show the light-background logo, hide the dark-background one. */
+  .logo-dark { display: none; }
   .nav-link {
     position: relative;
     color: rgb(75, 85, 99);
@@ -217,9 +219,8 @@ const menuitems = [
     background: rgba(255, 255, 255, 0.08);
     color: #ffffff;
   }
-  body.has-dark-hero .navbar:not(.navbar-active) .logo {
-    filter: brightness(0) invert(1);
-  }
+  body.has-dark-hero .navbar:not(.navbar-active) .logo-light { display: none; }
+  body.has-dark-hero .navbar:not(.navbar-active) .logo-dark { display: block; }
   body.has-dark-hero .navbar:not(.navbar-active) .cta-pill {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;

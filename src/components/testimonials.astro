@@ -152,6 +152,13 @@ const testimonials = [
   function initTestimonialCarousel() {
     const stage = document.querySelector<HTMLElement>('[data-carousel-stage]')
     if (!stage) return
+    // Tear down any prior init's interval (HMR / repeated astro:after-swap)
+    // before setting up new state, to avoid multiple intervals racing.
+    const win = window as unknown as { __testimonialRotate?: ReturnType<typeof setInterval> }
+    if (win.__testimonialRotate) {
+      clearInterval(win.__testimonialRotate)
+      win.__testimonialRotate = undefined
+    }
     const cards = Array.from(
       stage.querySelectorAll<HTMLElement>('[data-carousel-card]'),
     )
@@ -233,6 +240,20 @@ const testimonials = [
       stage.style.cursor = ''
     })
 
+    // Auto-advance every 6s, paused while the pointer is over the stage
+    // or the user prefers reduced motion.
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    let paused = false
+    stage.addEventListener('pointerenter', () => { paused = true })
+    stage.addEventListener('pointerleave', () => { paused = false })
+    if (!reduced) {
+      win.__testimonialRotate = setInterval(() => {
+        if (paused) return
+        idx = (idx + 1) % total
+        update()
+      }, 6000)
+    }
+
     const ro = new ResizeObserver(update)
     ro.observe(stage)
 
@@ -240,5 +261,10 @@ const testimonials = [
   }
 
   initTestimonialCarousel()
-  document.addEventListener('astro:after-swap', initTestimonialCarousel)
+  // Register the swap listener only once, even if this script gets re-evaluated.
+  const gw = window as unknown as { __testimonialSwapBound?: boolean }
+  if (!gw.__testimonialSwapBound) {
+    gw.__testimonialSwapBound = true
+    document.addEventListener('astro:after-swap', initTestimonialCarousel)
+  }
 </script>
