@@ -104,17 +104,29 @@ const menuitems = [
 <style is:global>
   .navbar {
     background: transparent;
-    transition:
-      background 0.3s ease,
-      backdrop-filter 0.3s ease;
   }
-  .navbar-active {
+  /* White background lives on a pseudo-element so we can animate it as a
+     curved arc that bubbles down from the top, instead of a flat fade-in. */
+  .navbar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
     background: rgba(255, 255, 255, 0.78);
-    border-bottom: 1px solid transparent;
     backdrop-filter: saturate(180%) blur(16px);
     -webkit-backdrop-filter: saturate(180%) blur(16px);
-    /* (was position: relative — that killed the sticky behaviour; sticky
-       creates its own positioning context for ::after anyway.) */
+    border-radius: 0 0 60% 60% / 0 0 240% 240%;
+    transform: scaleY(0);
+    transform-origin: top center;
+    transition:
+      transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+      border-radius 0.5s ease-out;
+    pointer-events: none;
+    z-index: -1;
+    will-change: transform, border-radius;
+  }
+  .navbar-active::before {
+    transform: scaleY(1);
+    border-radius: 0;
   }
   .navbar-active::after {
     content: '';
@@ -183,10 +195,14 @@ const menuitems = [
      white-blur look, never the transparent-over-dark state.
      ============================================================ */
   body:not(.has-dark-hero) .navbar {
-    background: rgba(255, 255, 255, 0.78);
-    backdrop-filter: saturate(180%) blur(16px);
-    -webkit-backdrop-filter: saturate(180%) blur(16px);
     position: sticky;
+  }
+  /* Internal pages: the white arc is in its fully-revealed end state from
+     page load — no transition, since there's no dark hero to start over. */
+  body:not(.has-dark-hero) .navbar::before {
+    transform: scaleY(1);
+    border-radius: 0;
+    transition: none;
   }
   body:not(.has-dark-hero) .navbar::after {
     content: '';
