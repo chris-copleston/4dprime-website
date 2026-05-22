@@ -73,7 +73,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     href="#what-we-make"
     aria-label="Scroll to what we make"
     data-scroll-cue
-    class="scroll-cue absolute left-1/2 bottom-32 z-[3] hidden sm:flex flex-col items-center gap-2 text-bone/55 hover:text-bone transition-colors">
+    class="scroll-cue absolute left-1/2 bottom-28 z-[3] hidden sm:flex flex-col items-center gap-2 text-bone/55 hover:text-bone transition-colors">
     <span class="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
     <span class="scroll-cue-track"><span class="scroll-cue-dot"></span></span>
   </a>
@@ -137,11 +137,15 @@ import ShaderCanvas from '@components/shader-canvas.astro'
   }
 
   /* Scroll cue slides DOWN as user scrolls, going behind the horizon
-     curve and out of view. --cue-y is driven from JS. */
+     curve and out of view. --cue-y is driven from JS.
+     Padding gives the link a ≥24×24px tap target (WCAG 2.5.8) without
+     visually changing the track or label position. */
   .scroll-cue {
     --cue-y: 0px;
     transform: translate(-50%, var(--cue-y));
     transition: transform 80ms linear;
+    padding: 12px 16px;
+    min-width: 48px;
   }
 
   .scroll-cue-track {

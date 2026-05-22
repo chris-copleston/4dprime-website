@@ -37,8 +37,14 @@ const menuitems = [
             href="/"
             aria-label="4DPrime home"
             class="flex items-center transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-iris focus-visible:outline-none rounded-full px-2 -ml-2">
-            <img src="/logo.png" width="450" height="117" alt="" aria-hidden="true" class="logo logo-light" />
-            <img src="/4dprime-dark.png" width="450" height="119" alt="" aria-hidden="true" class="logo logo-dark" />
+            <picture class="logo logo-light">
+              <source type="image/webp" srcset="/logo-300.webp 1x, /logo-600.webp 2x" />
+              <img src="/logo.png" width="300" height="78" alt="" aria-hidden="true" fetchpriority="high" decoding="async" />
+            </picture>
+            <picture class="logo logo-dark">
+              <source type="image/webp" srcset="/4dprime-dark-300.webp 1x, /4dprime-dark-600.webp 2x" />
+              <img src="/4dprime-dark.png" width="300" height="79" alt="" aria-hidden="true" fetchpriority="high" decoding="async" />
+            </picture>
           </a>
           <div class="block lg:hidden">
             <MenuIcon class="w-8 h-8 text-gray-800" />
@@ -138,8 +144,14 @@ const menuitems = [
     background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.45), rgba(34, 211, 238, 0.45), transparent);
   }
   .logo {
+    display: inline-block;
     width: 150px;
     height: auto;
+  }
+  .logo img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
   /* Default: show the light-background logo, hide the dark-background one. */
   .logo-dark { display: none; }
@@ -237,7 +249,7 @@ const menuitems = [
     color: #ffffff;
   }
   body.has-dark-hero .navbar:not(.navbar-active) .logo-light { display: none; }
-  body.has-dark-hero .navbar:not(.navbar-active) .logo-dark { display: block; }
+  body.has-dark-hero .navbar:not(.navbar-active) .logo-dark { display: inline-block; }
   body.has-dark-hero .navbar:not(.navbar-active) .cta-pill {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
@@ -294,7 +306,7 @@ const menuitems = [
       transition: none;
     }
     body.has-dark-hero .navbar:has(.astronav-items:not(.hidden)) .logo-light { display: none; }
-    body.has-dark-hero .navbar:has(.astronav-items:not(.hidden)) .logo-dark { display: block; }
+    body.has-dark-hero .navbar:has(.astronav-items:not(.hidden)) .logo-dark { display: inline-block; }
     body.has-dark-hero .navbar:has(.astronav-items:not(.hidden)) .nav-link,
     body.has-dark-hero .navbar:has(.astronav-items:not(.hidden)) button {
       color: rgba(255, 255, 255, 0.85);

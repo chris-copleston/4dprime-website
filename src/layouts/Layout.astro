@@ -66,6 +66,22 @@ const hasDarkHero = darkHeroPaths.includes(pathname)
       }}
     />
     <style is:global>
+      /* Fallback font metrics tuned to Inter so swap-in causes near-zero
+         layout shift. Numbers derived from Inter's hhea metrics relative
+         to the local system fallback. */
+      @font-face {
+        font-family: 'Inter Fallback';
+        src: local('Arial');
+        size-adjust: 107%;
+        ascent-override: 90%;
+        descent-override: 22%;
+        line-gap-override: 0%;
+      }
+
+      html, body {
+        font-family: 'Inter Variable', Inter, 'Inter Fallback', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+
       img { content-visibility: auto; }
 
       :root {

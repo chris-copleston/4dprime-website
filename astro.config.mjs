@@ -26,10 +26,8 @@ export default defineConfig({
   output: 'static',
   build: {
     assets: 'assets',
-    inlineStylesheets: 'auto', // Automatically inline small stylesheets
-    // Use compression
+    inlineStylesheets: 'always',
     compress: true,
-    // Split larger components
     splitting: true
   },
   vite: {
