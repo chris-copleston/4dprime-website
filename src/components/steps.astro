@@ -65,7 +65,9 @@ const accentMap: Record<string, { dot: string; ring: string; text: string; glow:
           <div class="step-row relative flex items-center">
             <span class={`step-badge relative grid place-items-center w-14 h-14 rounded-full bg-white ring-1 ${a.ring} text-slate-900 transition-all duration-300 group-hover:${a.glow}`}>
               <span class="font-semibold tabular-nums text-base">{item.step}</span>
-              <span class={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full ${a.dot} ring-2 ring-white`}></span>
+              <span class="step-orbit absolute inset-0 pointer-events-none" aria-hidden="true">
+                <span class={`step-dot absolute left-1/2 -bottom-1.5 -translate-x-1/2 w-1.5 h-1.5 rounded-full ${a.dot} ring-2 ring-white`}></span>
+              </span>
             </span>
             <span class="step-rail flex-1 h-px ml-3 hidden lg:block" aria-hidden="true"></span>
           </div>
@@ -88,6 +90,20 @@ const accentMap: Record<string, { dot: string; ring: string; text: string; glow:
       transparent
     );
   }
-  .step-badge { transition: box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
-  .step-card:hover .step-badge { transform: translateY(-2px); }
+  .step-badge { transition: box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+
+  /* Dot orbits the badge while the step is hovered. The orbit wrapper
+     matches the badge's bounding box, so its centre is the badge centre —
+     rotating it carries the dot along the rim. */
+  .step-orbit { transform-origin: 50% 50%; }
+  .step-card:hover .step-orbit {
+    animation: step-orbit 2.4s linear infinite;
+  }
+  @keyframes step-orbit {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .step-card:hover .step-orbit { animation: none; }
+  }
 </style>
