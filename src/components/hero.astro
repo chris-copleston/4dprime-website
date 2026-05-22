@@ -748,4 +748,81 @@ import ShaderCanvas from '@components/shader-canvas.astro'
 
   initSunrise()
   document.addEventListener('astro:after-swap', initSunrise)
+
+  // ============================================================
+  // SCROLL CUE — animate the journey to #what-we-make with a long,
+  // deliberate ease, instead of the browser's quick smooth-scroll.
+  // ============================================================
+  function initScrollCueAnimation() {
+    const cue = document.querySelector<HTMLAnchorElement>('[data-scroll-cue]')
+    if (!cue) return
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    cue.addEventListener('click', (e) => {
+      const href = cue.getAttribute('href') || ''
+      const id = href.startsWith('#') ? href.slice(1) : ''
+      const target = id ? document.getElementById(id) : null
+      if (!target) return
+      e.preventDefault()
+
+      if (reduced) {
+        target.scrollIntoView()
+        return
+      }
+
+      const navbar = document.querySelector<HTMLElement>('.navbar')
+      const navOffset = navbar ? navbar.getBoundingClientRect().height : 0
+      const startY = window.scrollY
+      const endY = startY + target.getBoundingClientRect().top - navOffset - 16
+      const distance = endY - startY
+      if (Math.abs(distance) < 4) return
+
+      // Duration scales with distance so short hops feel snappy and long
+      // hauls feel cinematic — clamped to a comfortable range.
+      const duration = Math.max(900, Math.min(1700, Math.abs(distance) * 0.9))
+      // ease-in-out cubic — slow start, fast middle, slow finish.
+      const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
+
+      // The global scroll-behavior:smooth would smooth each per-frame
+      // scrollTo call, mangling our custom ease. Disable it for the
+      // duration of the animation, then restore.
+      const docEl = document.documentElement
+      const prevBehavior = docEl.style.scrollBehavior
+      docEl.style.scrollBehavior = 'auto'
+
+      const startTime = performance.now()
+      let raf = 0
+      let cancelled = false
+      const onUserScroll = () => { cancelled = true }
+      window.addEventListener('wheel', onUserScroll, { passive: true, once: true })
+      window.addEventListener('touchstart', onUserScroll, { passive: true, once: true })
+      window.addEventListener('keydown', onUserScroll, { once: true })
+
+      function cleanup() {
+        docEl.style.scrollBehavior = prevBehavior
+        window.removeEventListener('wheel', onUserScroll)
+        window.removeEventListener('touchstart', onUserScroll)
+        window.removeEventListener('keydown', onUserScroll)
+      }
+
+      function step(now: number) {
+        if (cancelled) {
+          cancelAnimationFrame(raf)
+          cleanup()
+          return
+        }
+        const t = Math.min(1, (now - startTime) / duration)
+        window.scrollTo(0, startY + distance * ease(t))
+        if (t < 1) {
+          raf = requestAnimationFrame(step)
+        } else {
+          cleanup()
+        }
+      }
+      raf = requestAnimationFrame(step)
+    })
+  }
+
+  initScrollCueAnimation()
+  document.addEventListener('astro:after-swap', initScrollCueAnimation)
 </script>
