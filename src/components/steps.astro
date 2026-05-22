@@ -4,33 +4,46 @@ const features = [
     title: 'Understanding your needs',
     description: 'A complimentary consultation to understand your goals. We brainstorm and work with you to find the best path.',
     step: '01',
+    accent: 'iris',
   },
   {
     title: 'Scope & quotation',
     description: 'A detailed scope of work and quotation for your approval. We refine the scope and phase the project together.',
     step: '02',
+    accent: 'cyan',
   },
   {
     title: 'Project plan',
     description: 'A clear plan and schedule. You get updates on progress and milestones the entire way through.',
     step: '03',
+    accent: 'violet',
   },
   {
     title: 'Creative design',
     description: 'Our team creates a design unique to your business and brand — then refines it until you are 100% happy.',
     step: '04',
+    accent: 'plasma',
   },
   {
     title: 'Development',
     description: 'We build with the latest technologies and best practices, with regular check-ins and demos.',
     step: '05',
+    accent: 'iris',
   },
   {
     title: 'Test, deploy & support',
     description: 'We test, deploy, and continue to provide maintenance and support to keep things running smoothly.',
     step: '06',
+    accent: 'cyan',
   },
 ]
+
+const accentMap: Record<string, { dot: string; ring: string; text: string; glow: string }> = {
+  iris:   { dot: 'bg-iris',   ring: 'ring-iris/40',   text: 'text-iris',   glow: 'shadow-[0_0_0_6px_rgba(99,102,241,0.10),0_12px_30px_-10px_rgba(99,102,241,0.45)]' },
+  cyan:   { dot: 'bg-cyan',   ring: 'ring-cyan/40',   text: 'text-cyan',   glow: 'shadow-[0_0_0_6px_rgba(34,211,238,0.10),0_12px_30px_-10px_rgba(34,211,238,0.45)]' },
+  violet: { dot: 'bg-violet', ring: 'ring-violet/40', text: 'text-violet', glow: 'shadow-[0_0_0_6px_rgba(139,92,246,0.10),0_12px_30px_-10px_rgba(139,92,246,0.45)]' },
+  plasma: { dot: 'bg-plasma', ring: 'ring-plasma/40', text: 'text-plasma', glow: 'shadow-[0_0_0_6px_rgba(244,114,182,0.10),0_12px_30px_-10px_rgba(244,114,182,0.45)]' },
+}
 ---
 
 <section class="mt-24 lg:mt-32">
@@ -44,19 +57,37 @@ const features = [
     </p>
   </div>
 
-  <div class="mt-16 relative" data-reveal-stagger data-stagger-base="80">
-    <div class="hidden lg:block absolute left-0 right-0 top-[28px] h-px bg-slate-200" aria-hidden="true"></div>
-
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
-      {features.map((item) => (
+  <div class="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14" data-reveal-stagger data-stagger-base="80">
+    {features.map((item) => {
+      const a = accentMap[item.accent]
+      return (
         <div class="step-card relative group">
-          <span class="relative grid place-items-center w-14 h-14 rounded-full bg-white ring-1 ring-slate-200 text-slate-900 transition-shadow group-hover:shadow-md">
-            <span class="font-semibold tabular-nums text-base">{item.step}</span>
-          </span>
-          <h3 class="mt-5 text-xl font-semibold tracking-tight text-slate-900">{item.title}</h3>
+          <div class="step-row relative flex items-center">
+            <span class={`step-badge relative grid place-items-center w-14 h-14 rounded-full bg-white ring-1 ${a.ring} text-slate-900 transition-all duration-300 group-hover:${a.glow}`}>
+              <span class="font-semibold tabular-nums text-base">{item.step}</span>
+              <span class={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full ${a.dot} ring-2 ring-white`}></span>
+            </span>
+            <span class="step-rail flex-1 h-px ml-3 hidden lg:block" aria-hidden="true"></span>
+          </div>
+          <h3 class={`mt-6 text-xl font-semibold tracking-tight text-slate-900 transition-colors group-hover:${a.text}`}>{item.title}</h3>
           <p class="mt-2 text-slate-600 leading-relaxed [text-wrap:pretty]">{item.description}</p>
         </div>
-      ))}
-    </div>
+      )
+    })}
   </div>
 </section>
+
+<style>
+  .step-rail {
+    background: linear-gradient(
+      90deg,
+      rgba(99, 102, 241, 0.35),
+      rgba(34, 211, 238, 0.35),
+      rgba(139, 92, 246, 0.35),
+      rgba(244, 114, 182, 0.25),
+      transparent
+    );
+  }
+  .step-badge { transition: box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+  .step-card:hover .step-badge { transform: translateY(-2px); }
+</style>
