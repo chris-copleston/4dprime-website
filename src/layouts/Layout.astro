@@ -107,12 +107,13 @@ const isHome = pathname === '/'
         -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
       }
-      /* Home page: the visible page background stays white (so content
-         sections render as designed), but the html element underneath is
-         black — that's what shows in iOS rubber-band overscroll.
-         color-scheme: dark tells iOS Safari to render the URL bar and
-         status-bar chrome in dark mode so they don't fall back to light. */
-      html.is-home {
+      /* Home page: both html and body are black so iOS Safari samples
+         the page edges as dark and renders its status-bar/URL-bar chrome
+         in dark mode (light chrome happened when body was white).
+         The visible content sections wrap themselves in `bg-white` —
+         see src/pages/index.astro. */
+      html.is-home,
+      body.is-home {
         background: #000000;
         color-scheme: dark;
       }
