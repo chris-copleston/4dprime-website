@@ -456,7 +456,7 @@ const {
         // are amped relative to the aurora layers so the eye sees stars first.
 
         // FAR layer — dense, small, slow drift (deep background)
-        vec2 sgA = uv * vec2(140.0 * aspect, 140.0) + vec2(u_time * 0.018, u_time * 0.004);
+        vec2 sgA = uv * vec2(140.0 * aspect, 140.0) + vec2(u_time * 0.09, u_time * 0.022);
         vec2 sfA = fract(sgA) - 0.5;
         float shA = hash(floor(sgA));
         float prA = step(0.984, shA);
@@ -466,7 +466,7 @@ const {
         col += vec3(0.78, 0.85, 1.00) * starA * 1.8;
 
         // MID layer — medium stars, moderate drift
-        vec2 sgB = uv * vec2(75.0 * aspect, 75.0) + vec2(u_time * 0.045, u_time * 0.010);
+        vec2 sgB = uv * vec2(75.0 * aspect, 75.0) + vec2(u_time * 0.18, u_time * 0.042);
         vec2 sfB = fract(sgB) - 0.5;
         float shB = hash(floor(sgB));
         float prB = step(0.993, shB);
@@ -476,7 +476,7 @@ const {
         col += vec3(0.92, 0.95, 1.00) * starB * 2.4;
 
         // NEAR layer — sparse big bright anchor stars, fastest drift
-        vec2 sgC = uv * vec2(38.0 * aspect, 38.0) + vec2(u_time * 0.085, u_time * 0.018);
+        vec2 sgC = uv * vec2(38.0 * aspect, 38.0) + vec2(u_time * 0.32, u_time * 0.075);
         vec2 sfC = fract(sgC) - 0.5;
         float shC = hash(floor(sgC));
         float prC = step(0.997, shC);
