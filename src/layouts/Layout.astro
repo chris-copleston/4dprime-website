@@ -37,7 +37,7 @@ const isHome = pathname === '/'
 ---
 
 <!doctype html>
-<html lang="en" style="scrollbar-gutter: stable;">
+<html lang="en" class:list={[isHome && 'is-home']} style="scrollbar-gutter: stable;">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -107,7 +107,10 @@ const isHome = pathname === '/'
         -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
       }
-      body.is-home {
+      /* Home page: the visible page background stays white (so content
+         sections render as designed), but the html element underneath is
+         black — that's what shows in iOS rubber-band overscroll. */
+      html.is-home {
         background: #000000;
       }
 
