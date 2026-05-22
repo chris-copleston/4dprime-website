@@ -10,7 +10,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
   <!-- Cinematic shader: deep aurora base + three drifting star layers.
        Low intensity keeps the background dark; star brightness is boosted
        inside the shader so they still read against the darker sky. -->
-  <ShaderCanvas variant="cinematic" intensity={0.3} />
+  <ShaderCanvas variant="cinematic" intensity={0.2} />
 
   <div class="absolute inset-x-0 top-0 h-px bg-white/[0.06]"></div>
 
@@ -232,7 +232,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     /* At rest the arch sits just below the hero bottom edge — completely
        off-screen, so only the glow above it is visible. As --rise grows
        with scroll, it climbs to its full visible height (~70px). */
-    top: calc(100% + 6px - var(--rise) * 76px);
+    top: calc(100% - 10px - var(--rise) * 76px);
     width: var(--planet-d);
     height: var(--planet-d);
     margin-left: calc(var(--planet-d) / -2);

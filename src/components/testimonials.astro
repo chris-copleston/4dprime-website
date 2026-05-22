@@ -89,27 +89,15 @@ const testimonials = [
         </div>
       ))}
     </div>
-
-    <div class="carousel-controls">
-      <button class="carousel-arrow" data-carousel-prev aria-label="Previous testimonial">
-        <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 010 1.06L8.832 10l3.958 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.04.02z" clip-rule="evenodd"/></svg>
-      </button>
-      <div class="carousel-dots" data-carousel-dots>
-        {testimonials.map((_, i) => (
-          <button class="carousel-dot" data-carousel-jump={i} aria-label={`Go to testimonial ${i + 1}`}></button>
-        ))}
-      </div>
-      <button class="carousel-arrow" data-carousel-next aria-label="Next testimonial">
-        <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/></svg>
-      </button>
-    </div>
   </div>
 ) : null}
 
 <style>
   .testimonials-carousel {
     width: 100%;
-    overflow: hidden;
+    overflow-x: clip;
+    overflow-y: visible;
+    padding-bottom: 60px;
   }
 
   .carousel-stage {
@@ -155,53 +143,6 @@ const testimonials = [
     transform: scale(1.04);
   }
 
-  .carousel-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 1.25rem;
-  }
-
-  .carousel-arrow {
-    width: 36px;
-    height: 36px;
-    border-radius: 9999px;
-    border: 1px solid rgb(226, 232, 240);
-    background: white;
-    color: rgb(71, 85, 105);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
-  }
-  .carousel-arrow:hover {
-    background: rgb(248, 250, 252);
-    color: rgb(15, 23, 42);
-    border-color: rgb(203, 213, 225);
-  }
-
-  .carousel-dots {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 0 0.5rem;
-  }
-  .carousel-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgb(203, 213, 225);
-    border: 0;
-    padding: 0;
-    transition: background 0.2s, transform 0.2s;
-    cursor: pointer;
-  }
-  .carousel-dot[data-active='true'] {
-    background: rgb(99, 102, 241);
-    transform: scale(1.4);
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .carousel-card { transition: none; }
   }
@@ -217,18 +158,9 @@ const testimonials = [
     const total = cards.length
     if (!total) return
 
-    const dotsHost = document.querySelector('[data-carousel-dots]')
-    const dots = dotsHost
-      ? Array.from(dotsHost.querySelectorAll<HTMLElement>('[data-carousel-jump]'))
-      : []
-    const prevBtn = document.querySelector<HTMLElement>('[data-carousel-prev]')
-    const nextBtn = document.querySelector<HTMLElement>('[data-carousel-next]')
-
-    let idx = 0
-    let interval: ReturnType<typeof setInterval> | null = null
-    let paused = false
-
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    // Start with Simon Mehlman in the foreground if present, else first card.
+    let idx = cards.findIndex((c) => /Simon Mehlman/i.test(c.textContent || ''))
+    if (idx < 0) idx = 0
 
     function getStep() {
       const w = stage!.clientWidth
@@ -258,65 +190,53 @@ const testimonials = [
         // Slight depth-of-field blur on background cards.
         card.style.filter = abs === 0 ? 'none' : `blur(${abs * 1.4}px)`
         card.style.zIndex = String(total - abs)
-        card.style.pointerEvents = abs === 0 ? 'auto' : 'none'
+        card.style.pointerEvents = visible ? 'auto' : 'none'
         card.setAttribute('aria-hidden', abs === 0 ? 'false' : 'true')
         card.setAttribute('data-active', abs === 0 ? 'true' : 'false')
       }
-      dots.forEach((d, i) => {
-        d.setAttribute('data-active', i === idx ? 'true' : 'false')
-      })
     }
 
-    function go(delta: number) {
-      idx = (idx + delta + total) % total
-      update()
+    // Cards live in a 3D-perspective stage; browser hit-testing routes
+    // clicks to the stage rather than the projected card. Delegate the
+    // click and find the topmost visible card whose projected rect
+    // contains the click point.
+    function cardAtPoint(x: number, y: number): number {
+      let best = -1
+      let bestZ = -Infinity
+      for (let i = 0; i < total; i++) {
+        const card = cards[i]
+        if (card.style.opacity === '0') continue
+        const r = card.getBoundingClientRect()
+        if (x < r.left || x > r.right || y < r.top || y > r.bottom) continue
+        const z = parseInt(card.style.zIndex || '0', 10)
+        if (z > bestZ) {
+          bestZ = z
+          best = i
+        }
+      }
+      return best
     }
 
-    function start() {
-      if (reduced) return
-      if (interval) clearInterval(interval)
-      interval = setInterval(() => {
-        if (!paused) go(1)
-      }, 6000)
-    }
-
-    prevBtn?.addEventListener('click', () => {
-      go(-1)
-      start()
-    })
-    nextBtn?.addEventListener('click', () => {
-      go(1)
-      start()
-    })
-    dots.forEach((d, i) => {
-      d.addEventListener('click', () => {
-        idx = i
+    stage.addEventListener('click', (e) => {
+      const hit = cardAtPoint(e.clientX, e.clientY)
+      if (hit >= 0 && hit !== idx) {
+        idx = hit
         update()
-        start()
-      })
+      }
     })
 
-    cards.forEach((card, i) => {
-      card.addEventListener('click', () => {
-        if (i === idx) return
-        idx = i
-        update()
-        start()
-      })
-    })
-
-    stage.addEventListener('pointerenter', () => {
-      paused = true
+    stage.addEventListener('pointermove', (e) => {
+      const hit = cardAtPoint(e.clientX, e.clientY)
+      stage.style.cursor = hit >= 0 && hit !== idx ? 'pointer' : ''
     })
     stage.addEventListener('pointerleave', () => {
-      paused = false
+      stage.style.cursor = ''
     })
 
     const ro = new ResizeObserver(update)
     ro.observe(stage)
 
     update()
-    start()
   }
 
   initTestimonialCarousel()
