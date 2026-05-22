@@ -459,8 +459,8 @@ const {
         vec2 sgA = uv * vec2(140.0 * aspect, 140.0) + vec2(u_time * 0.09, u_time * 0.022);
         vec2 sfA = fract(sgA) - 0.5;
         float shA = hash(floor(sgA));
-        float prA = step(0.984, shA);
-        float twA = 0.5 + 0.5 * sin(u_time * 1.6 + shA * 50.0);
+        float prA = step(0.930, shA);
+        float twA = 0.7 + 0.3 * sin(u_time * 1.2 + shA * 50.0);
         float sdA = length(sfA);
         float starA = prA * smoothstep(0.035, 0.0, sdA) * twA;
         col += vec3(0.78, 0.85, 1.00) * starA * 1.8;
@@ -469,8 +469,8 @@ const {
         vec2 sgB = uv * vec2(75.0 * aspect, 75.0) + vec2(u_time * 0.18, u_time * 0.042);
         vec2 sfB = fract(sgB) - 0.5;
         float shB = hash(floor(sgB));
-        float prB = step(0.993, shB);
-        float twB = 0.5 + 0.5 * sin(u_time * 2.4 + shB * 70.0);
+        float prB = step(0.960, shB);
+        float twB = 0.7 + 0.3 * sin(u_time * 1.8 + shB * 70.0);
         float sdB = length(sfB);
         float starB = prB * smoothstep(0.075, 0.0, sdB) * twB;
         col += vec3(0.92, 0.95, 1.00) * starB * 2.4;
@@ -479,8 +479,8 @@ const {
         vec2 sgC = uv * vec2(38.0 * aspect, 38.0) + vec2(u_time * 0.32, u_time * 0.075);
         vec2 sfC = fract(sgC) - 0.5;
         float shC = hash(floor(sgC));
-        float prC = step(0.997, shC);
-        float twC = 0.4 + 0.6 * sin(u_time * 3.0 + shC * 80.0);
+        float prC = step(0.996, shC);
+        float twC = 0.7 + 0.3 * sin(u_time * 2.2 + shC * 80.0);
         float sdC = length(sfC);
         float starC = prC * smoothstep(0.13, 0.0, sdC) * twC;
         col += vec3(1.0, 0.97, 0.88) * starC * 2.8;
