@@ -72,7 +72,7 @@ const menuitems = [
               </li>
             ))}
           </ul>
-          <div class="lg:hidden flex items-center mt-3 gap-4">
+          <div class="lg:hidden flex items-center justify-center mt-3 gap-4">
             <a href="/search" class="nav-link text-sm">Search</a>
             <a href="/contact" class="cta-pill">Let's chat</a>
           </div>
@@ -185,9 +185,10 @@ const menuitems = [
   .cta-pill:hover { background: #1f2233; }
 
   /* When the navbar is in its white-blur state, the Let's chat
-     neon-ring button needs dark text (it sits on white now). */
-  .navbar-active .cta-pill.btn-magnetic,
-  .navbar-active .cta-pill {
+     neon-ring button needs dark text (it sits on white now). Only
+     the .btn-magnetic variant has a transparent fill — the plain
+     mobile-menu .cta-pill keeps its dark-ink fill + white text. */
+  .navbar-active .cta-pill.btn-magnetic {
     color: #0a0b1f !important;
   }
 
@@ -214,8 +215,7 @@ const menuitems = [
     background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.45), rgba(34, 211, 238, 0.45), transparent);
     pointer-events: none;
   }
-  body:not(.has-dark-hero) .navbar .cta-pill.btn-magnetic,
-  body:not(.has-dark-hero) .navbar .cta-pill {
+  body:not(.has-dark-hero) .navbar .cta-pill.btn-magnetic {
     color: #0a0b1f !important;
   }
 
@@ -251,5 +251,57 @@ const menuitems = [
      in the Dropdown component — selector covers the inline button text colour. */
   body.has-dark-hero .navbar:not(.navbar-active) button {
     color: rgba(255, 255, 255, 0.85);
+  }
+  /* Desktop dropdown panel matches the dark-hero theme so it doesn't punch
+     a white hole over the dark hero when opened. */
+  @media (min-width: 1024px) {
+    body.has-dark-hero .navbar:not(.navbar-active) .dropdown-panel {
+      background: rgba(10, 11, 31, 0.92) !important;
+      border-color: rgba(255, 255, 255, 0.10) !important;
+      backdrop-filter: saturate(180%) blur(16px);
+      -webkit-backdrop-filter: saturate(180%) blur(16px);
+      box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.5);
+    }
+    body.has-dark-hero .navbar:not(.navbar-active) .dropdown-link {
+      color: rgba(255, 255, 255, 0.85);
+    }
+    body.has-dark-hero .navbar:not(.navbar-active) .dropdown-link:hover {
+      color: #ffffff;
+    }
+  }
+
+  /* ============================================================
+     MOBILE MENU OPEN — when the mobile drop-down is expanded, the
+     navbar's natural height grows in-flow and the page's white
+     <body> background would otherwise leak through. Paint a dark
+     backdrop so the white menu text stays readable. Also lock the
+     dark-hero theme (dark logo + white text) so scrolling past the
+     hero doesn't flip it mid-interaction.
+     ============================================================ */
+  @media (max-width: 1023px) {
+    body.has-dark-hero .navbar:has(.astronav-items:not(.hidden))::before {
+      background: rgba(10, 11, 31, 0.96);
+      backdrop-filter: saturate(180%) blur(16px);
+      -webkit-backdrop-filter: saturate(180%) blur(16px);
+      transform: scaleY(1);
+      border-radius: 0;
+      transition: none;
+    }
+    body.has-dark-hero .navbar:has(.astronav-items:not(.hidden)) .logo-light { display: none; }
+    body.has-dark-hero .navbar:has(.astronav-items:not(.hidden)) .logo-dark { display: block; }
+    body.has-dark-hero .navbar:has(.astronav-items:not(.hidden)) .nav-link,
+    body.has-dark-hero .navbar:has(.astronav-items:not(.hidden)) button {
+      color: rgba(255, 255, 255, 0.85);
+    }
+    body.has-dark-hero .navbar:has(.astronav-items:not(.hidden)) .nav-link:hover {
+      color: #ffffff;
+    }
+    body.has-dark-hero .navbar:has(.astronav-items:not(.hidden)) .cta-pill,
+    body.has-dark-hero .navbar:has(.astronav-items:not(.hidden)) .cta-pill.btn-magnetic {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff !important;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
   }
 </style>

@@ -6,7 +6,7 @@ const { title, lastItem, children } = Astro.props
 <li class="relative z-50 isolate">
   <NavDropdown class="group">
     <button
-      class="flex items-center gap-1 text-lg w-full lg:w-auto transition lg:text-sm lg:px-3 py-2 text-gray-600 hover:text-indigo-600 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 focus-visible:outline-none focus-visible:shadow-outline-indigo rounded-full">
+      class="flex items-center justify-center gap-1 text-lg w-full lg:w-auto transition lg:text-sm lg:px-3 py-2 text-gray-600 hover:text-indigo-600 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 focus-visible:outline-none focus-visible:shadow-outline-indigo rounded-full">
       <span>{title}</span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -24,18 +24,18 @@ const { title, lastItem, children } = Astro.props
     <DropdownItems>
       <div
         class:list={[
-          'lg:absolute w-full lg:w-48 z-50 border-l lg:border-0 border-slate-200',
+          'lg:absolute w-full lg:w-48 z-50',
           lastItem
             ? 'lg:right-0 origin-top-right'
             : 'lg:left-0 origin-top-left',
         ]}>
         <div
-          class="px-3 lg:py-2 lg:bg-white lg:rounded-md lg:shadow lg:border flex flex-col">
+          class="dropdown-panel px-3 lg:py-2 lg:bg-white lg:rounded-md lg:shadow lg:border flex flex-col items-center lg:items-stretch">
           {
             children.map((item) => (
               <a
                 href={item.path}
-                class="py-1  text-lg lg:text-sm text-gray-600 hover:text-indigo-600 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 focus-visible:outline-none focus-visible:shadow-outline-indigo rounded">
+                class="dropdown-link py-1 text-lg lg:text-sm text-gray-600 hover:text-indigo-600 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 focus-visible:outline-none focus-visible:shadow-outline-indigo rounded text-center lg:text-left">
                 {item.title}
               </a>
             ))

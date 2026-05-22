@@ -10,7 +10,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
   <!-- Cinematic shader: deep aurora base + three drifting star layers.
        Low intensity keeps the background dark; star brightness is boosted
        inside the shader so they still read against the darker sky. -->
-  <ShaderCanvas variant="cinematic" intensity={0.2} />
+  <ShaderCanvas variant="cinematic" intensity={0.28} />
 
   <div class="absolute inset-x-0 top-0 h-px bg-white/[0.06]"></div>
 
@@ -379,8 +379,13 @@ import ShaderCanvas from '@components/shader-canvas.astro'
 
       const img = octx2.getImageData(0, 0, ow, oh)
 
-      // Density: keep particle count manageable on tiny screens
-      const step = isTiny ? 9 : isSmall ? 8 : 7
+      // Density: tighter spacing across the board so letterforms read
+      // smoothly without chunky pixelation.
+      const step = isTiny ? 5 : isSmall ? 5 : 5
+      // Per-particle radius — proportional to the step so dots stay
+      // visually balanced (small dots, tight grid).
+      const rBase = isTiny ? 0.6 : isSmall ? 0.8 : 1.0
+      const rRange = isTiny ? 0.5 : isSmall ? 0.7 : 0.9
 
       // Resize the layout spacer to fit the wordmark — this prevents
       // the wrapped multi-line text from colliding with the subtitle below.
@@ -434,7 +439,7 @@ import ShaderCanvas from '@components/shader-canvas.astro'
             y: Math.random() * h,
             vx: (Math.random() - 0.5) * 4,
             vy: (Math.random() - 0.5) * 4,
-            r: (Math.random() * 1.1 + 1.5) * dpr,
+            r: (Math.random() * rRange + rBase) * dpr,
             h: np.hRatio,
             cj: (Math.random() - 0.5) * 0.13, // ±0.065 stable jitter
             tw: Math.random() * Math.PI * 2,
