@@ -19,11 +19,13 @@ You're often sold by the senior people you'll never see again after kick-off. As
 
 **Red flag**: vague references to "our talented pool of developers" or an offshore team you only learn about later.
 
-## 2. Who owns the code, the design files and the data?
+## 2. How often will we actually hear from you — and from whom?
 
-This should be unambiguous: you do. Get it in writing. Make sure it covers the source code, the design source files (Figma, etc), the database schema and any infrastructure-as-code.
+The most common complaint we hear about previous agencies isn't about quality; it's about silence. Get the communication cadence agreed in writing before you sign: a weekly demo or written update, a named project lead as your day-to-day contact, a defined channel (Slack, email, calls) and a stated response time during working hours. Ask what a normal Tuesday afternoon looks like — if you send a message, when can you expect a reply?
 
-**Red flag**: any version of "we retain rights to the code" or "the platform is licensed to you" for a custom build.
+**Good answer**: a fixed weekly rhythm, a named PM, and the same person showing up on every call.
+
+**Red flag**: replies only come from the salesperson, or "we'll sort the cadence out once we kick off."
 
 ## 3. What happens if the developer assigned to us leaves mid-project?
 
