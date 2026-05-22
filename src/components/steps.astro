@@ -62,17 +62,19 @@ const accentMap: Record<string, { dot: string; ring: string; text: string; glow:
       const a = accentMap[item.accent]
       return (
         <div class="step-card relative group">
-          <div class="step-row relative flex items-center">
-            <span class={`step-badge relative grid place-items-center w-14 h-14 rounded-full bg-white ring-1 ${a.ring} text-slate-900 transition-all duration-300 group-hover:${a.glow}`}>
-              <span class="font-semibold tabular-nums text-base">{item.step}</span>
-              <span class="step-orbit absolute inset-0 pointer-events-none" aria-hidden="true">
-                <span class={`step-dot absolute left-1/2 -bottom-1.5 -translate-x-1/2 w-1.5 h-1.5 rounded-full ${a.dot} ring-2 ring-white`}></span>
+          <div class="flex items-center gap-4 sm:block">
+            <div class="step-row relative flex items-center shrink-0 sm:w-full">
+              <span class={`step-badge relative grid place-items-center w-14 h-14 rounded-full bg-white ring-1 ${a.ring} text-slate-900 transition-all duration-300 group-hover:${a.glow}`}>
+                <span class="font-semibold tabular-nums text-base">{item.step}</span>
+                <span class="step-orbit absolute inset-0 pointer-events-none" aria-hidden="true">
+                  <span class={`step-dot absolute left-1/2 -bottom-1.5 -translate-x-1/2 w-1.5 h-1.5 rounded-full ${a.dot} ring-2 ring-white`}></span>
+                </span>
               </span>
-            </span>
-            <span class="step-rail flex-1 h-px ml-3 hidden lg:block" aria-hidden="true"></span>
+              <span class="step-rail flex-1 h-px ml-3 hidden lg:block" aria-hidden="true"></span>
+            </div>
+            <h3 class={`flex-1 text-xl font-semibold tracking-tight text-slate-900 transition-colors group-hover:${a.text} sm:mt-6`}>{item.title}</h3>
           </div>
-          <h3 class={`mt-6 text-xl font-semibold tracking-tight text-slate-900 transition-colors group-hover:${a.text}`}>{item.title}</h3>
-          <p class="mt-2 text-slate-600 leading-relaxed [text-wrap:pretty]">{item.description}</p>
+          <p class="mt-4 sm:mt-2 text-slate-600 leading-relaxed [text-wrap:pretty]">{item.description}</p>
         </div>
       )
     })}
