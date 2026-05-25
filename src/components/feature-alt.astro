@@ -120,6 +120,8 @@ const { nomargin } = Astro.props
           alt="Feature Image"
           formats={['avif', 'webp']}
           fallbackFormat="jpg"
+          width={600}
+          densities={[1, 2]}
           loading="lazy"
           class="relative rounded-2xl w-full h-auto ring-1 ring-slate-200"
         />

@@ -43,6 +43,8 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
           formats={['avif', 'webp']}
           fallbackFormat="jpg"
           src={EmployeeImg}
+          width={448}
+          densities={[1, 2]}
           alt="Happy Team"
           class="rounded-xl w-full max-w-md mx-auto shadow-2xl"
           loading="lazy"
