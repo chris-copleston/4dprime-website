@@ -35,6 +35,7 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
           src={heroWebImage}
           alt="Feature Image"
           formats={['avif', 'webp']}
+          fallbackFormat="jpg"
           width="800"
         />
         <h2 class="text-2xl font-medium mt-12">100% Google Rated</h2>
@@ -50,6 +51,7 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
           alt="Fast and compliant"
           class="mt-4"
           formats={['avif', 'webp']}
+          fallbackFormat="jpg"
           width="614"
           loading="lazy"
         />
@@ -98,6 +100,7 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
             src={AIBotImage}
             alt="AI Bots"
             formats={['avif', 'webp']}
+            fallbackFormat="jpg"
             width="340"
             loading="lazy"
             class="mt-8 ml-16 rounded-lg shadow-lg border border-gray-200"

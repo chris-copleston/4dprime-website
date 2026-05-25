@@ -38,6 +38,7 @@ const { Content } = await entry.render()
     <div class="mx-auto max-w-4xl">
       <Picture
         formats={['avif', 'webp']}
+        fallbackFormat="jpg"
         src={entry.data.cover}
         alt={entry.data.title}
         width="1280"

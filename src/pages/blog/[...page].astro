@@ -43,6 +43,7 @@ const { page } = Astro.props
                 <div>
                   <Picture
                     formats={['avif', 'webp']}
+                    fallbackFormat="jpg"
                     src={post.data.cover}
                     alt={post.data.title}
                     sizes="(max-width: 800px) 100vw, 800px"
