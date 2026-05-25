@@ -148,6 +148,14 @@ import ShaderCanvas from '@components/shader-canvas.astro'
     min-width: 48px;
   }
 
+  /* Hide the scroll cue on short viewports where there's not enough
+     vertical room for it to sit clear of the hero content. */
+  @media (max-height: 959px) {
+    .scroll-cue {
+      display: none;
+    }
+  }
+
   .scroll-cue-track {
     display: block;
     width: 1.5px;
