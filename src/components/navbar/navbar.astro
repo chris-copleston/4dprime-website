@@ -4,19 +4,19 @@ import Dropdown from './dropdown.astro'
 import { StickyHeader, Astronav, MenuItems, MenuIcon } from 'astro-navbar'
 
 const menuitems = [
-  { title: 'Mobile Apps', path: '/mobile-apps' },
-  { title: 'Websites', path: '/websites' },
-  { title: 'Development', path: '/development' },
-  { title: 'AI', path: '/ai' },
+  { title: 'Mobile Apps', path: '/mobile-apps/' },
+  { title: 'Websites', path: '/websites/' },
+  { title: 'Development', path: '/development/' },
+  { title: 'AI', path: '/ai/' },
   {
     title: 'About',
     path: '#',
     children: [
-      { title: 'About Us', path: '/about' },
-      { title: 'Portfolio', path: '/portfolio' },
-      { title: 'Testimonials', path: '/testimonials' },
-      { title: 'Our Blog', path: '/blog' },
-      { title: 'Contact Us', path: '/contact' },
+      { title: 'About Us', path: '/about/' },
+      { title: 'Portfolio', path: '/portfolio/' },
+      { title: 'Testimonials', path: '/testimonials/' },
+      { title: 'Our Blog', path: '/blog/' },
+      { title: 'Contact Us', path: '/contact/' },
     ],
   },
 ]
@@ -39,11 +39,11 @@ const menuitems = [
             class="flex items-center transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-iris focus-visible:outline-none rounded-full px-2 -ml-2">
             <picture class="logo logo-light">
               <source type="image/webp" srcset="/logo-300.webp 1x, /logo-600.webp 2x" />
-              <img src="/logo.png" width="300" height="78" alt="" aria-hidden="true" fetchpriority="high" decoding="async" />
+              <img src="/logo.png" width="300" height="78" alt="4DPrime logo" fetchpriority="high" decoding="async" />
             </picture>
             <picture class="logo logo-dark">
               <source type="image/webp" srcset="/4dprime-dark-300.webp 1x, /4dprime-dark-600.webp 2x" />
-              <img src="/4dprime-dark.png" width="300" height="79" alt="" aria-hidden="true" fetchpriority="high" decoding="async" />
+              <img src="/4dprime-dark.png" width="300" height="79" alt="4DPrime logo" fetchpriority="high" decoding="async" />
             </picture>
           </a>
           <div class="block lg:hidden">
@@ -79,21 +79,21 @@ const menuitems = [
             ))}
           </ul>
           <div class="lg:hidden flex items-center justify-center mt-3 gap-4">
-            <a href="/search" class="nav-link text-sm">Search</a>
-            <a href="/contact" class="cta-pill">Let's chat</a>
+            <a href="/search/" class="nav-link text-sm">Search</a>
+            <a href="/contact/" class="cta-pill">Let's chat</a>
           </div>
         </MenuItems>
       </Astronav>
       <div>
         <div class="hidden lg:flex items-center gap-3">
-          <a href="/search" aria-label="Website search" class="nav-icon-btn">
+          <a href="/search/" aria-label="Website search" class="nav-icon-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
               <circle cx="11" cy="11" r="7"/>
               <path d="m21 21-4.3-4.3"/>
             </svg>
           </a>
           <a
-            href="/contact"
+            href="/contact/"
             class="cta-pill btn-magnetic group">
             <span class="relative z-10 flex items-center gap-1.5">
               Let's chat
