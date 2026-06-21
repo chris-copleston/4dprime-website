@@ -7,7 +7,9 @@ import Cta from '@components/cta.astro'
 
 // Generate a new path for every collection entry
 export async function getStaticPaths() {
-  const portfolioEntries = await getCollection('portfolio')
+  const portfolioEntries = await getCollection('portfolio', ({ data }) => {
+    return !data.draft && data.publishDate < new Date()
+  })
   return portfolioEntries.map((entry) => ({
     params: { slug: entry.slug },
     props: { entry },
@@ -19,7 +21,10 @@ const { entry } = Astro.props
 const { Content } = await entry.render()
 ---
 
-<Layout title={entry.data.title} footerMargin={false}>
+<Layout
+  title={entry.data.title}
+  description={entry.data.snippet}
+  footerMargin={false}>
   <Container>
     <div class="mx-auto max-w-3xl text-center mt-14">
       <h1
