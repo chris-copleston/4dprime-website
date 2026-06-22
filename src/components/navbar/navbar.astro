@@ -51,6 +51,7 @@ const menuitems = [
           </div>
         </div>
         <MenuItems class="hidden w-full lg:w-auto mt-2 lg:flex lg:mt-0">
+          <div class="astronav-inner">
           <ul class="flex flex-col lg:flex-row lg:gap-1 lg:items-center">
             <li class="hidden lg:block px-1">
               <a href="/" aria-label="Home page" class="nav-icon-btn">
@@ -81,6 +82,7 @@ const menuitems = [
           <div class="lg:hidden flex items-center justify-center mt-3 gap-4">
             <a href="/search/" class="nav-link text-sm">Search</a>
             <a href="/contact/" class="cta-pill">Let's chat</a>
+          </div>
           </div>
         </MenuItems>
       </Astronav>
@@ -327,4 +329,85 @@ const menuitems = [
       color: rgba(255, 255, 255, 0.9) !important;
     }
   }
+
+  /* ============================================================
+     MOBILE MENU REVEAL — astro-navbar shows/hides the menu by
+     toggling `.hidden` on the `.astronav-items` <nav> (an instant
+     display swap). Animate it instead: a CSS-grid row collapse
+     eases the navbar height open/closed while the contents fade
+     and slide. The navbar backdrop (.navbar::before, inset:0)
+     grows with the navbar height, so it stays in sync for free.
+
+     `.astronav-inner` is the single collapsing track. On desktop
+     it's display:contents so the existing flex row is untouched.
+     ============================================================ */
+  .astronav-inner { display: contents; }
+
+  @media (max-width: 1023px) {
+    .navbar .astronav-items {
+      display: grid !important;        /* override Tailwind's .hidden display:none */
+      grid-template-rows: 1fr;         /* open: Tailwind mt-2 supplies the top gap */
+      opacity: 1;
+      transition:
+        grid-template-rows 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        margin-top 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.3s ease;
+    }
+    .navbar .astronav-items.hidden {
+      grid-template-rows: 0fr;
+      margin-top: 0;                   /* collapse the mt-2 gap to nothing when closed */
+      opacity: 0;
+      pointer-events: none;
+    }
+    .navbar .astronav-inner {
+      display: block;
+      overflow: hidden;
+      min-height: 0;
+      transform: translateY(0);
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .navbar .astronav-items.hidden .astronav-inner {
+      transform: translateY(-6px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .navbar .astronav-items,
+      .navbar .astronav-inner {
+        transition: none;
+      }
+    }
+  }
 </style>
+
+<script>
+  function setupAboutPreExpand() {
+    const menuButton = document.getElementById('astronav-menu')
+    if (!menuButton) return
+
+    menuButton.addEventListener('click', () => {
+      requestAnimationFrame(() => {
+        const menuItems = document.querySelector('.astronav-items')
+        if (!menuItems || menuItems.classList.contains('hidden')) return
+        if (window.innerWidth >= 1024) return
+
+        const dropdowns = document.querySelectorAll('.astronav-dropdown')
+        for (const dropdown of dropdowns) {
+          const label = dropdown.querySelector('button span')?.textContent?.trim()
+          if (label !== 'About') continue
+          const toggle = dropdown.querySelector('.dropdown-toggle')
+          if (!toggle || !toggle.classList.contains('hidden')) continue
+          dropdown.classList.add('open')
+          dropdown.setAttribute('open', '')
+          dropdown.setAttribute('aria-expanded', 'true')
+          toggle.classList.remove('hidden')
+          toggle.setAttribute('aria-expanded', 'true')
+          break
+        }
+      })
+    })
+  }
+
+  ;['DOMContentLoaded', 'astro:after-swap'].forEach((e) =>
+    document.addEventListener(e, setupAboutPreExpand)
+  )
+</script>
