@@ -15,7 +15,10 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
 })
 ---
 
-<Layout title="About" footerMargin={false}>
+<Layout
+  title="About"
+  description="Meet 4DPrime: a privately owned UK team of designers, developers and AI experts delivering major web, mobile and software projects worldwide since 2001."
+  footerMargin={false}>
   <Container>
     <Sectionhead>
       <Fragment slot="badge">About Us</Fragment>

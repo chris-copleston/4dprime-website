@@ -8,6 +8,7 @@ import '@fontsource-variable/inter/index.css'
 
 export interface Props {
   title?: string
+  description?: string
   footerMargin?: boolean
 }
 
@@ -15,7 +16,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString()
 
 const resolvedImageWithDomain = new URL('/opengraph.jpg', Astro.site).toString()
 
-const { title, footerMargin = true } = Astro.props
+const DEFAULT_DESCRIPTION =
+  '4DPrime designs and builds high-performance mobile apps, websites, AI and bespoke software. A full in-house UK team trusted by brands worldwide since 2001.'
+
+const { title, description = DEFAULT_DESCRIPTION, footerMargin = true } = Astro.props
 
 const makeTitle = title
   ? title + ' 🚀 ' + '4DPrime'
@@ -47,7 +51,7 @@ const isHome = pathname === '/'
 
     <SEO
       title={makeTitle}
-      description="4DPrime 🚀 Rocket your Mobile Apps, Websites and Software Projects"
+      description={description}
       canonical={canonicalURL}
       twitter={{
         creator: '@chris_copleston',
@@ -60,6 +64,9 @@ const isHome = pathname === '/'
           type: 'website',
           title: `4DPrime 🚀 Rocket your Mobile Apps, Websites and Software Projects`,
           image: resolvedImageWithDomain,
+        },
+        optional: {
+          description,
         },
         image: {
           alt: '4DPrime Homepage Screenshot',

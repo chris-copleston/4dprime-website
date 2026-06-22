@@ -1,7 +1,7 @@
 ---
 draft: false
 title: 'Unleash the Power of Cross-Platform Development: Code Once, Run Anywhere'
-snippet: 'As technology continues to advance, the advantages of "code once, run anywhere" have become increasingly evident, reshaping the way mobile apps are conceptualized, developed and deployed'
+snippet: "How 'code once, run anywhere' is reshaping the way mobile apps are designed, developed and deployed, and why cross-platform saves time and money."
 cover: './assets/coding.jpg'
 publishDate: '2022-11-22 14:20'
 category: 'Technology'

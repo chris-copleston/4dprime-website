@@ -27,7 +27,10 @@ export async function getStaticPaths({ paginate }) {
 const { page } = Astro.props
 ---
 
-<Layout title="Blog" footerMargin={false}>
+<Layout
+  title="Blog"
+  description="Insights and practical guides from the 4DPrime team on mobile apps, web and software development, AI, project costs and choosing the right dev agency."
+  footerMargin={false}>
   <Container>
     <Sectionhead>
       <Fragment slot="badge">Our Blog</Fragment>

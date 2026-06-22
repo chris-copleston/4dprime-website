@@ -1,6 +1,7 @@
 ---
 layout: ../layouts/MdLayout.astro
 title: 'Privacy Policy'
+description: 'Read the 4DPrime privacy policy. We respect your privacy: our website uses no cookies or tracking. Learn how we handle the information you share with us.'
 author: 'Chris Copleston'
 date: '09 Aug 2022'
 ---

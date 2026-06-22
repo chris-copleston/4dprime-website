@@ -1,7 +1,7 @@
 ---
 draft: false
 title: 'Transforming Visions into Exceptional Digital Experiences'
-snippet: 'Explore how artificial intelligence is revolutionizing the SaaS industry.'
+snippet: 'Explore how artificial intelligence is revolutionising the SaaS industry, and how 4DPrime turns ambitious visions into exceptional digital experiences.'
 cover: './assets/app-concept.jpg'
 publishDate: '2023-08-06 13:55'
 category: 'Experience'

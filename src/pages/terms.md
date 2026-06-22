@@ -1,6 +1,7 @@
 ---
 layout: ../layouts/MdLayout.astro
 title: 'Terms & Conditions'
+description: 'Read the terms and conditions for using 4DPrime services, provided by Soft Idiom Limited trading as 4DPrime. Understand your agreement before getting started.'
 author: 'Chris Copleston'
 date: '09 Aug 2022'
 ---

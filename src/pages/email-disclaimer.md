@@ -1,6 +1,7 @@
 ---
 layout: ../layouts/MdLayout.astro
 title: 'Email Disclaimer'
+description: 'The official email disclaimer and company information for 4DPrime, a trading name of Soft Idiom Limited, registered in England and Wales.'
 author: 'Chris Copleston'
 date: '09 Aug 2022'
 ---

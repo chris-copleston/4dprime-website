@@ -11,7 +11,10 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
 })
 ---
 
-<Layout title="About" footerMargin={false}>
+<Layout
+  title="Search"
+  description="Search the 4DPrime website for articles, case studies, services and answers about mobile apps, websites, AI and bespoke software development."
+  footerMargin={false}>
   <Container>
     <Sectionhead>
       <Fragment slot="title">Let's find it for you</Fragment>

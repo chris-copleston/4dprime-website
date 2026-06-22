@@ -18,7 +18,10 @@ const publishedTeamMembers = await getCollection('team', ({ data }) => {
 })
 ---
 
-<Layout title="Websites" footerMargin={false}>
+<Layout
+  title="Websites"
+  description="Blazing-fast, accessible, bespoke websites with 100% Google Lighthouse scores. Trusted by startups, SMEs, governments and enterprises worldwide."
+  footerMargin={false}>
   <PageHero variant="aurora" badge="Websites">
     <Fragment slot="title">Web Presence <span class="text-gradient">Excellence</span>.</Fragment>
     <Fragment slot="desc">
