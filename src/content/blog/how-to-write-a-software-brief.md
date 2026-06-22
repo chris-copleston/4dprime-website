@@ -1,6 +1,6 @@
 ---
 draft: false
-title: 'How to Write a Software Brief That Gets Accurate Quotes'
+title: 'Write a Software Brief for Accurate Quotes'
 snippet: 'A practical template for writing a project brief good enough to get comparable quotes from serious agencies — and reduce the risk of nasty surprises later.'
 cover: './assets/dev-agency-interview.jpg'
 publishDate: '2026-04-22 09:45'

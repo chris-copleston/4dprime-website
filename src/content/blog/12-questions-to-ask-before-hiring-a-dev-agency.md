@@ -1,6 +1,6 @@
 ---
 draft: false
-title: '12 Questions to Ask Before Hiring a Software Development Agency'
+title: '12 Questions to Ask Before Hiring a Dev Agency'
 snippet: 'A buyer-protection checklist for shortlisting development partners — what to ask, what good answers sound like and the red flags that mean walk away.'
 cover: './assets/interview-discussion.jpg'
 publishDate: '2026-03-18 11:00'

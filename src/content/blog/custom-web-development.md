@@ -1,6 +1,6 @@
 ---
 draft: false
-title: 'Unlocking the Power of Custom Web Development: Why Choose Us Over WordPress, Joomla, or Wix?'
+title: 'Custom Web Development vs WordPress & Wix'
 snippet: 'Why custom web development beats WordPress, Joomla and Wix, and how a bespoke build takes your digital presence, speed and security to new heights.'
 cover: './assets/app-coffee.jpg'
 publishDate: '2022-12-20 12:10'

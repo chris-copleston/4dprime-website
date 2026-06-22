@@ -1,6 +1,6 @@
 ---
 draft: false
-title: 'Why Outsourcing App Development is the Smart Choice'
+title: 'Outsourcing App Development: The Smart Choice'
 snippet: 'In-house or outsourced app development? Why entrusting your software to seasoned professionals cuts cost and risk while delivering a better product, faster.'
 cover: './assets/team-office.jpg'
 publishDate: '2023-01-15 09:15'

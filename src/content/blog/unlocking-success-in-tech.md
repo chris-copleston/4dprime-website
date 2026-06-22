@@ -1,6 +1,6 @@
 ---
 draft: false
-title: 'Unlocking Success in Tech: 3 Reasons to Choose Our Mobile App, Website and Software Development Services'
+title: 'App, Web & Software Development: Why Choose Us'
 snippet: 'In the fast-paced world of technology, businesses are constantly seeking innovative solutions to stay ahead of the curve'
 publishDate: '2022-08-05 15:36'
 cover: './assets/present-laptops.jpg'
@@ -34,4 +34,4 @@ success. We're not just developers; we're architects of your digital future and 
 
 ---
 
-**Ready to elevate your digital presence? [Contact 4DPrime today](/contact) and let's embark on a journey to redefine what's possible in the world of mobile apps, websites and bespoke software development.**
+**Ready to elevate your digital presence? [Contact 4DPrime today](/contact/) and let's embark on a journey to redefine what's possible in the world of mobile apps, websites and bespoke software development.**

@@ -1,23 +1,30 @@
 ---
 const { url } = Astro.props
+
+// Astro's paginate() emits prev/next without a trailing slash (e.g. /blog,
+// /portfolio/2). The site canonicalises to trailing slashes, so normalise
+// here to avoid linking to a 301 redirect.
+const withSlash = (u) => (u && !u.endsWith('/') ? `${u}/` : u)
+const prev = withSlash(url.prev)
+const next = withSlash(url.next)
 ---
 
 <div class="flex justify-center items-center mt-10 gap-4">
   {
-    url.prev && (
+    prev && (
       <a
         class="bg-gray-100 px-5 py-2 rounded-md hover:bg-gray-200 transition"
-        href={url.prev}
+        href={prev}
         title="Go to Previous">
         &larr; Prev
       </a>
     )
   }
   {
-    url.next && (
+    next && (
       <a
         class="bg-gray-100 px-5 py-2 rounded-md hover:bg-gray-200 transition"
-        href={url.next}
+        href={next}
         title="Go to Next">
         Next &rarr;
       </a>

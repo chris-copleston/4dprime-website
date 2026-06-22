@@ -28,7 +28,7 @@ const { page } = Astro.props
 ---
 
 <Layout
-  title="Blog"
+  title="Blog: App, Web & Software Insights"
   description="Insights and practical guides from the 4DPrime team on mobile apps, web and software development, AI, project costs and choosing the right dev agency."
   footerMargin={false}>
   <Container>
@@ -42,7 +42,7 @@ const { page } = Astro.props
         {
           page.data.map((post, index) => (
             <li>
-              <a href={`/blog/${post.slug}`}>
+              <a href={`/blog/${post.slug}/`}>
                 <div>
                   <Picture
                     formats={['avif', 'webp']}
